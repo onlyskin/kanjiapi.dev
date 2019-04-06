@@ -58,7 +58,7 @@ def nanori(character):
     except KeyError:
         return []
 
-def json_data(character):
+def data(character):
     reading = readings(character)
 
     return {
@@ -68,7 +68,7 @@ def json_data(character):
             'meanings': meanings(character),
             'on_readings': reading['on'],
             'kun_readings': reading['kun'],
-            'nanori': nanori(character),
+            'name_readings': nanori(character),
             }
 
 def is_heisig(character):
@@ -81,12 +81,34 @@ def is_heisig(character):
     except KeyError:
         return False
 
+def reading_data(kanji_data):
+    readings = {}
+
+    for kanji in kanji_data:
+        literal = kanji['kanji']
+        for reading in kanji['kun_readings'] + kanji['on_readings']:
+            if reading not in readings:
+                readings[reading] = {'regular': [], 'name': []}
+            readings[reading]['regular'].append(literal)
+        for reading in kanji['name_readings']:
+            if reading not in readings:
+                readings[reading] = {'regular': [], 'name': []}
+            readings[reading]['name'].append(literal)
+
+    return [{'reading': reading, 'name': data['name'], 'kanji': data['regular']} for reading, data in readings.items()]
+
 if __name__ == '__main__':
     with codecs.open('out/kanjidic2.json', 'r', 'utf8') as f:
         characters = json.load(f)['kanjidic2']['character']
 
-    data = [json_data(character) for character in characters if is_heisig(character)]
+    kanji_data = [data(character) for character in characters if is_heisig(character)]
 
-    for datum in data:
-        with codecs.open('out/json/' + datum['kanji'] + '.json', 'w', 'utf8') as f:
+    for datum in kanji_data:
+        with codecs.open('out/kanji/' + datum['kanji'] + '.json', 'w', 'utf8') as f:
             json.dump(datum, f, ensure_ascii=False)
+
+    readings = reading_data(kanji_data)
+
+    for reading in readings:
+        with codecs.open('out/reading/' + reading['reading'] + '.json', 'w', 'utf8') as f:
+            json.dump(reading, f, ensure_ascii=False)
