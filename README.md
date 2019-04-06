@@ -1,7 +1,14 @@
+## Requirements:
+`python 2.7`
+`brew`
+`make`
+
 ## Installation:
 `brew install xq`
 
-Save the dictionary file `kanjidic2.xml` from [http://www.edrdg.org/wiki/index.php/KANJIDIC_Project](Kanjidic) to the root of the project.
+Save the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) to the root of the project.
+
+Save the jmdict dictionary file `JMdict_e` from [EDRDG](http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project) to the root of the project.
 
 ## Build:
 `make`

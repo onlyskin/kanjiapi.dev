@@ -4,7 +4,8 @@ READING_DIR := out/reading
 
 .PHONY: directories all clean
 
-all: $(OUT_DIR)/kanjidic2.json $(KANJI_DIR)/%.json $(READING_DIR)/%.json
+all: $(OUT_DIR)/kanjidic2.json $(KANJI_DIR)/%.json $(READING_DIR)/%.json \
+	$(OUT_DIR)/JMdict_e.json
 
 directories: $(OUT_DIR) $(KANJI_DIR) $(READING_DIR)
 
@@ -18,7 +19,10 @@ $(READING_DIR):
 	mkdir -p $(READING_DIR)
 
 $(OUT_DIR)/kanjidic2.json: kanjidic2.xml | directories
-	cat kanjidic2.xml | xq . > $(OUT_DIR)/kanjidic2.json
+	cat kanjidic2.xml | xq . -c > $(OUT_DIR)/kanjidic2.json
+
+$(OUT_DIR)/JMdict_e.json: JMdict_e | directories
+	cat JMdict_e | xq . -c > $(OUT_DIR)/JMdict_e.json
 
 $(KANJI_DIR)/%.json $(READING_DIR)/%.json: $(OUT_DIR)/kanjidic2.json | directories api_data.py
 	python api_data.py
