@@ -1,6 +1,7 @@
 import codecs
 import sys
 import json
+from collections import defaultdict
 
 def is_string(x):
     return isinstance(x, basestring)
@@ -8,13 +9,14 @@ def is_string(x):
 def meanings(character):
     try:
         meanings = character['reading_meaning']['rmgroup']['meaning']
-        if is_string(meanings):
-            meanings = [meanings]
-
-        return filter(is_string, meanings)
-
     except KeyError:
         return None
+
+    if is_string(meanings):
+        meanings = [meanings]
+
+    return filter(is_string, meanings)
+
 
 def grade(character):
     try:
@@ -34,29 +36,30 @@ def readings(character):
 
     try:
         readings = character['reading_meaning']['rmgroup']['reading']
-
+    except KeyError:
+        pass
+    else:
         if isinstance(readings, dict):
             readings = [readings]
 
         for reading in readings:
-            if reading['@r_type'] == 'ja_on':
+            if reading.get('@r_type') == 'ja_on':
                 on_readings.append(reading['#text'])
-            elif reading['@r_type'] == 'ja_kun':
+            elif reading.get('@r_type') == 'ja_kun':
                 kun_readings.append(reading['#text'])
-    except KeyError:
-        pass
 
     return { 'on': on_readings, 'kun': kun_readings }
 
 def nanori(character):
     try:
         readings = character['reading_meaning']['nanori']
-        if is_string(readings):
-            readings = [readings]
-
-        return readings
     except KeyError:
         return []
+
+    if is_string(readings):
+        readings = [readings]
+
+    return readings
 
 def data(character):
     reading = readings(character)
@@ -74,25 +77,22 @@ def data(character):
 def is_heisig(character):
     try:
         dictionary_refs = character['dic_number']['dic_ref']
-        if isinstance(dictionary_refs, dict):
-            dictionary_refs = [dictionary_refs]
-
-        return any(map(lambda ref: ref['@dr_type'] == 'heisig', dictionary_refs))
     except KeyError:
         return False
 
+    if isinstance(dictionary_refs, dict):
+        dictionary_refs = [dictionary_refs]
+
+    return any(ref['@dr_type'] == 'heisig' for ref in dictionary_refs)
+
 def reading_data(kanji_data):
-    readings = {}
+    readings = defaultdict(lambda: {'regular': [], 'name': []})
 
     for kanji in kanji_data:
         literal = kanji['kanji']
         for reading in kanji['kun_readings'] + kanji['on_readings']:
-            if reading not in readings:
-                readings[reading] = {'regular': [], 'name': []}
             readings[reading]['regular'].append(literal)
         for reading in kanji['name_readings']:
-            if reading not in readings:
-                readings[reading] = {'regular': [], 'name': []}
             readings[reading]['name'].append(literal)
 
     return [{'reading': reading, 'name': data['name'], 'kanji': data['regular']} for reading, data in readings.items()]
