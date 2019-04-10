@@ -20,3 +20,7 @@ Print out all kanji as `literal: meaning`
 
 Count kanji with n meanings
 `cat out/kanjidic2.json | jq '.kanjidic2.character[] | .reading_meaning.rmgroup.meaning | if (.|type)=="array" then map(select((.|type)=="string")) else [.] end | length' | sort -V | uniq -c`
+
+## Deployment:
+`aws s3 cp out/kanji s3://kanjiapi/kanji --region eu-west-1 --acl public-read --content-type 'application/json' --recursive`
+`aws s3 cp out/reading s3://kanjiapi/reading --region eu-west-1 --acl public-read --content-type 'application/json' --recursive`
