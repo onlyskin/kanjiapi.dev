@@ -11,12 +11,15 @@ Save the jmdict dictionary file `JMdict_e` from [EDRDG](http://www.edrdg.org/wik
 ## Building:
 `make`
 
-## Deployment:
-(Requires google cloud account access, also a good idea to run with `rsync -n` for dry-run first)
+## Deployment (Requires google cloud account credentials):
 `gsutil -m -h "Content-Type:application/json" rsync -d out/kanji gs://kanjiapi-static/kanji`
+(a good idea to run with `rsync -n` for dry-run first)
 
-## Renewing SSL certificate:
+### Renewing SSL certificate:
 `./update_cert.sh`
+
+### Setting CORS policy:
+`gsutil cors set cors.json gs://kanjiapi-static`
 
 ## Useful JQ recipes:
 
