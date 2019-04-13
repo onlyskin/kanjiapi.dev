@@ -12,7 +12,8 @@ Save the jmdict dictionary file `JMdict_e` from [EDRDG](http://www.edrdg.org/wik
 `make`
 
 ## Deployment (Requires google cloud account credentials):
-`gsutil -m -h "Content-Type:application/json" rsync -d out/kanji gs://kanjiapi-static/kanji`
+`gsutil -m -h "Content-Type:application/json" rsync -d -x *.html -x *.css out/site gs://kanjiapi-static`
+`gsutil -m rsync -d -x kanji/* -x reading/* out/site gs://kanjiapi-static`
 (a good idea to run with `rsync -n` for dry-run first)
 
 ### Renewing SSL certificate:

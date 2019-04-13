@@ -104,11 +104,11 @@ if __name__ == '__main__':
     kanji_data = [data(character) for character in characters if is_heisig(character)]
 
     for datum in kanji_data:
-        with codecs.open('out/kanji/' + datum['kanji'], 'w', 'utf8') as f:
+        with codecs.open('out/site/kanji/' + datum['kanji'], 'w', 'utf8') as f:
             json.dump(datum, f, ensure_ascii=False)
 
     readings = reading_data(kanji_data)
 
     for reading in readings:
-        with codecs.open('out/reading/' + reading['reading'], 'w', 'utf8') as f:
+        with codecs.open('out/site/reading/' + reading['reading'], 'w', 'utf8') as f:
             json.dump(reading, f, ensure_ascii=False)
