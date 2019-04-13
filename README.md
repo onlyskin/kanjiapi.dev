@@ -15,6 +15,9 @@ Save the jmdict dictionary file `JMdict_e` from [EDRDG](http://www.edrdg.org/wik
 (Requires google cloud account access, also a good idea to run with `rsync -n` for dry-run first)
 `gsutil -m -h "Content-Type:application/json" rsync -d out/kanji gs://kanjiapi-static/kanji`
 
+## Renewing SSL certificate:
+`./update_cert.sh`
+
 ## Useful JQ recipes:
 
 Print out all kanji as `literal: meaning`
