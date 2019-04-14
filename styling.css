@@ -1,9 +1,71 @@
+:root {
+  --dark-ink: #1f1f1f;
+  --mid-ink: #636363;
+  --light-ink: #cccbcb;
+  --lightest-ink: #ececec
+}
+
 body {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+hr {
+  width: 100%;
+  color: var(--lightest-ink);
+}
+
+.left-text {
+  margin: 5px 0px;
+  align-self: start;
+}
+
+#url-hint > span {
+  text-decoration: underline;
+}
+
+#content {
+  padding: 20px 0px;
+}
+
+.vertical-flex {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+#api-test-url {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin: 4px;
+  line-height: 1.6;
+}
+
+#api-test-url > label {
+  flex: 0 0;
+  padding: 0.35em 0.15em 0.35em 0.35em;
+  background-color: var(--lightest-ink);
+  color: var(--mid-ink);
+  border: 0.5px solid var(--light-ink);
+  border-right-width: 0;
+  border-radius: 6px 0 0 6px;
+  vertical-align: center;
+}
+
+#api-test-url > input {
+  flex: 1 1;
+  padding: 0.35em 0.35em 0.35em 0.15em;
+  border: 0.5px solid var(--light-ink);
+  border-radius: 0 6px 6px 0;
+  font: inherit;
+}
+
+header {
+  background-color: var(--dark-ink);
+  color: white;
+  width: 100%;
+  padding: 20px;
 }
 
 a {
@@ -11,7 +73,7 @@ a {
 }
 
 h1 {
-  margin: 20px;
+  margin: 4px;
   font-size: 40px;
 }
 
@@ -24,5 +86,9 @@ pre {
   font-family: monospace;
   border: 0.5px solid #cccbcb;
   box-shadow: 0px 0px 12px #cccbcb;
-  padding: 10px;
+  box-sizing: border-box;
+  margin: 10px 0px;
+  padding: 20px;
+  width: 100%;
+  line-height: 1.3;
 }

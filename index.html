@@ -5,34 +5,50 @@
 	<link rel="stylesheet" type="text/css" href="styling.css">
   <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
 </head>
-<body>
-  <h1>漢字</h1>
-  <h1>kanjiapi.dev</h1>
-
-  <div>
-    <h2>Api response for <a href="https://kanjiapi.dev/kanji/字">https://kanjiapi.dev/kanji/字</a></h2>
-  <pre>
-{
-  "meanings": [
-    "character",
-    "letter",
-    "word",
-    "section of village"
-  ],
-  "grade": "1",
-  "kanji": "字",
-  "stroke_count": "6",
-  "name_readings": [],
-  "kun_readings": [
-    "あざ",
-    "あざな",
-    "-な"
-  ],
-  "on_readings": [
-    "ジ"
-  ]
-}
-  </pre>
+<body class="vertical-flex">
+  <header class="vertical-flex">
+    <h1>漢字</h1>
+    <h1>kanjiapi.dev</h1>
+  </header>
+  <div id="content" class="vertical-flex">
+    <div id="api-test-url">
+      <label for="url-input">https://kanjiapi.dev/</label>
+      <input id="url-input" type="text"></input>
+    </div>
+    <div id="url-hint" class="left-text">
+      Try
+      <span onclick="updateInput(this.textContent)">kanji/山</span>
+      or
+      <span onclick="updateInput(this.textContent)">reading/クウ</span>
+    </div>
+    <hr>
+    <div class="left-text">Resource:</div>
+    <pre id="api-response">
+    </pre>
   </div>
 
+  <script>
+    const apiUrlInput = document.getElementById('url-input');
+    apiUrlInput.onchange = handleUrlChange;
+
+    updateInput('kanji/字');
+    
+    function updateInput(text) {
+        apiUrlInput.value = text;
+        apiUrlInput.dispatchEvent(new Event('change'));
+    }
+
+    function handleUrlChange(e) {
+      fetchData(e.target.value)
+        .then(data => {
+          const display = document.getElementById('api-response');
+          display.textContent = JSON.stringify(data, null, 2);
+        });
+    }
+
+    function fetchData(url) {
+      return fetch(url)
+        .then(response => response.json());
+    }
+  </script>
 </body>
