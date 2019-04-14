@@ -31,10 +31,13 @@ $(OUT_DIR)/kanji.stamp: $(OUT_DIR)/kanjidic2.json api_data.py | directories
 	python api_data.py
 	touch $@
 
-$(SITE_DIR)/index.html: index.html | $(SITE_DIR)/reset.css directories
+$(SITE_DIR)/index.html: index.html | $(SITE_DIR)/reset.css $(SITE_DIR)/styling.css directories
 	cp $^ $@
 
 $(SITE_DIR)/reset.css: reset.css | directories
+	cp $^ $@
+
+$(SITE_DIR)/styling.css: styling.css | directories
 	cp $^ $@
 
 clean:

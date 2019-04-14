@@ -1,0 +1,28 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+a {
+  color: black;
+}
+
+h1 {
+  margin: 20px;
+  font-size: 40px;
+}
+
+h2 {
+  margin: 20px;
+  font-size: 20px;
+}
+
+pre {
+  font-family: monospace;
+  border: 0.5px solid #cccbcb;
+  box-shadow: 0px 0px 12px #cccbcb;
+  padding: 10px;
+}
