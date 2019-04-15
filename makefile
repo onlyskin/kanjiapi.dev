@@ -5,7 +5,7 @@ READING_DIR := out/site/reading
 
 .PHONY: directories all clean
 
-all: $(OUT_DIR)/kanji.stamp $(SITE_DIR)/index.html
+all: $(OUT_DIR)/kanji.stamp $(SITE_DIR)/index.html $(SITE_DIR)/404.html
 
 directories: $(OUT_DIR) $(SITE_DIR) $(KANJI_DIR) $(READING_DIR)
 
@@ -32,6 +32,9 @@ $(OUT_DIR)/kanji.stamp: $(OUT_DIR)/kanjidic2.json api_data.py | directories
 	touch $@
 
 $(SITE_DIR)/index.html: index.html | $(SITE_DIR)/reset.css $(SITE_DIR)/styling.css directories
+	cp $^ $@
+
+$(SITE_DIR)/404.html: 404.html | $(SITE_DIR)/reset.css $(SITE_DIR)/styling.css directories
 	cp $^ $@
 
 $(SITE_DIR)/reset.css: reset.css | directories
