@@ -80,8 +80,10 @@ hr {
 
 #api-test-url > input {
   flex: 1 1;
+  width: 100%;
   padding: 0.35em 0.35em 0.35em 0.15em;
   border: 0.5px solid var(--light-ink);
+  margin: 0px;
   border-radius: 0 6px 6px 0;
   font: inherit;
 }
@@ -111,6 +113,7 @@ h2 {
   margin: 10px;
   font-size: 20px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 pre {
