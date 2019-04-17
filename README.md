@@ -2,6 +2,82 @@
 
 Source for [https://kanjiapi.dev/](https://kanjiapi.dev/)
 
+### Kanji `/kanji/{character}`
+```json
+$ curl https://kanjiapi.dev/kanji/山
+{
+  "meanings": [
+    "mountain"
+  ],
+  "grade": "1",
+  "kanji": "山",
+  "stroke_count": "3",
+  "name_readings": [
+    "さ",
+    "やの",
+    "やん"
+  ],
+  "kun_readings": [
+    "やま"
+  ],
+  "on_readings": [
+    "サン",
+    "セン"
+  ]
+}
+```
+
+```javascript
+> fetch('https://kanjiapi.dev/kanji/山').then(r => r.json()).then(console.log);
+{
+  "meanings": [
+    "mountain"
+  ],
+  "grade": "1",
+  "kanji": "山",
+  "stroke_count": "3",
+  "name_readings": [
+    "さ",
+    "やの",
+    "やん"
+  ],
+  "kun_readings": [
+    "やま"
+  ],
+  "on_readings": [
+    "サン",
+    "セン"
+  ]
+}
+```
+
+### Reading `/reading/{reading}`
+```json
+$ curl https://kanjiapi.dev/reading/クウ
+{
+  "reading": "クウ",
+  "kanji": [
+    "宮",
+    "供",
+    "空"
+  ],
+  "name": []
+}
+```
+
+```javascript
+> fetch('https://kanjiapi.dev/reading/クウ').then(r => r.json()).then(console.log);
+{
+  "reading": "クウ",
+  "kanji": [
+    "宮",
+    "供",
+    "空"
+  ],
+  "name": []
+}
+```
+
 ## Development:
 
 ### Requirements:
