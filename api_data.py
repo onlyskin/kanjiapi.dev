@@ -106,17 +106,19 @@ def reading_data(kanji_data):
         ]) for reading, data in readings.items()]
 
 if __name__ == '__main__':
+    VERSION_PATH = 'v1'
+
     with codecs.open('out/kanjidic2.json', 'r', 'utf8') as f:
         characters = json.load(f)['kanjidic2']['character']
 
     kanji_data = [data(character) for character in characters]
 
     for datum in kanji_data:
-        with codecs.open('out/site/kanji/' + datum['kanji'], 'w', 'utf8') as f:
+        with codecs.open('out/' + VERSION_PATH + '/kanji/' + datum['kanji'], 'w', 'utf8') as f:
             json.dump(datum, f, ensure_ascii=False)
 
     readings = reading_data(kanji_data)
 
     for reading in readings:
-        with codecs.open('out/site/reading/' + reading['reading'], 'w', 'utf8') as f:
+        with codecs.open('out/' + VERSION_PATH + '/reading/' + reading['reading'], 'w', 'utf8') as f:
             json.dump(reading, f, ensure_ascii=False)

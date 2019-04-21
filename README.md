@@ -98,12 +98,17 @@ Run `make` to build the site and API endpoints as static assets.
 
 ### Deployment (Requires google cloud account credentials):
 
+#### Versioning
+
+The API version for deployment is hardcoded in `api_data.py` and the `makefile`.
+
 After building, to sync the built assets to the website bucket run:
 
-`gsutil -m -h "Content-Type:application/json" rsync -d -x *.html -x *.css out/site gs://kanjiapi-static`
-`gsutil -m rsync -d -x kanji/* -x reading/* out/site gs://kanjiapi-static`
+`gsutil -m rsync -d out/site gs://kanjiapi-static` (syncs the built site dir (`out/site`) up with the root of the bucket, but non-recursively)
 
-(a good idea to run with `rsync -n` for dry-run first)
+`gsutil -m -h "Content-Type:application/json" rsync -r -d out/v1 gs://kanjiapi-static/v1` (syncs the built api dir (`out/{version}`) up with the dir `/{version}` in the bucket recursively)
+
+NB: it's a good idea to run both these commands with `rsync -n` for a dry-run first
 
 #### Renewing SSL certificate:
 
