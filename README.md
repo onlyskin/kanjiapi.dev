@@ -1,21 +1,18 @@
-# KanjiApi
+# KanjiApi: a modern JSON API for Kanji 
 
-Source for [https://kanjiapi.dev/](https://kanjiapi.dev/)
+Over 13,000 kanji served at [https://kanjiapi.dev](https://kanjiapi.dev).
 
-### Kanji `/kanji/{character}`
-```json
-$ curl https://kanjiapi.dev/kanji/山
+## Examples
+
+### Kanji `/v1/kanji/{character}`
+```
+$ curl https://kanjiapi.dev/v1/kanji/山
 {
+  "kanji": "山",
+  "grade": "1",
+  "stroke_count": "3",
   "meanings": [
     "mountain"
-  ],
-  "grade": "1",
-  "kanji": "山",
-  "stroke_count": "3",
-  "name_readings": [
-    "さ",
-    "やの",
-    "やん"
   ],
   "kun_readings": [
     "やま"
@@ -23,23 +20,23 @@ $ curl https://kanjiapi.dev/kanji/山
   "on_readings": [
     "サン",
     "セン"
+  ],
+  "name_readings": [
+    "さ",
+    "やの",
+    "やん"
   ]
 }
 ```
 
 ```javascript
-> fetch('https://kanjiapi.dev/kanji/山').then(r => r.json()).then(console.log);
+> fetch('https://kanjiapi.dev/v1/kanji/山').then(r => r.json()).then(console.log);
 {
+  "kanji": "山",
+  "grade": "1",
+  "stroke_count": "3",
   "meanings": [
     "mountain"
-  ],
-  "grade": "1",
-  "kanji": "山",
-  "stroke_count": "3",
-  "name_readings": [
-    "さ",
-    "やの",
-    "やん"
   ],
   "kun_readings": [
     "やま"
@@ -47,34 +44,53 @@ $ curl https://kanjiapi.dev/kanji/山
   "on_readings": [
     "サン",
     "セン"
+  ],
+  "name_readings": [
+    "さ",
+    "やの",
+    "やん"
   ]
 }
 ```
 
-### Reading `/reading/{reading}`
-```json
-$ curl https://kanjiapi.dev/reading/クウ
+### Reading `/v1/reading/{reading}`
+```
+$ curl https://kanjiapi.dev/v1/reading/クウ
 {
   "reading": "クウ",
-  "kanji": [
+  "main_kanji": [
     "宮",
     "供",
-    "空"
+    "空",
+    "咼",
+    "啌",
+    "喎",
+    "垙",
+    "瘸",
+    "盉",
+    "舙"
   ],
-  "name": []
+  "name_kanji": []
 }
 ```
 
 ```javascript
-> fetch('https://kanjiapi.dev/reading/クウ').then(r => r.json()).then(console.log);
+> fetch('https://kanjiapi.dev/v1/reading/クウ').then(r => r.json()).then(console.log);
 {
   "reading": "クウ",
-  "kanji": [
+  "main_kanji": [
     "宮",
     "供",
-    "空"
+    "空",
+    "咼",
+    "啌",
+    "喎",
+    "垙",
+    "瘸",
+    "盉",
+    "舙"
   ],
-  "name": []
+  "name_kanji": []
 }
 ```
 
@@ -120,11 +136,3 @@ the process of getting a new certificate
 #### Setting CORS policy:
 
 The CORS policy is stored in `cors.json`, it can be updated by editing this file and running `gsutil cors set cors.json gs://kanjiapi-static`
-
-### Useful JQ recipes:
-
-Print out all kanji as `literal: meaning`
-`jq '.kanjidic2.character | map([.literal, .reading_meaning.rmgroup.meaning])[] | if (.[1]|type)=="array" then "\(.[0]): \(.[1][0])" else "\(.[0]): \(.[1])" end'`
-
-Count kanji with n meanings
-`cat out/kanjidic2.json | jq '.kanjidic2.character[] | .reading_meaning.rmgroup.meaning | if (.|type)=="array" then map(select((.|type)=="string")) else [.] end | length' | sort -V | uniq -c`
