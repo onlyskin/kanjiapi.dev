@@ -10,7 +10,7 @@ def meanings(character):
     try:
         meanings = character['reading_meaning']['rmgroup']['meaning']
     except KeyError:
-        return None
+        return []
 
     if is_string(meanings):
         meanings = [meanings]
@@ -26,8 +26,12 @@ def grade(character):
 
 def stroke_count(character):
     try:
-        return character['misc']['stroke_count']
-    except KeyError:
+        strokes = character['misc']['stroke_count']
+        if not is_string(strokes):
+            return strokes[0]
+
+        return strokes
+    except KeyError, IndexError:
         return None
 
 def readings(character):
@@ -101,7 +105,7 @@ if __name__ == '__main__':
     with codecs.open('out/kanjidic2.json', 'r', 'utf8') as f:
         characters = json.load(f)['kanjidic2']['character']
 
-    kanji_data = [data(character) for character in characters if is_heisig(character)]
+    kanji_data = [data(character) for character in characters]
 
     for datum in kanji_data:
         with codecs.open('out/site/kanji/' + datum['kanji'], 'w', 'utf8') as f:
