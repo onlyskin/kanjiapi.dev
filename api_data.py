@@ -1,7 +1,7 @@
 import codecs
 import sys
 import json
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 
 def is_string(x):
     return isinstance(x, basestring)
@@ -68,15 +68,15 @@ def nanori(character):
 def data(character):
     reading = readings(character)
 
-    return {
-            'kanji': character['literal'],
-            'grade': grade(character),
-            'stroke_count': stroke_count(character),
-            'meanings': meanings(character),
-            'on_readings': reading['on'],
-            'kun_readings': reading['kun'],
-            'name_readings': nanori(character),
-            }
+    return OrderedDict([
+            ('kanji', character['literal']),
+            ('grade', grade(character)),
+            ('stroke_count', stroke_count(character)),
+            ('meanings', meanings(character)),
+            ('kun_readings', reading['kun']),
+            ('on_readings', reading['on']),
+            ('name_readings', nanori(character)),
+            ])
 
 def is_heisig(character):
     try:
@@ -99,7 +99,11 @@ def reading_data(kanji_data):
         for reading in kanji['name_readings']:
             readings[reading]['name'].append(literal)
 
-    return [{'reading': reading, 'name': data['name'], 'kanji': data['regular']} for reading, data in readings.items()]
+    return [OrderedDict([
+        ('reading', reading),
+        ('main_kanji', data['regular']),
+        ('name_kanji', data['name']),
+        ]) for reading, data in readings.items()]
 
 if __name__ == '__main__':
     with codecs.open('out/kanjidic2.json', 'r', 'utf8') as f:
