@@ -105,16 +105,20 @@ def reading_data(kanji_data):
         ('name_kanji', data['name']),
         ]) for reading, data in readings.items()]
 
+def CJK_compatibility(character):
+    return u'\uF900' <= character['literal'] <= u'\uFAFF'
+
 if __name__ == '__main__':
     VERSION_PATH = 'v1'
 
     with codecs.open('out/kanjidic2.json', 'r', 'utf8') as f:
         characters = json.load(f)['kanjidic2']['character']
 
-    kanji_data = [data(character) for character in characters]
+    kanji_data = [data(character) for character in characters if not CJK_compatibility(character)]
 
     for datum in kanji_data:
-        with codecs.open('out/' + VERSION_PATH + '/kanji/' + datum['kanji'], 'w', 'utf8') as f:
+        path = 'out/' + VERSION_PATH + '/kanji/' + datum['kanji']
+        with codecs.open(path, 'w', 'utf8') as f:
             json.dump(datum, f, ensure_ascii=False)
 
     readings = reading_data(kanji_data)
