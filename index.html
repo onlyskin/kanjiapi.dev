@@ -64,16 +64,20 @@ updateInput('v1/kanji/字');
     }
 
     function handleUrlChange(e) {
-      fetchData(e.target.value)
-        .then(data => {
-          const display = document.getElementById('api-response');
-          display.textContent = JSON.stringify(data, null, 2);
-        });
-    }
+      const display = document.getElementById('api-response');
+      display.textContent = 'Loading resource';
 
-    function fetchData(url) {
-      return fetch(url)
-        .then(response => response.json());
+      fetch(e.target.value)
+        .then(response => {
+          if (response.status === 200) {
+            response.json()
+              .then(data => {
+                display.textContent = JSON.stringify(data, null, 2);
+              })
+          } else {
+            display.textContent = `${response.status}: Could not load requested resource`;
+          }
+        });
     }
   </script>
 </body>
