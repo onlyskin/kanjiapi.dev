@@ -129,7 +129,7 @@ NB: it's a good idea to run both these commands with `rsync -n` for a dry-run fi
 #### Renewing SSL certificate:
 
 The SSL certificate is only trusted for a certain amount of time, the below script mostly automates
-the process of getting a new certificate
+the process of getting a new certificate (requires certbot - `brew install certbot`)
 
 `./update_cert.sh`
 
