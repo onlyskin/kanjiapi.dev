@@ -65,7 +65,7 @@ def nanori(character):
 
     return readings
 
-def data(character):
+def kanji_data(character):
     reading = readings(character)
 
     return OrderedDict([
@@ -89,10 +89,10 @@ def is_heisig(character):
 
     return any(ref['@dr_type'] == 'heisig' for ref in dictionary_refs)
 
-def reading_data(kanji_data):
+def reading_data(kanjis):
     readings = defaultdict(lambda: {'regular': [], 'name': []})
 
-    for kanji in kanji_data:
+    for kanji in kanjis:
         literal = kanji['kanji']
         for reading in kanji['kun_readings'] + kanji['on_readings']:
             readings[reading]['regular'].append(literal)
@@ -114,14 +114,14 @@ if __name__ == '__main__':
     with codecs.open('out/kanjidic2.json', 'r', 'utf8') as f:
         characters = json.load(f)['kanjidic2']['character']
 
-    kanji_data = [data(character) for character in characters if not CJK_compatibility(character)]
+    kanjis = [kanji_data(character) for character in characters if not CJK_compatibility(character)]
 
-    for datum in kanji_data:
-        path = 'out/' + VERSION_PATH + '/kanji/' + datum['kanji']
+    for kanji in kanjis:
+        path = 'out/' + VERSION_PATH + '/kanji/' + kanji['kanji']
         with codecs.open(path, 'w', 'utf8') as f:
-            json.dump(datum, f, ensure_ascii=False)
+            json.dump(kanji, f, ensure_ascii=False)
 
-    readings = reading_data(kanji_data)
+    readings = reading_data(kanjis)
 
     for reading in readings:
         with codecs.open('out/' + VERSION_PATH + '/reading/' + reading['reading'], 'w', 'utf8') as f:
