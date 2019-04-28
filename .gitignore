@@ -1,3 +1,5 @@
 out
 kanjidic2.xml
 JMdict_e
+.env
+__pycache__

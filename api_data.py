@@ -4,7 +4,7 @@ import json
 from collections import defaultdict, OrderedDict
 
 def is_string(x):
-    return isinstance(x, basestring)
+    return isinstance(x, str)
 
 def meanings(character):
     try:
@@ -15,7 +15,7 @@ def meanings(character):
     if is_string(meanings):
         meanings = [meanings]
 
-    return filter(is_string, meanings)
+    return list(filter(is_string, meanings))
 
 
 def grade(character):
@@ -31,7 +31,7 @@ def stroke_count(character):
             return strokes[0]
 
         return strokes
-    except KeyError, IndexError:
+    except (KeyError, IndexError):
         return None
 
 def readings(character):

@@ -106,11 +106,13 @@ $ curl https://kanjiapi.dev/v1/reading/クウ
 
 ### Requirements:
 
-Assumes `python 2.7`, `brew` and `make` are available.
+Assumes `python 3`, `brew` and `make` are available.
 
 ### Setup:
 
 `brew install xq`
+
+Install python libraries using requirements.txt
 
 Save the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) to the root of the project.
 
