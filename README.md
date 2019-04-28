@@ -53,6 +53,14 @@ $ curl https://kanjiapi.dev/v1/kanji/山
 }
 ```
 
+#### List of all supported kanji `$ curl https://kanjiapi.dev/v1/kanji/all`
+
+#### List of joyo kanji `$ curl https://kanjiapi.dev/v1/kanji/joyo` (also `/jouyou`)
+
+#### List of jinmeiyo kanji `$ curl https://kanjiapi.dev/v1/kanji/jinmeiyo` (also `/jinmeiyou`)
+
+#### List of kanji of a certain grade `$ curl https://kanjiapi.dev/v1/kanji/grade-1` (school grades 1-6, with grade 8 signalling remaining highschool grade)
+
 ### Reading `/v1/reading/{reading}`
 ```
 $ curl https://kanjiapi.dev/v1/reading/クウ

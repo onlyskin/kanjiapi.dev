@@ -110,19 +110,45 @@ def CJK_compatibility(character):
 
 if __name__ == '__main__':
     VERSION_PATH = 'v1'
+    KANJI_DIR = 'out/' + VERSION_PATH + '/kanji/'
+    READING_DIR = 'out/' + VERSION_PATH + '/reading/'
+    JOUYOU_GRADES = ['1', '2', '3', '4', '5', '6', '8']
+    JINMEIYOU_GRADES = ['9', '10']
 
     with codecs.open('out/kanjidic2.json', 'r', 'utf8') as f:
         characters = json.load(f)['kanjidic2']['character']
 
     kanjis = [kanji_data(character) for character in characters if not CJK_compatibility(character)]
-
-    for kanji in kanjis:
-        path = 'out/' + VERSION_PATH + '/kanji/' + kanji['kanji']
-        with codecs.open(path, 'w', 'utf8') as f:
-            json.dump(kanji, f, ensure_ascii=False)
-
     readings = reading_data(kanjis)
 
+    all_kanji = [kanji['kanji'] for kanji in kanjis]
+    jouyou_kanji = [kanji['kanji'] for kanji in kanjis if kanji['grade'] in JOUYOU_GRADES]
+    jinmeiyou_kanji = [kanji['kanji'] for kanji in kanjis if kanji['grade'] in JINMEIYOU_GRADES]
+
+    for kanji in kanjis:
+        with codecs.open(KANJI_DIR + kanji['kanji'], 'w', 'utf8') as f:
+            json.dump(kanji, f, ensure_ascii=False)
+
     for reading in readings:
-        with codecs.open('out/' + VERSION_PATH + '/reading/' + reading['reading'], 'w', 'utf8') as f:
+        with codecs.open(READING_DIR + reading['reading'], 'w', 'utf8') as f:
             json.dump(reading, f, ensure_ascii=False)
+
+    with codecs.open(KANJI_DIR + 'all', 'w', 'utf8') as f:
+        json.dump(all_kanji, f, ensure_ascii=False)
+
+    with codecs.open(KANJI_DIR + 'jouyou', 'w', 'utf8') as f:
+        json.dump(jouyou_kanji, f, ensure_ascii=False)
+
+    with codecs.open(KANJI_DIR + 'joyo', 'w', 'utf8') as f:
+        json.dump(jouyou_kanji, f, ensure_ascii=False)
+
+    with codecs.open(KANJI_DIR + 'jinmeiyou', 'w', 'utf8') as f:
+        json.dump(jinmeiyou_kanji, f, ensure_ascii=False)
+
+    with codecs.open(KANJI_DIR + 'jinmeiyo', 'w', 'utf8') as f:
+        json.dump(jinmeiyou_kanji, f, ensure_ascii=False)
+
+    for grade in JOUYOU_GRADES:
+        grade_kanji = [kanji['kanji'] for kanji in kanjis if kanji['grade'] == grade]
+        with codecs.open(KANJI_DIR + 'grade-' + grade, 'w', 'utf8') as f:
+            json.dump(grade_kanji, f, ensure_ascii=False)
