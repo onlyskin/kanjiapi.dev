@@ -28,13 +28,7 @@ $(READING_DIR):
 $(SITE_DIR)/v1: $(SITE_DIR)
 	ln -s ../v1 $@
 
-$(OUT_DIR)/kanjidic2.json: kanjidic2.xml | directories
-	cat $^ | xq . -c > $@
-
-$(OUT_DIR)/JMdict_e.json: JMdict_e | directories
-	cat $^ | xq . -c > $@
-
-$(OUT_DIR)/kanji.stamp: $(OUT_DIR)/kanjidic2.json api_data.py | directories
+$(OUT_DIR)/kanji.stamp: kanjidic2.xml api_data.py | directories
 	python api_data.py
 	touch $@
 

@@ -106,11 +106,9 @@ $ curl https://kanjiapi.dev/v1/reading/クウ
 
 ### Requirements:
 
-Assumes `python 3`, `brew` and `make` are available.
+Assumes `python 3` and `make` are available.
 
 ### Setup:
-
-`brew install xq`
 
 Install python libraries using requirements.txt
 
@@ -121,6 +119,8 @@ Save the jmdict dictionary file `JMdict_e` from [EDRDG](http://www.edrdg.org/wik
 ### Building:
 
 Run `make` to build the site and API endpoints as static assets.
+
+Run `pytest test*.py` to run the tests.
 
 ### Deployment (Requires google cloud account credentials):
 
