@@ -29,6 +29,12 @@ def grade(character):
 def stroke_count(character):
     return character.xpath('./misc/stroke_count')[0].text
 
+def jlpt(character):
+    try:
+        return character.xpath('./misc/jlpt')[0].text
+    except (AttributeError, IndexError):
+        return None
+
 def literal(character):
     return character.xpath('literal')[0].text
 
@@ -41,6 +47,7 @@ def kanji_data(character):
         ('kun_readings', kun_readings(character)),
         ('on_readings', on_readings(character)),
         ('name_readings', nanori(character)),
+        ('jlpt', jlpt(character)),
         ])
 
 def reading_data(kanjis):
