@@ -34,7 +34,8 @@ def test_kanji_data_xml():
     "つぎ",
     "つぐ"
   ],
-  "jlpt": "1"
+  "jlpt": "1",
+  "unicode": "4e9c"
 }'''
 
 def test_handles_kanji_without_grades():
@@ -57,7 +58,8 @@ def test_handles_kanji_without_grades():
     "アク"
   ],
   "name_readings": [],
-  "jlpt": null
+  "jlpt": null,
+  "unicode": "5516"
 }'''
 
 def test_handles_kanji_with_multiple_stroke_counts():
@@ -85,7 +87,8 @@ def test_handles_kanji_with_multiple_stroke_counts():
     "あい",
     "おう"
   ],
-  "jlpt": null
+  "jlpt": null,
+  "unicode": "9022"
 }'''
 
 def test_handles_CJK_character():
@@ -107,7 +110,8 @@ def test_handles_CJK_character():
   "name_readings": [
     "はん"
   ],
-  "jlpt": "3"
+  "jlpt": "3",
+  "unicode": "6f22"
 }'''
 
 def test_reading_data():

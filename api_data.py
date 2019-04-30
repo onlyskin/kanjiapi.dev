@@ -29,6 +29,9 @@ def grade(character):
 def stroke_count(character):
     return character.xpath('./misc/stroke_count')[0].text
 
+def unicode_codepoint(character):
+    return character.xpath('.//cp_value[@cp_type="ucs"]')[0].text
+
 def jlpt(character):
     try:
         return character.xpath('./misc/jlpt')[0].text
@@ -48,6 +51,7 @@ def kanji_data(character):
         ('on_readings', on_readings(character)),
         ('name_readings', nanori(character)),
         ('jlpt', jlpt(character)),
+        ('unicode', unicode_codepoint(character)),
         ])
 
 def reading_data(kanjis):

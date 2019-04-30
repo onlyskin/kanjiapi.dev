@@ -25,7 +25,9 @@ $ curl https://kanjiapi.dev/v1/kanji/山
     "さ",
     "やの",
     "やん"
-  ]
+  ],
+  "jlpt": "4",
+  "unicode": "5c71"
 }
 ```
 
@@ -49,7 +51,9 @@ $ curl https://kanjiapi.dev/v1/kanji/山
     "さ",
     "やの",
     "やん"
-  ]
+  ],
+  "jlpt": "4",
+  "unicode": "5c71"
 }
 ```
 
