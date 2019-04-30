@@ -15,8 +15,8 @@ def test_kanji_data_xml():
     output = json.dumps(kanji, indent=2, ensure_ascii=False)
     assert output == '''{
   "kanji": "亜",
-  "grade": "8",
-  "stroke_count": "7",
+  "grade": 8,
+  "stroke_count": 7,
   "meanings": [
     "Asia",
     "rank next",
@@ -34,7 +34,7 @@ def test_kanji_data_xml():
     "つぎ",
     "つぐ"
   ],
-  "jlpt": "1",
+  "jlpt": 1,
   "unicode": "4e9c"
 }'''
 
@@ -45,7 +45,7 @@ def test_handles_kanji_without_grades():
     assert output == '''{
   "kanji": "唖",
   "grade": null,
-  "stroke_count": "10",
+  "stroke_count": 10,
   "meanings": [
     "mute",
     "dumb"
@@ -68,8 +68,8 @@ def test_handles_kanji_with_multiple_stroke_counts():
     output = json.dumps(kanji, indent=2, ensure_ascii=False)
     assert output == '''{
   "kanji": "逢",
-  "grade": "9",
-  "stroke_count": "10",
+  "grade": 9,
+  "stroke_count": 10,
   "meanings": [
     "meeting",
     "tryst",
@@ -97,8 +97,8 @@ def test_handles_CJK_character():
     output = json.dumps(kanji, indent=2, ensure_ascii=False)
     assert output == '''{
   "kanji": "漢",
-  "grade": "3",
-  "stroke_count": "13",
+  "grade": 3,
+  "stroke_count": 13,
   "meanings": [
     "Sino-",
     "China"
@@ -110,7 +110,7 @@ def test_handles_CJK_character():
   "name_readings": [
     "はん"
   ],
-  "jlpt": "3",
+  "jlpt": 3,
   "unicode": "6f22"
 }'''
 

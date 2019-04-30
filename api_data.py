@@ -22,19 +22,19 @@ def meanings(character):
 
 def grade(character):
     try:
-        return character.xpath('./misc/grade')[0].text
+        return int(character.xpath('./misc/grade')[0].text)
     except (AttributeError, IndexError):
         return None
 
 def stroke_count(character):
-    return character.xpath('./misc/stroke_count')[0].text
+    return int(character.xpath('./misc/stroke_count')[0].text)
 
 def unicode_codepoint(character):
     return character.xpath('.//cp_value[@cp_type="ucs"]')[0].text
 
 def jlpt(character):
     try:
-        return character.xpath('./misc/jlpt')[0].text
+        return int(character.xpath('./misc/jlpt')[0].text)
     except (AttributeError, IndexError):
         return None
 
@@ -77,8 +77,8 @@ if __name__ == '__main__':
     VERSION_PATH = 'v1'
     KANJI_DIR = 'out/' + VERSION_PATH + '/kanji/'
     READING_DIR = 'out/' + VERSION_PATH + '/reading/'
-    JOUYOU_GRADES = ['1', '2', '3', '4', '5', '6', '8']
-    JINMEIYOU_GRADES = ['9', '10']
+    JOUYOU_GRADES = [1, 2, 3, 4, 5, 6, 8]
+    JINMEIYOU_GRADES = [9, 10]
 
     root = etree.parse('kanjidic2.xml')
     characters = root.xpath('./character')
@@ -115,5 +115,5 @@ if __name__ == '__main__':
 
     for grade in JOUYOU_GRADES:
         grade_kanji = [kanji['kanji'] for kanji in kanjis if kanji['grade'] == grade]
-        with codecs.open(KANJI_DIR + 'grade-' + grade, 'w', 'utf8') as f:
+        with codecs.open(KANJI_DIR + 'grade-' + str(grade), 'w', 'utf8') as f:
             json.dump(grade_kanji, f, ensure_ascii=False)

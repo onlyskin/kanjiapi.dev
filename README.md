@@ -9,8 +9,8 @@ Over 13,000 kanji served at [https://kanjiapi.dev](https://kanjiapi.dev).
 $ curl https://kanjiapi.dev/v1/kanji/山
 {
   "kanji": "山",
-  "grade": "1",
-  "stroke_count": "3",
+  "grade": 1,
+  "stroke_count": 3,
   "meanings": [
     "mountain"
   ],
@@ -26,7 +26,7 @@ $ curl https://kanjiapi.dev/v1/kanji/山
     "やの",
     "やん"
   ],
-  "jlpt": "4",
+  "jlpt": 4,
   "unicode": "5c71"
 }
 ```
@@ -35,8 +35,8 @@ $ curl https://kanjiapi.dev/v1/kanji/山
 > fetch('https://kanjiapi.dev/v1/kanji/山').then(r => r.json()).then(console.log);
 {
   "kanji": "山",
-  "grade": "1",
-  "stroke_count": "3",
+  "grade": 1,
+  "stroke_count": 3,
   "meanings": [
     "mountain"
   ],
@@ -52,7 +52,7 @@ $ curl https://kanjiapi.dev/v1/kanji/山
     "やの",
     "やん"
   ],
-  "jlpt": "4",
+  "jlpt": 4,
   "unicode": "5c71"
 }
 ```
