@@ -1,69 +1,67 @@
 # KanjiApi: a modern JSON API for Kanji 
 
-Over 13,000 kanji served at [https://kanjiapi.dev](https://kanjiapi.dev).
+Over 13,000 kanji served at [https://kanjiapi.dev](https://kanjiapi.dev)
 
 ## Examples
 
 ### Kanji `/v1/kanji/{character}`
 ```
-$ curl https://kanjiapi.dev/v1/kanji/山
+$ curl https://kanjiapi.dev/v1/kanji/猫
 {
-  "kanji": "山",
-  "grade": 1,
-  "stroke_count": 3,
+  "kanji": "猫",
+  "grade": 8,
+  "stroke_count": 11,
   "meanings": [
-    "mountain"
+    "cat"
   ],
   "kun_readings": [
-    "やま"
+    "ねこ"
   ],
   "on_readings": [
-    "サン",
-    "セン"
+    "ビョウ"
   ],
-  "name_readings": [
-    "さ",
-    "やの",
-    "やん"
-  ],
-  "jlpt": 4,
-  "unicode": "5c71"
+  "name_readings": [],
+  "jlpt": 2,
+  "unicode": "732b"
 }
 ```
 
 ```javascript
-> fetch('https://kanjiapi.dev/v1/kanji/山').then(r => r.json()).then(console.log);
+> fetch('https://kanjiapi.dev/v1/kanji/猫').then(r => r.json()).then(console.log);
 {
-  "kanji": "山",
-  "grade": 1,
-  "stroke_count": 3,
+  "kanji": "猫",
+  "grade": 8,
+  "stroke_count": 11,
   "meanings": [
-    "mountain"
+    "cat"
   ],
   "kun_readings": [
-    "やま"
+    "ねこ"
   ],
   "on_readings": [
-    "サン",
-    "セン"
+    "ビョウ"
   ],
-  "name_readings": [
-    "さ",
-    "やの",
-    "やん"
-  ],
-  "jlpt": 4,
-  "unicode": "5c71"
+  "name_readings": [],
+  "jlpt": 2,
+  "unicode": "732b"
 }
 ```
 
-#### List of all supported kanji `$ curl https://kanjiapi.dev/v1/kanji/all`
+#### List of all supported kanji
 
-#### List of joyo kanji `$ curl https://kanjiapi.dev/v1/kanji/joyo` (also `/jouyou`)
+`$ curl https://kanjiapi.dev/v1/kanji/all`
 
-#### List of jinmeiyo kanji `$ curl https://kanjiapi.dev/v1/kanji/jinmeiyo` (also `/jinmeiyou`)
+#### List of joyo kanji
 
-#### List of kanji of a certain grade `$ curl https://kanjiapi.dev/v1/kanji/grade-1` (school grades 1-6, with grade 8 signalling remaining highschool grade)
+`$ curl https://kanjiapi.dev/v1/kanji/joyo` (also `/jouyou`)
+
+#### List of jinmeiyo kanji
+
+`$ curl https://kanjiapi.dev/v1/kanji/jinmeiyo` (also `/jinmeiyou`)
+
+#### List of kanji of a certain grade
+
+`$ curl https://kanjiapi.dev/v1/kanji/grade-1` (school grades 1-6, with grade 8 signalling remaining highschool grade)
 
 ### Reading `/v1/reading/{reading}`
 ```
@@ -106,6 +104,85 @@ $ curl https://kanjiapi.dev/v1/reading/クウ
 }
 ```
 
+### Words `/v1/words/{character}`
+```
+$ curl https://kanjiapi.dev/v1/words/猫
+[
+  {
+    "variants": [
+      {
+        "written": "どら猫",
+        "pronounced": "どらねこ",
+        "priorities": []
+      }
+    ],
+    "meanings": [
+      {
+        "glosses": [
+          "stray cat"
+        ]
+      }
+    ]
+  },
+  {
+    "variants": [
+      {
+        "written": "アンゴラ猫",
+        "pronounced": "アンゴラねこ",
+        "priorities": []
+      }
+    ],
+    "meanings": [
+      {
+        "glosses": [
+          "Angora cat"
+        ]
+      }
+    ]
+  },
+  ...
+]
+```
+
+```javascript
+> fetch('https://kanjiapi.dev/v1/reading/クウ').then(r => r.json()).then(console.log);
+[
+  {
+    "variants": [
+      {
+        "written": "どら猫",
+        "pronounced": "どらねこ",
+        "priorities": []
+      }
+    ],
+    "meanings": [
+      {
+        "glosses": [
+          "stray cat"
+        ]
+      }
+    ]
+  },
+  {
+    "variants": [
+      {
+        "written": "アンゴラ猫",
+        "pronounced": "アンゴラねこ",
+        "priorities": []
+      }
+    ],
+    "meanings": [
+      {
+        "glosses": [
+          "Angora cat"
+        ]
+      }
+    ]
+  },
+  ...
+]
+```
+
 ## Development:
 
 ### Requirements:
@@ -116,9 +193,9 @@ Assumes `python 3` and `make` are available.
 
 Install python libraries using requirements.txt
 
-Save the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) to the root of the project.
+Save and extract the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) to the root of the project.
 
-Save the jmdict dictionary file `JMdict_e` from [EDRDG](http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project) to the root of the project.
+Save and extract the jmdict dictionary file `JMdict` from [EDRDG](http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project) to the root of the project.
 
 ### Building:
 
