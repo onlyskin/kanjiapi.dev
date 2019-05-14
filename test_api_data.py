@@ -6,8 +6,10 @@ from api_data import kanji_data, reading_data
 
 root = etree.parse('kanjidic2.xml')
 
+
 def element_for(root, kanji):
     return root.xpath('./character/literal[.="' + kanji + '"]/..')[0]
+
 
 def test_kanji_data_xml():
     character = element_for(root, '亜')
@@ -38,6 +40,7 @@ def test_kanji_data_xml():
   "unicode": "4e9c"
 }'''
 
+
 def test_handles_kanji_without_grades():
     character = element_for(root, '唖')
     kanji = kanji_data(character)
@@ -61,6 +64,7 @@ def test_handles_kanji_without_grades():
   "jlpt": null,
   "unicode": "5516"
 }'''
+
 
 def test_handles_kanji_with_multiple_stroke_counts():
     character = element_for(root, '逢')
@@ -91,6 +95,7 @@ def test_handles_kanji_with_multiple_stroke_counts():
   "unicode": "9022"
 }'''
 
+
 def test_handles_CJK_character():
     character = element_for(root, '漢')
     kanji = kanji_data(character)
@@ -113,6 +118,7 @@ def test_handles_CJK_character():
   "jlpt": 3,
   "unicode": "6f22"
 }'''
+
 
 def test_reading_data():
     character = element_for(root, '亜')
