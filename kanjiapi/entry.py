@@ -2,15 +2,6 @@ import json
 import itertools
 
 
-class EntryEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if type(obj) in [Entry, Meaning, KanjiForm, Reading]:
-            return obj.to_json()
-        if isinstance(obj, set):
-            return sorted(list(obj))
-        return json.JSONEncoder.default(self, obj)
-
-
 class Reading():
     __slots__ = ['reading', 'restrictions']
 
@@ -89,6 +80,9 @@ class Meaning():
                 'glosses': self.glosses,
                 }
 
+    def toDict(self):
+        return self.to_json()
+
 
 class Entry():
     __slots__ = ['kanji_forms', 'readings', 'meanings', 'words']
@@ -117,6 +111,9 @@ class Entry():
 
     def to_json(self):
         return self.words
+
+    def toDict(self):
+        return self.to_json()
 
     def _words(self):
         return {

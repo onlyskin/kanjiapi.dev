@@ -1,7 +1,7 @@
 import pytest
-import json
+import ujson
 
-from kanjiapi.entry import Entry, Meaning, KanjiForm, Reading, EntryEncoder
+from kanjiapi.entry import Entry, Meaning, KanjiForm, Reading
 
 
 def test_jsonify_simple_entry():
@@ -13,24 +13,26 @@ def test_jsonify_simple_entry():
             Meaning(['ailurophilia', 'fondness for cats']),
             ],
         )
-    output = json.dumps(entry, indent=2, ensure_ascii=False, cls=EntryEncoder)
+    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
     assert output == '''{
-  "variants": [
+  "variants":[
     {
-      "written": "愛猫",
-      "pronounced": "あいびょう",
-      "priorities": []
+      "written":"愛猫",
+      "pronounced":"あいびょう",
+      "priorities":[
+
+      ]
     }
   ],
-  "meanings": [
+  "meanings":[
     {
-      "glosses": [
+      "glosses":[
         "pet cat",
         "beloved cat"
       ]
     },
     {
-      "glosses": [
+      "glosses":[
         "ailurophilia",
         "fondness for cats"
       ]
@@ -49,29 +51,33 @@ def test_words_for_entry_with_multiple_kanji_forms():
                     'audience', 'tourist', 'sightseer', 'passenger']),
             ],
         )
-    output = json.dumps(entry, indent=2, ensure_ascii=False, cls=EntryEncoder)
+    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
     assert output == '''{
-  "variants": [
+  "variants":[
     {
-      "written": "お客さん",
-      "pronounced": "おきゃくさん",
-      "priorities": []
+      "written":"お客さん",
+      "pronounced":"おきゃくさん",
+      "priorities":[
+
+      ]
     },
     {
-      "written": "御客さん",
-      "pronounced": "おきゃくさん",
-      "priorities": []
+      "written":"御客さん",
+      "pronounced":"おきゃくさん",
+      "priorities":[
+
+      ]
     }
   ],
-  "meanings": [
+  "meanings":[
     {
-      "glosses": [
+      "glosses":[
         "guest",
         "visitor"
       ]
     },
     {
-      "glosses": [
+      "glosses":[
         "customer",
         "client",
         "shopper",
@@ -98,42 +104,44 @@ def test_words_for_entry_with_kanji_priority():
             Meaning(['you']),
             ],
         )
-    output = json.dumps(entry, indent=2, ensure_ascii=False, cls=EntryEncoder)
+    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
     assert output == '''{
-  "variants": [
+  "variants":[
     {
-      "written": "其処",
-      "pronounced": "そこ",
-      "priorities": [
+      "written":"其処",
+      "pronounced":"そこ",
+      "priorities":[
         "spec1"
       ]
     },
     {
-      "written": "其所",
-      "pronounced": "そこ",
-      "priorities": []
+      "written":"其所",
+      "pronounced":"そこ",
+      "priorities":[
+
+      ]
     }
   ],
-  "meanings": [
+  "meanings":[
     {
-      "glosses": [
+      "glosses":[
         "there (place relatively near listener)"
       ]
     },
     {
-      "glosses": [
+      "glosses":[
         "there (place just mentioned)",
         "that place"
       ]
     },
     {
-      "glosses": [
+      "glosses":[
         "then (of some incident just spoken of)",
         "that (of point just raised)"
       ]
     },
     {
-      "glosses": [
+      "glosses":[
         "you"
       ]
     }
@@ -147,23 +155,27 @@ def test_words_for_entry_with_two_readings():
         [Reading('だぼはぜ', []), Reading('ダボハゼ', [])],
         [Meaning(['goby (fish)'])],
         )
-    output = json.dumps(entry, indent=2, ensure_ascii=False, cls=EntryEncoder)
+    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
     assert output == '''{
-  "variants": [
+  "variants":[
     {
-      "written": "だぼ鯊",
-      "pronounced": "だぼはぜ",
-      "priorities": []
+      "written":"だぼ鯊",
+      "pronounced":"だぼはぜ",
+      "priorities":[
+
+      ]
     },
     {
-      "written": "だぼ鯊",
-      "pronounced": "ダボハゼ",
-      "priorities": []
+      "written":"だぼ鯊",
+      "pronounced":"ダボハゼ",
+      "priorities":[
+
+      ]
     }
   ],
-  "meanings": [
+  "meanings":[
     {
-      "glosses": [
+      "glosses":[
         "goby (fish)"
       ]
     }
@@ -184,44 +196,50 @@ def test_words_with_restricted_reading():
             ],
         [Meaning(['how long', 'how far', 'how much'])],
         )
-    output = json.dumps(entry, indent=2, ensure_ascii=False, cls=EntryEncoder)
+    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
     assert output == '''{
-  "variants": [
+  "variants":[
     {
-      "written": "どの位",
-      "pronounced": "どのくらい",
-      "priorities": [
+      "written":"どの位",
+      "pronounced":"どのくらい",
+      "priorities":[
         "ichi1",
         "spec1"
       ]
     },
     {
-      "written": "どの位",
-      "pronounced": "どのぐらい",
-      "priorities": [
+      "written":"どの位",
+      "pronounced":"どのぐらい",
+      "priorities":[
         "ichi1",
         "spec1"
       ]
     },
     {
-      "written": "何の位",
-      "pronounced": "どのくらい",
-      "priorities": []
+      "written":"何の位",
+      "pronounced":"どのくらい",
+      "priorities":[
+
+      ]
     },
     {
-      "written": "何の位",
-      "pronounced": "どのぐらい",
-      "priorities": []
+      "written":"何の位",
+      "pronounced":"どのぐらい",
+      "priorities":[
+
+      ]
     },
     {
-      "written": "何のくらい",
-      "pronounced": "どのくらい",
-      "priorities": []
+      "written":"何のくらい",
+      "pronounced":"どのくらい",
+      "priorities":[
+
+      ]
     }
   ],
-  "meanings": [
+  "meanings":[
     {
-      "glosses": [
+      "glosses":[
         "how long",
         "how far",
         "how much"

@@ -1,10 +1,8 @@
-import codecs
-import json
+import ujson
 from collections import defaultdict, OrderedDict
 from lxml import etree
 
 from .entry_data import word_dict
-from .entry import EntryEncoder
 
 
 NANORI = etree.XPath('./reading_meaning//nanori')
@@ -100,11 +98,11 @@ def CJK_compatibility(character):
 
 
 def dump_json(filename, obj):
-    with codecs.open(filename, 'w', 'utf8') as f:
-        json.dump(obj, f, ensure_ascii=False, cls=EntryEncoder)
+    with open(filename, 'w', encoding='utf8') as f:
+        ujson.dump(obj, f, ensure_ascii=False)
 
 
-if __name__ == '__main__':
+def main():
     VERSION_PATH = 'v1'
     KANJI_DIR = 'out/' + VERSION_PATH + '/kanji/'
     WORD_DIR = 'out/' + VERSION_PATH + '/words/'
