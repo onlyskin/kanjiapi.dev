@@ -1,7 +1,7 @@
 from collections import defaultdict
 from lxml import etree
 
-from entry import Entry, Meaning, KanjiForm, Reading
+from .entry import Entry, Meaning, KanjiForm, Reading
 
 
 SENSES = etree.XPath('./sense')

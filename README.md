@@ -201,7 +201,7 @@ Save and extract the jmdict dictionary file `JMdict` from [EDRDG](http://www.edr
 
 Run `make` to build the site and API endpoints as static assets.
 
-Run `pytest test*.py` to run the tests.
+Run `python -m pytest tests` to run the tests.
 
 ### Deployment (Requires google cloud account credentials):
 

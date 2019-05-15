@@ -1,7 +1,7 @@
 import pytest
 import json
 
-from entry import Entry, Meaning, KanjiForm, Reading, EntryEncoder
+from kanjiapi.entry import Entry, Meaning, KanjiForm, Reading, EntryEncoder
 
 
 def test_jsonify_simple_entry():

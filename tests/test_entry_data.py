@@ -1,8 +1,8 @@
 import pytest
 from lxml import etree
 
-from entry import Entry, Meaning, KanjiForm, Reading
-from entry_data import word_dict
+from kanjiapi.entry import Entry, Meaning, KanjiForm, Reading
+from kanjiapi.entry_data import word_dict
 from test_helper import element_for
 
 

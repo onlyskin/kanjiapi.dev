@@ -3,8 +3,8 @@ import json
 from collections import defaultdict, OrderedDict
 from lxml import etree
 
-from entry_data import word_dict
-from entry import EntryEncoder
+from .entry_data import word_dict
+from .entry import EntryEncoder
 
 
 NANORI = etree.XPath('./reading_meaning//nanori')

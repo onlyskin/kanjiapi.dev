@@ -2,7 +2,7 @@ import pytest
 import json
 from lxml import etree
 
-from api_data import kanji_data, reading_data
+from kanjiapi.api_data import kanji_data, reading_data
 
 root = etree.parse('kanjidic2.xml')
 
