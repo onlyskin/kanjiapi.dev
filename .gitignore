@@ -2,4 +2,5 @@ out
 kanjidic2.xml
 JMdict
 .env
+*.pyc
 __pycache__
