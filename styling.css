@@ -58,6 +58,10 @@ hr {
   align-items: center;
 }
 
+.flex-auto {
+  flex: 1 1 auto;
+}
+
 #api-test-url {
   width: 100%;
   display: flex;

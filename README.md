@@ -187,11 +187,13 @@ $ curl https://kanjiapi.dev/v1/words/猫
 
 ### Requirements:
 
-Assumes `python 3` and `make` are available.
+Assumes `python 3`, `make` and `node` are available.
 
 ### Setup:
 
 Install python libraries using requirements.txt
+
+Install node dependencies using `yarn` or `npm install`.
 
 Save and extract the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) to the root of the project.
 

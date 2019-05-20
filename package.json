@@ -1,0 +1,12 @@
+{
+  "name": "kanjiapi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:onlyskin/kanjiapi.dev.git",
+  "author": "Sam Szreter <s.szreter@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "mithril": "^1.1.6"
+  }
+}
