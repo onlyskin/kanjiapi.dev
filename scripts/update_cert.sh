@@ -8,6 +8,7 @@ certbot certonly \
   --manual \
   --email s.szreter@gmail.com \
   -d kanjiapi.dev \
+  -d kai.kanjiapi.dev \
   --expand \
   --preferred-challenges=dns \
   --config-dir=/tmp/certbot/config \
@@ -22,4 +23,4 @@ gcloud --project=kanjiapi compute ssl-certificates create kanjiapi-dev-ssl-certi
     --certificate=/tmp/certbot/config/live/kanjiapi.dev/fullchain.pem \
     --private-key=/tmp/certbot/config/live/kanjiapi.dev/privkey.pem
 
-gcloud --project=kanjiapi compute target-https-proxies update kanjiapi-static-https --ssl-certificates kanjiapi-dev-ssl-certificate-$DATE
+gcloud --project=kanjiapi compute target-https-proxies update kanjiapi-target-proxy-2 --ssl-certificates kanjiapi-dev-ssl-certificate-$DATE
