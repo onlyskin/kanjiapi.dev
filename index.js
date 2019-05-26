@@ -110,8 +110,9 @@ const Page = {
         m(
             'div.vertical-flex.flex-auto#content',
             [
-                m('div.center-text', 'A modern JSON API for Kanji.'),
-                m('h2', 'Try it!'),
+                m('div.center-text', 'A modern JSON API for Kanji'),
+                m('div.center-text', 'Check out ', m('a[href=https://kai.kanjiapi.dev]', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
+                m('div.center-text', 'Try it!'),
                 m(
                     'div#api-test-url',
                     [
