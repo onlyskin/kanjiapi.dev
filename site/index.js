@@ -110,13 +110,14 @@ const Page = {
     view: () => [
         m(Header),
         m(
-            '.flex.flex-column.items-center.flex-auto.pv3.ph2.w-70-ns',
+            '.flex.flex-column.items-center.flex-auto.pv3.ph2.w-70-ns.lh-copy',
             [
-                m('.mv2', 'A modern JSON API for Kanji'),
-                m('.mv2', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
-                m('.mv2', 'Try it!'),
+                m('.mv2.b', 'A modern JSON API for Kanji'),
+                m('.mv2.tc', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
+                m(Separator),
+                m('.self-start.f4', 'Try it!'),
                 m(
-                    'div#api-test-url',
+                    '#api-test-url',
                     [
                         m('label[for=url-input]', 'https://kanjiapi.dev/'),
                         m(
@@ -131,7 +132,7 @@ const Page = {
                     ],
                 ),
                 m(
-                    'div.self-start.mv2',
+                    '.self-start.mv2',
                     [
                         'Try ',
                         m(Example, { url: 'v1/kanji/蜜' }),
@@ -143,8 +144,7 @@ const Page = {
                         m(Example, { url: 'v1/words/蠍' }),
                     ],
                 ),
-                m(Separator),
-                m('div.self-start', 'Resource:'),
+                m('.self-start', 'Resource:'),
                 m(
                     '.w-100.lh-copy.pa3.mv2.ba.b--black-10.border-box.shadow-4.pre.code#api-reponse',
                     globalInputState.response ?
