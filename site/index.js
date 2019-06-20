@@ -28,52 +28,50 @@ const GithubIcon = {
 
 const Footer = {
     view: () => m(
-        'footer',
-        m('a[href=https://github.com/onlyskin/kanjiapi.dev]', m(GithubIcon),
+        '',
+        { style: { 'height': '50px' } },
+        m('a.black[href=https://github.com/onlyskin/kanjiapi.dev]', m(GithubIcon),
         ),
     )
 }
 
 const Header = {
     view: () => m(
-        'header.vertical-flex',
-        [ m('h1', '漢字'), m('h1', 'kanjiapi.dev') ],
+        '.border-box.pa2.pa3-ns.white.w-100.flex.flex-column.items-center.bg-dark-ink',
+        [ m('.ma1.f2.f1-ns.rounded', '漢字'), m('.ma1.f2.f1-ns', 'kanjiapi.dev') ],
     )
 }
 
 const About = {
     view: () => [
-        m('h2.center-text', 'What is this?'),
+        m('.f4.b.mv2.nowrap', 'What is this?'),
         m(
-            'div.left-text#about', 
+            '.self-start.lh-copy.pv2',
+            'This is an API that provides JSON endpoints for over 13,000 ',
+            m('a.black[href=https://en.wikipedia.org/wiki/Kanji]', 'Kanji'),
+            ' using data from an extensive Kanji dictionary.'
+        ),
+        m(
+            '.self-start.lh-copy.pv2',
+            'This API uses the EDICT and KANJIDIC dictionary files. ',
+            'These files are the property of the ',
             m(
-                'p',
-                'This is an API that provides JSON endpoints for over 13,000 ',
-                m('a[href=https://en.wikipedia.org/wiki/Kanji]', 'Kanji'),
-                ' using data from an extensive Kanji dictionary.'
+                'a.black[href=http://www.edrdg.org/]',
+                'Electronic Dictionary Research and Development Group'
             ),
+            ', and are used in conformance with the Group\'s ',
             m(
-                'p',
-                'This API uses the EDICT and KANJIDIC dictionary files. ',
-                'These files are the property of the ',
-                m(
-                    'a[href=http://www.edrdg.org/]',
-                    'Electronic Dictionary Research and Development Group'
-                ),
-                ', and are used in conformance with the Group\'s ',
-                m(
-                    'a[href=http://www.edrdg.org/edrdg/licence.html]',
-                    'licence'
-                ),
-                '.',
+                'a.black[href=http://www.edrdg.org/edrdg/licence.html]',
+                'licence'
             ),
-            m(
-                'p',
-                'This page is built using ',
-                m('a[href=https://mithril.js.org/]', 'mithril.js'),
-                '.',
-            ),
-        )
+            '.',
+        ),
+        m(
+            '.self-start.lh-copy.pv2',
+            'This page is built using ',
+            m('a.black[href=https://mithril.js.org/]', 'mithril.js'),
+            '.',
+        ),
     ]
 }
 
@@ -83,19 +81,19 @@ function updateInput(url) {
     return m.request({
         url: `https://kanjiapi.dev/${url}`,
     })
-    .then(response => {
-        globalInputState.value = url
-        globalInputState.response = response
-    })
-    .catch(error => {
-        globalInputState.value = url
-        globalInputState.response = NOT_FOUND
-    })
+        .then(response => {
+            globalInputState.value = url
+            globalInputState.response = response
+        })
+        .catch(error => {
+            globalInputState.value = url
+            globalInputState.response = NOT_FOUND
+        })
 }
 
 const Example = {
     view: ({ attrs: { url } }) => m(
-        'span',
+        '.di.code.underline',
         {
             onclick: _ => updateInput(url),
         },
@@ -103,16 +101,20 @@ const Example = {
     )
 }
 
+const Separator = {
+    view: () => m('hr.w-100.black-50.ma3')
+}
+
 const Page = {
     oninit: () => updateInput('v1/kanji/蛍'),
     view: () => [
         m(Header),
         m(
-            'div.vertical-flex.flex-auto#content',
+            '.flex.flex-column.items-center.flex-auto.pv3.ph2.w-70-ns',
             [
-                m('div.center-text', 'A modern JSON API for Kanji'),
-                m('div.center-text', 'Check out ', m('a[href=https://kai.kanjiapi.dev]', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
-                m('div.center-text', 'Try it!'),
+                m('.mv2', 'A modern JSON API for Kanji'),
+                m('.mv2', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
+                m('.mv2', 'Try it!'),
                 m(
                     'div#api-test-url',
                     [
@@ -129,29 +131,29 @@ const Page = {
                     ],
                 ),
                 m(
-                    'div.left-text#url-hint',
+                    'div.self-start.mv2',
                     [
-                        'Try',
+                        'Try ',
                         m(Example, { url: 'v1/kanji/蜜' }),
                         ', ',
                         m(Example, { url: 'v1/kanji/grade-1' }),
                         ', ',
                         m(Example, { url: 'v1/reading/あり' }),
-                        ', or',
+                        ', or ',
                         m(Example, { url: 'v1/words/蠍' }),
                     ],
                 ),
-                m('hr'),
-                m('div.left-text', 'Resource:'),
+                m(Separator),
+                m('div.self-start', 'Resource:'),
                 m(
-                    'pre#api-reponse',
+                    '.w-100.lh-copy.pa3.mv2.ba.b--black-10.border-box.shadow-4.pre.code#api-reponse',
                     globalInputState.response ?
                     globalInputState.response === NOT_FOUND ?
                     'Not Found' :
                     JSON.stringify(globalInputState.response, null, 2) :
                     'Loading',
                 ),
-                m('hr'),
+                m(Separator),
                 m(About),
             ]
         ),
