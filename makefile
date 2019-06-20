@@ -1,9 +1,12 @@
 OUT_DIR := out
+SITE_SRC_DIR := site
 SITE_DIR := $(OUT_DIR)/site
 API_DIR := $(OUT_DIR)/v1
 KANJI_DIR := $(API_DIR)/kanji
 WORDS_DIR := $(API_DIR)/words
 READING_DIR := $(API_DIR)/reading
+BROWSERIFY := node_modules/browserify/bin/cmd.js
+TACHYONS := node_modules/tachyons/css/tachyons.min.css
 
 .PHONY: directories all clean
 
@@ -30,22 +33,25 @@ $(READING_DIR):
 	mkdir -p $@
 
 $(SITE_DIR)/v1: $(SITE_DIR)
-	ln -s ../v1 $@
+	ln -sF ../v1 $@
 
 $(OUT_DIR)/kanji.stamp: kanjidic2.xml main.py kanjiapi/api_data.py kanjiapi/entry.py kanjiapi/entry_data.py | directories
 	python main.py
 	touch $@
 
-$(SITE_DIR)/index.html: index.html | $(SITE_DIR)/reset.css $(SITE_DIR)/styling.css directories
+$(SITE_DIR)/index.html: $(SITE_SRC_DIR)/index.html | $(SITE_DIR)/tachyons.min.css $(SITE_DIR)/styling.css directories $(SITE_DIR)/index.js
 	cp $^ $@
 
-$(SITE_DIR)/404.html: 404.html | $(SITE_DIR)/reset.css $(SITE_DIR)/styling.css directories
+$(SITE_DIR)/index.js: $(SITE_SRC_DIR)/index.js | directories
+	$(BROWSERIFY) $^ -o $@
+
+$(SITE_DIR)/404.html: $(SITE_SRC_DIR)/404.html | $(SITE_DIR)/styling.css directories
 	cp $^ $@
 
-$(SITE_DIR)/reset.css: reset.css | directories
+$(SITE_DIR)/styling.css: $(SITE_SRC_DIR)/styling.css | directories
 	cp $^ $@
 
-$(SITE_DIR)/styling.css: styling.css | directories
+$(SITE_DIR)/tachyons.min.css: $(TACHYONS) | directories
 	cp $^ $@
 
 clean:
