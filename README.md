@@ -199,6 +199,9 @@ Save and extract the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://w
 
 Save and extract the jmdict dictionary file `JMdict` from [EDRDG](http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project) to the root of the project.
 
+Ensure system has `System/Library/Fonts/ヒラギノ丸ゴ\ ProN\ W4.ttc` font
+available (for favicon generation).
+
 ### Building:
 
 Run `make` to build the site and API endpoints as static assets.
