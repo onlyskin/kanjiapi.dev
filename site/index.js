@@ -1,9 +1,10 @@
 const m = require('mithril')
 
 const NOT_FOUND = 'Not Found'
+const LOADING = 'Loading'
 
 const globalInputState = {
-    value: null,
+    value: LOADING,
     response: null,
 }
 
@@ -77,6 +78,7 @@ const About = {
 
 function updateInput(url) {
     globalInputState.value = url
+    globalInputState.response = LOADING
 
     return m.request({
         url: `https://kanjiapi.dev/${url}`,
@@ -105,58 +107,160 @@ const Separator = {
     view: () => m('hr.w-100.black-50.ma3')
 }
 
+const messageForResponse = response => {
+    switch (response) {
+        case NOT_FOUND:
+            return 'Not Found'
+        case LOADING:
+            return 'Loading'
+        default:
+            return JSON.stringify(response, null, 2)
+    }
+}
+
+const Search = {
+    view: () => m(
+        '#api-test-url',
+        [
+            m('label[for=url-input]', 'https://kanjiapi.dev/'),
+            m(
+                'input#url-input[type=text]',
+                {
+                    value: globalInputState.value,
+                    onchange: e => {
+                        updateInput(e.target.value)
+                    },
+                },
+            )
+        ],
+    ),
+}
+
+const Examples = {
+    view: () => m(
+        '.self-start.mv2',
+        [
+            'Try ',
+            m(Example, { url: 'v1/kanji/蜜' }),
+            ', ',
+            m(Example, { url: 'v1/kanji/grade-1' }),
+            ', ',
+            m(Example, { url: 'v1/reading/あり' }),
+            ', or ',
+            m(Example, { url: 'v1/words/蠍' }),
+        ],
+    ),
+}
+
+const SearchResult = {
+    view: () => m(
+        '.w-100.lh-copy.pa3.mv2.ba.b--black-10.border-box.shadow-4.pre.code',
+        messageForResponse(globalInputState.response),
+    ),
+}
+
+const KANJI_FIELDS = [
+    { name: 'kanji', description: 'The kanji itself', type: 'string' },
+    { name: 'grade', description: 'The official grade of the kanji (1-6 for school grade Joyo kanji, 8 for high school Joyo kanji, 9/10 for Jinmeiyo kanji)', type: 'number' },
+    { name: 'stroke_count', description: 'The number of strokes necessary to write the kanji', type: 'number' },
+    { name: 'meanings', description: 'A list of meanings associated with the kanji', type: 'string[]' },
+    { name: 'kun_readings', description: 'A list of kun readings associated with the kanji', type: 'string[]' },
+    { name: 'on_readings', description: 'A list of on readings associated with the kanji', type: 'string[]' },
+    { name: 'name_readings', description: 'A list of readings that are only used in names associated with the kanji', type: 'string[]' },
+    {
+        name: 'jlpt',
+        description: [
+            'The former ',
+            m(
+                'a.black[href=https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test]',
+                'JLPT',
+            ),
+            ' test level for the kanji',
+        ],
+        type: 'number',
+    },
+    {
+        name: 'unicode',
+        description: [
+            'The ',
+            m(
+                'a.black[href=https://en.wikipedia.org/wiki/Unicode]',
+                'Unicode'
+            ),
+            ' codepoint of the kanji',
+        ],
+        type: 'string',
+    },
+]
+
+const READING_FIELDS = [
+    { name: 'reading', description: 'The reading itself', type: 'string' },
+    { name: 'main_kanji', description: 'A list of kanji that use the associated reading', type: 'string[]' },
+    { name: 'name_kanji', description: 'A list of kanji that use the associated reading exclusively in names', type: 'string[]' },
+]
+
+const SchemaRow = {
+    view: ({ attrs: { field, isLast } }) => [
+        m('.pa1.code', { class: isLast ? null : 'bb b--silver' }, field.name),
+        m('.pa1.code.small-caps', { class: isLast ? null : 'bb b--silver' }, field.type),
+        m('.pa1.i', { class: isLast ? null : 'bb b--silver' }, field.description),
+    ],
+}
+
+const Schema = {
+    view: ({ attrs: { fields } }) => m(
+        '.w-100.lh-copy.pa3.mv2.ba.b--black-10.border-box.shadow-4',
+        { style: { display: 'grid', gridTemplateColumns: 'auto auto auto' } },
+        [ 'field', 'type', 'description' ].map(heading => m('.b', heading)),
+        fields.map((field, i) => m(SchemaRow, { field, isLast: (i === fields.length - 1) })),
+    ),
+}
+
+const EndpointDescription = {
+    view: ({ attrs: { url, description, fields, type } }) => [
+        m('.self-start.f4.mt2', url),
+        m('.self-start.f4.b.small-caps', type),
+        m('.self-start.i', description),
+        m(Schema, { fields } ),
+    ],
+}
+
+const Content = {
+    view: () => m(
+        '.flex.flex-column.items-center.flex-auto.pv3.ph2.w-70-ns.lh-copy',
+        [
+            m('.mv2.b', 'A modern JSON API for Kanji'),
+            m('.mv2.tc', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
+            m(Separator),
+            m(EndpointDescription, {
+                url: 'GET /v1/kanji/{character}',
+                type: 'object',
+                description: 'Provides general information about the supplied kanji character',
+                fields: KANJI_FIELDS,
+            }),
+            m(EndpointDescription, {
+                url: 'GET /v1/reading/{reading}',
+                type: 'object',
+                description: 'Provides lists of kanji associated with the supplied reading',
+                fields: READING_FIELDS,
+            }),
+            m(Separator),
+            m('.self-start.f4', 'Try it!'),
+            m(Search),
+            m(Examples),
+            m('.self-start', 'Resource:'),
+            m(SearchResult),
+            m(Separator),
+            m(About),
+        ]
+    ),
+}
+
 const Page = {
     oninit: () => updateInput('v1/kanji/蛍'),
     view: () => [
         m(Header),
-        m(
-            '.flex.flex-column.items-center.flex-auto.pv3.ph2.w-70-ns.lh-copy',
-            [
-                m('.mv2.b', 'A modern JSON API for Kanji'),
-                m('.mv2.tc', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
-                m(Separator),
-                m('.self-start.f4', 'Try it!'),
-                m(
-                    '#api-test-url',
-                    [
-                        m('label[for=url-input]', 'https://kanjiapi.dev/'),
-                        m(
-                            'input#url-input[type=text]',
-                            {
-                                value: globalInputState.value,
-                                onchange: e => {
-                                    updateInput(e.target.value)
-                                },
-                            },
-                        )
-                    ],
-                ),
-                m(
-                    '.self-start.mv2',
-                    [
-                        'Try ',
-                        m(Example, { url: 'v1/kanji/蜜' }),
-                        ', ',
-                        m(Example, { url: 'v1/kanji/grade-1' }),
-                        ', ',
-                        m(Example, { url: 'v1/reading/あり' }),
-                        ', or ',
-                        m(Example, { url: 'v1/words/蠍' }),
-                    ],
-                ),
-                m('.self-start', 'Resource:'),
-                m(
-                    '.w-100.lh-copy.pa3.mv2.ba.b--black-10.border-box.shadow-4.pre.code#api-reponse',
-                    globalInputState.response ?
-                    globalInputState.response === NOT_FOUND ?
-                    'Not Found' :
-                    JSON.stringify(globalInputState.response, null, 2) :
-                    'Loading',
-                ),
-                m(Separator),
-                m(About),
-            ]
-        ),
+        m(Content),
         m(Footer),
     ]
 }
