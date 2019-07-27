@@ -21,13 +21,8 @@ html {
   font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
-#api-test-url {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  margin: 4px;
-  line-height: 1.6;
+.pre-wrap {
+  white-space: pre-wrap;
 }
 
 #api-test-url > label {

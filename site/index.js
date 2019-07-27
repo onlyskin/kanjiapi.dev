@@ -38,22 +38,22 @@ const Footer = {
 
 const Header = {
     view: () => m(
-        '.border-box.pa2.pa3-ns.white.w-100.flex.flex-column.items-center.bg-dark-ink',
-        [ m('.ma1.f2.f1-ns.rounded', '漢字'), m('.ma1.f2.f1-ns', 'kanjiapi.dev') ],
+        '.border-box.pa2.pa3-ns.white.w-100.bg-dark-ink',
+        [ m('.tc.ma1.f2.f1-ns.rounded', '漢字'), m('.tc.ma1.f2.f1-ns', 'kanjiapi.dev') ],
     )
 }
 
 const About = {
     view: () => [
-        m('.f4.b.mv2.nowrap', 'What is this?'),
+        m('.f4.b.tc.mv2.nowrap', 'What is this?'),
         m(
-            '.self-start.lh-copy.pv2',
+            '.self-start.pv2',
             'This is an API that provides JSON endpoints for over 13,000 ',
             m('a.black[href=https://en.wikipedia.org/wiki/Kanji]', 'Kanji'),
             ' using data from an extensive Kanji dictionary.'
         ),
         m(
-            '.self-start.lh-copy.pv2',
+            '.self-start.pv2',
             'This API uses the EDICT and KANJIDIC dictionary files. ',
             'These files are the property of the ',
             m(
@@ -68,7 +68,7 @@ const About = {
             '.',
         ),
         m(
-            '.self-start.lh-copy.pv2',
+            '.self-start.pv2',
             'This page is built using ',
             m('a.black[href=https://mithril.js.org/]', 'mithril.js'),
             '.',
@@ -104,7 +104,7 @@ const Example = {
 }
 
 const Separator = {
-    view: () => m('hr.w-100.black-50.ma3')
+    view: () => m('hr.w-100.black-50.mv3')
 }
 
 const messageForResponse = response => {
@@ -120,11 +120,11 @@ const messageForResponse = response => {
 
 const Search = {
     view: () => m(
-        '#api-test-url',
+        '.w-100.flex.items-stretch.mt1.mb0#api-test-url',
         [
-            m('label[for=url-input]', 'https://kanjiapi.dev/'),
+            m('label', 'https://kanjiapi.dev/'),
             m(
-                'input#url-input[type=text]',
+                'input[type=text]',
                 {
                     value: globalInputState.value,
                     onchange: e => {
@@ -138,9 +138,9 @@ const Search = {
 
 const Examples = {
     view: () => m(
-        '.self-start.mv2',
+        '.f7.f6-ns.i.self-start.mt0.mb1',
         [
-            'Try ',
+            'Hint: try ',
             m(Example, { url: 'v1/kanji/蜜' }),
             ', ',
             m(Example, { url: 'v1/kanji/grade-1' }),
@@ -154,7 +154,7 @@ const Examples = {
 
 const SearchResult = {
     view: () => m(
-        '.w-100.lh-copy.pa3.mv2.ba.b--black-10.border-box.shadow-4.pre.code',
+        '.self-stretch.f7.f6-ns.pa2.mv1.ba.b--black-10.border-box.shadow-4.code.pre.pre-wrap',
         messageForResponse(globalInputState.response),
     ),
 }
@@ -209,7 +209,7 @@ const SchemaRow = {
 
 const Schema = {
     view: ({ attrs: { fields } }) => m(
-        '.w-100.lh-copy.pa3.mv2.ba.b--black-10.border-box.shadow-4',
+        '.w-100.pa3.mv2.ba.b--black-10.border-box.shadow-4',
         { style: { display: 'grid', gridTemplateColumns: 'auto auto auto' } },
         [ 'field', 'type', 'description' ].map(heading => m('.b', heading)),
         fields.map((field, i) => m(SchemaRow, { field, isLast: (i === fields.length - 1) })),
@@ -227,9 +227,9 @@ const EndpointDescription = {
 
 const Content = {
     view: () => m(
-        '.flex.flex-column.items-center.flex-auto.pv3.ph2.w-70-ns.lh-copy',
+        '.f5.flex.flex-column.items-center.flex-auto.pv3.ph2.w-80-m.w-70-l.lh-copy',
         [
-            m('.mv2.b', 'A modern JSON API for Kanji'),
+            m('.mv2.b.tc', 'A modern JSON API for Kanji'),
             m('.mv2.tc', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
             m(Separator),
             m(EndpointDescription, {
@@ -245,10 +245,10 @@ const Content = {
                 fields: READING_FIELDS,
             }),
             m(Separator),
-            m('.self-start.f4', 'Try it!'),
+            m('.self-start.mv1', 'Try it!'),
             m(Search),
             m(Examples),
-            m('.self-start', 'Resource:'),
+            m('.self-start.mv1', 'Resource:'),
             m(SearchResult),
             m(Separator),
             m(About),
