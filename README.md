@@ -1,4 +1,4 @@
-# KanjiApi: a modern JSON API for Kanji 
+# kanjiapi.dev: a modern JSON API for Kanji
 
 Over 13,000 kanji served at [https://kanjiapi.dev](https://kanjiapi.dev)
 
@@ -207,6 +207,11 @@ available (for favicon generation).
 Run `make` to build the site and API endpoints as static assets.
 
 Run `python -m pytest tests` to run the tests.
+
+Note: in order to fetch data from the local build of the API from the local
+build of the site, you can set the root of your fileserver to out/site (e.g.
+with `serveit`: `serveit -s out/site make`). There is a symlink to `out/v1`
+inside `out/site` to enable this.
 
 ### Deployment (Requires google cloud account credentials):
 
