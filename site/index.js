@@ -1,12 +1,11 @@
 const m = require('mithril')
+const stream = require('mithril/stream')
+const { Kanjiapi } = require('kanjiapi-wrapper')
 
 const NOT_FOUND = 'Not Found'
 const LOADING = 'Loading'
 
-const globalInputState = {
-    value: LOADING,
-    response: null,
-}
+const kanjiapi = Kanjiapi.build(m.redraw)
 
 const GithubIcon = {
     view: () => m(
@@ -76,86 +75,57 @@ const About = {
     ]
 }
 
-function updateInput(url) {
-    globalInputState.value = url
-    globalInputState.response = LOADING
-
-    return m.request({
-        url: `https://kanjiapi.dev/${url}`,
-    })
-        .then(response => {
-            globalInputState.value = url
-            globalInputState.response = response
-        })
-        .catch(error => {
-            globalInputState.value = url
-            globalInputState.response = NOT_FOUND
-        })
-}
-
-const Example = {
-    view: ({ attrs: { url } }) => m(
-        '.di.code.underline',
-        {
-            onclick: _ => updateInput(url),
-        },
-        url,
-    )
-}
-
 const Separator = {
     view: () => m('hr.w-100.black-50.mv3')
 }
 
-const messageForResponse = response => {
-    switch (response) {
-        case NOT_FOUND:
-            return 'Not Found'
-        case LOADING:
-            return 'Loading'
-        default:
-            return JSON.stringify(response, null, 2)
-    }
-}
-
 const Search = {
-    view: () => m(
-        '.w-100.flex.items-stretch.mt1.mb0#api-test-url',
+    view: ({ attrs: { path } }) => m(
+        '.w-100.flex.items-stretch.mt1.mb0',
         [
-            m('label', 'https://kanjiapi.dev/'),
+            m('label#search-label', 'https://kanjiapi.dev/v1/'),
             m(
-                'input[type=text]',
+                'input[type=text]#search-input',
                 {
-                    value: globalInputState.value,
-                    onchange: e => {
-                        updateInput(e.target.value)
-                    },
+                    value: path(),
+                    onchange: e => path(e.target.value),
                 },
-            )
+            ),
         ],
     ),
 }
 
+const Example = {
+    view: ({ attrs: { path, url } }) => m(
+        '.di.i.underline.nowrap',
+        { onclick: () => path(url) },
+        url,
+    )
+}
+
 const Examples = {
-    view: () => m(
-        '.f7.f6-ns.i.self-start.mt0.mb1',
+    view: ({ attrs: { path } }) => m(
+        '.f7.f6-ns.self-start.mt0.mb1',
         [
             'Hint: try ',
-            m(Example, { url: 'v1/kanji/蜜' }),
+            m(Example, { path, url: 'kanji/蜜' }),
             ', ',
-            m(Example, { url: 'v1/kanji/grade-1' }),
+            m(Example, { path, url: 'kanji/grade-1' }),
             ', ',
-            m(Example, { url: 'v1/reading/あり' }),
+            m(Example, { path, url: 'reading/あり' }),
             ', or ',
-            m(Example, { url: 'v1/words/蠍' }),
+            m(Example, { path, url: 'words/蠍' }),
         ],
     ),
 }
 
 const SearchResult = {
-    view: () => m(
-        '.self-stretch.f7.f6-ns.pa2.mv1.ba.b--black-10.border-box.shadow-4.code.pre.pre-wrap',
-        messageForResponse(globalInputState.response),
+    view: ({ attrs: { url } }) => m(
+        '.self-stretch.f7.f6-ns.pa1.pa2-ns.mv1.ba.b--black-10.border-box.shadow-4.code.pre.pre-wrap',
+        kanjiapi.getUrl(`/${url}`).status === Kanjiapi.SUCCESS ?
+        JSON.stringify(kanjiapi.getUrl(`/${url}`).value, null, 2) :
+        kanjiapi.getUrl(`/${url}`).status === Kanjiapi.LOADING ? 'Loading' :
+        kanjiapi.getUrl(`/${url}`).status === Kanjiapi.ERROR ? 'Not Found' : 'Error',
     ),
 }
 
@@ -199,70 +169,100 @@ const READING_FIELDS = [
     { name: 'name_kanji', description: 'A list of kanji that use the associated reading exclusively in names', type: 'string[]' },
 ]
 
+const WORD_FIELDS = [
+    { name: 'reading', description: 'The reading itself', type: 'string' },
+]
+
 const SchemaRow = {
-    view: ({ attrs: { field, isLast } }) => [
-        m('.pa1.code', { class: isLast ? null : 'bb b--silver' }, field.name),
-        m('.pa1.code.small-caps', { class: isLast ? null : 'bb b--silver' }, field.type),
-        m('.pa1.i', { class: isLast ? null : 'bb b--silver' }, field.description),
-    ],
+    view: ({ attrs: { field, isLast } }) => m('.cf.pv2.pv0-ns.bb.b--silver', [
+        m(
+            '.fl.w-50.w-third-ns.pa1.code',
+            `"${field.name}":`,
+        ),
+        m(
+            '.fl.w-50.w-third-ns.pa1.code.small-caps.tr.tl-ns',
+            field.type,
+        ),
+        m(
+            '.f7.f6-ns.fl.w-100.w-third-ns.pa1.i',
+            field.description,
+        ),
+    ]),
 }
 
 const Schema = {
     view: ({ attrs: { fields } }) => m(
-        '.w-100.pa3.mv2.ba.b--black-10.border-box.shadow-4',
-        { style: { display: 'grid', gridTemplateColumns: 'auto auto auto' } },
-        [ 'field', 'type', 'description' ].map(heading => m('.b', heading)),
+        '.pa1.pa3-ns.mv2.ba.b--black-10.shadow-4',
+        [ 'field', 'type', 'description' ].map(heading => m('.fl.w-100.w-third-ns.b.dn.db-ns.ph1.bb.b--silver', heading)),
         fields.map((field, i) => m(SchemaRow, { field, isLast: (i === fields.length - 1) })),
     ),
 }
 
 const EndpointDescription = {
     view: ({ attrs: { url, description, fields, type } }) => [
-        m('.self-start.f4.mt2', url),
-        m('.self-start.f4.b.small-caps', type),
-        m('.self-start.i', description),
+        m('.mt2', url),
+        m('.i.f7.f6-ns', description),
+        m('.small-caps', type),
         m(Schema, { fields } ),
     ],
 }
 
-const Content = {
-    view: () => m(
-        '.f5.flex.flex-column.items-center.flex-auto.pv3.ph2.w-80-m.w-70-l.lh-copy',
-        [
-            m('.mv2.b.tc', 'A modern JSON API for Kanji'),
-            m('.mv2.tc', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
+const Docs = {
+    view: () => [
+        m('.self-center.mv2.tc.underline', m(m.route.Link, { href: '/', class: 'black' }, 'home')),
+        m(EndpointDescription, {
+            url: 'GET /v1/kanji/{character}',
+            type: 'object',
+            description: 'provides general information about the supplied kanji character',
+            fields: KANJI_FIELDS,
+        }),
+        m(EndpointDescription, {
+            url: 'GET /v1/reading/{reading}',
+            type: 'object',
+            description: 'provides lists of kanji associated with the supplied reading',
+            fields: READING_FIELDS,
+        }),
+        //m(EndpointDescription, {
+        //    url: 'GET /v1/words/{character}',
+        //    type: 'object[]',
+        //    description: 'Provides a list of words associated with the supplied kanji character',
+        //    fields: WORD_FIELDS,
+        //}),
+    ]
+}
+
+function Home() {
+    let path = stream('kanji/蛍')
+
+    return {
+        view: () => [
+            m('.self-center.mv2.b.tc', 'A modern JSON API for Kanji'),
+            m('.self-center.mv2.tc.underline', m(m.route.Link, { href: '/documentation', class: 'black' }, 'documentation')),
+            m('.self-center.mv2.tc', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
             m(Separator),
-            m(EndpointDescription, {
-                url: 'GET /v1/kanji/{character}',
-                type: 'object',
-                description: 'Provides general information about the supplied kanji character',
-                fields: KANJI_FIELDS,
-            }),
-            m(EndpointDescription, {
-                url: 'GET /v1/reading/{reading}',
-                type: 'object',
-                description: 'Provides lists of kanji associated with the supplied reading',
-                fields: READING_FIELDS,
-            }),
-            m(Separator),
-            m('.self-start.mv1', 'Try it!'),
-            m(Search),
-            m(Examples),
-            m('.self-start.mv1', 'Resource:'),
-            m(SearchResult),
+            m('.mv1.self-start', 'Try it!'),
+            m(Search, { path }),
+            m(Examples, { path }),
+            m('.mv1.self-start', 'Resource:'),
+            m(SearchResult, { url: path() }),
             m(Separator),
             m(About),
-        ]
-    ),
+        ],
+    }
 }
 
 const Page = {
-    oninit: () => updateInput('v1/kanji/蛍'),
-    view: () => [
+    view: ({ children }) => [
         m(Header),
-        m(Content),
+        m(
+            '.f5.flex.flex-column.items-stretch.flex-auto.pv3.ph2.w-80-m.w-70-l.lh-copy',
+            children,
+        ),
         m(Footer),
     ]
 }
 
-m.mount(document.body, Page)
+m.route(document.body, '/', {
+    '/': { render: () => m(Page, m(Home)) },
+    '/documentation': { render: () => m(Page, m(Docs)) },
+})

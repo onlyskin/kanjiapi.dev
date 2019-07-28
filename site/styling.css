@@ -25,7 +25,7 @@ html {
   white-space: pre-wrap;
 }
 
-#api-test-url > label {
+#search-label {
   flex: 0 0;
   padding: 0.35em 0.15em 0.35em 0.35em;
   background-color: var(--lightest-ink);
@@ -36,7 +36,7 @@ html {
   vertical-align: center;
 }
 
-#api-test-url > input {
+#search-input {
   flex: 1 1;
   width: 100%;
   padding: 0.35em 0.35em 0.35em 0.15em;
