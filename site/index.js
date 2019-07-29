@@ -2,9 +2,6 @@ const m = require('mithril')
 const stream = require('mithril/stream')
 const { Kanjiapi } = require('kanjiapi-wrapper')
 
-const NOT_FOUND = 'Not Found'
-const LOADING = 'Loading'
-
 const kanjiapi = Kanjiapi.build(m.redraw)
 
 const Link = {
@@ -47,7 +44,7 @@ const Header = {
 
 const About = {
     view: () => [
-        m('.f4.b.tc.mv2.nowrap', 'What is this?'),
+        m('.f4.f3-ns.tc.mv2.nowrap', 'What is this?'),
         m(
             '.self-start.pv2',
             'This is an API that provides JSON endpoints for over 13,000 ',
@@ -265,14 +262,14 @@ const SchemaRow = {
 const Schema = {
     view: ({ attrs: { fields } }) => m(
         '.pa1.pa3-ns.mv2.ba.b--black-10.shadow-4',
-        [ 'field', 'type', 'description' ].map(heading => m('.fl.w-100.w-third-ns.b.dn.db-ns.ph1.bb.b--silver', heading)),
+        [ 'field', 'type', 'description' ].map(heading => m('.fl.w-100.w-third-ns.f4.f3-ns.dn.db-ns.ph1.bb.b--silver', heading)),
         fields.map((field, i) => m(SchemaRow, { field, isLast: (i === fields.length - 1) })),
     ),
 }
 
 const EndpointDescription = {
     view: ({ children, attrs: { url, description, fields, type } }) => [
-        m('.f3', url),
+        m('.f4.f3-ns', url),
         m('.i.f7.f6-ns', description),
         m('.small-caps', type),
         children,
@@ -324,7 +321,7 @@ function Home() {
 
     return {
         view: () => [
-            m('.self-center.mv2.b.tc', 'A modern JSON API for kanji'),
+            m('.self-center.mv2.f4.f3-ns.tc', 'A modern JSON API for kanji'),
             m('.self-center.mv2.tc.underline', m(
                 m.route.Link,
                 { href: '/documentation', class: 'vermillion' },
