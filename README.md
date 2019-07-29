@@ -2,6 +2,10 @@
 
 Over 13,000 kanji served at [https://kanjiapi.dev](https://kanjiapi.dev)
 
+## Documentation
+
+https://kanjiapi.dev/#!/documentation
+
 ## Examples
 
 ### Kanji `/v1/kanji/{character}`
