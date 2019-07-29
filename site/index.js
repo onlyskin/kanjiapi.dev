@@ -141,7 +141,7 @@ const KANJI_FIELDS = [
             m(Link, { href: 'https://en.wikipedia.org/wiki/Jinmeiy%C5%8D_kanji' }, 'Jinmeiyō kanji'),
             ')',
         ],
-        type: 'number',
+        type: [m('.di.f7', '1..6 | 8..10 '), 'number'],
     },
     {
         name: 'stroke_count',
@@ -171,11 +171,11 @@ const KANJI_FIELDS = [
     {
         name: 'jlpt',
         description: [
-            'The former ',
-            m(Link, { href: 'https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test' }, 'JLPT'),
+            'The ',
+            m(Link, { href: 'https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test#Previous_format_(1984%E2%80%932009)' }, 'former JLPT'),
             ' test level for the kanji',
         ],
-        type: 'number',
+        type: [m('.di.f7', '1..4 '), 'number'],
     },
     {
         name: 'unicode',
