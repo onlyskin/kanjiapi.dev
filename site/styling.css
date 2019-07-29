@@ -5,6 +5,11 @@
   --lightest-ink: #ececec
 }
 
+.vermillion {
+  color: #ff4141;
+  fill: #ff4141;
+}
+
 .bg-dark-ink {
   background-color: var(--dark-ink);
 }

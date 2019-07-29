@@ -7,6 +7,10 @@ const LOADING = 'Loading'
 
 const kanjiapi = Kanjiapi.build(m.redraw)
 
+const Link = {
+    view: ({ children, attrs: { href } }) => m('a.vermillion', { href }, children),
+}
+
 const GithubIcon = {
     view: () => m(
         'svg',
@@ -30,8 +34,7 @@ const Footer = {
     view: () => m(
         '',
         { style: { 'height': '50px' } },
-        m('a.black[href=https://github.com/onlyskin/kanjiapi.dev]', m(GithubIcon),
-        ),
+        m(Link, { href: 'https://github.com/onlyskin/kanjiapi.dev' }, m(GithubIcon)),
     )
 }
 
@@ -48,28 +51,24 @@ const About = {
         m(
             '.self-start.pv2',
             'This is an API that provides JSON endpoints for over 13,000 ',
-            m('a.black[href=https://en.wikipedia.org/wiki/Kanji]', 'Kanji'),
-            ' using data from an extensive Kanji dictionary.'
+            m(Link, { href: 'https://en.wikipedia.org/wiki/Kanji' }, 'kanji'),
+            ' using data from an extensive kanji dictionary.'
         ),
         m(
             '.self-start.pv2',
             'This API uses the EDICT and KANJIDIC dictionary files. ',
             'These files are the property of the ',
-            m(
-                'a.black[href=http://www.edrdg.org/]',
-                'Electronic Dictionary Research and Development Group'
-            ),
+            m(Link, { href: 'http://www.edrdg.org/' },
+                'Electronic Dictionary Research and Development Group'),
             ', and are used in conformance with the Group\'s ',
-            m(
-                'a.black[href=http://www.edrdg.org/edrdg/licence.html]',
-                'licence'
-            ),
+            m(Link, { href: 'http://www.edrdg.org/edrdg/licence.html' },
+                'licence'),
             '.',
         ),
         m(
             '.self-start.pv2',
             'This page is built using ',
-            m('a.black[href=https://mithril.js.org/]', 'mithril.js'),
+            m(Link, { href: 'https://mithril.js.org/' }, 'mithril.js'),
             '.',
         ),
     ]
@@ -97,7 +96,7 @@ const Search = {
 
 const Example = {
     view: ({ attrs: { path, url } }) => m(
-        '.di.i.underline.nowrap',
+        '.di.i.underline.nowrap.vermillion',
         { onclick: () => path(url) },
         url,
     )
@@ -131,9 +130,21 @@ const SearchResult = {
 
 const KANJI_FIELDS = [
     { name: 'kanji', description: 'The kanji itself', type: 'string' },
-    { name: 'grade', description: 'The official grade of the kanji (1-6 for school grade Joyo kanji, 8 for high school Joyo kanji, 9/10 for Jinmeiyo kanji)', type: 'number' },
+    {
+        name: 'grade',
+        description: [
+            'The official grade of the kanji (1-6 for ',
+            m(Link, { href: 'https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanji' }, 'Kyōiku kanji'),
+            ', 8 for the remaining ',
+            m(Link, { href: 'https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji' }, 'Jōyō kanji'),
+            ', 9/10 for ',
+            m(Link, { href: 'https://en.wikipedia.org/wiki/Jinmeiy%C5%8D_kanji' }, 'Jinmeiyō kanji'),
+            ')',
+        ],
+        type: 'number',
+    },
     { name: 'stroke_count', description: 'The number of strokes necessary to write the kanji', type: 'number' },
-    { name: 'meanings', description: 'A list of meanings associated with the kanji', type: 'string[]' },
+    { name: 'meanings', description: 'A list of English meanings associated with the kanji', type: 'string[]' },
     { name: 'kun_readings', description: 'A list of kun readings associated with the kanji', type: 'string[]' },
     { name: 'on_readings', description: 'A list of on readings associated with the kanji', type: 'string[]' },
     { name: 'name_readings', description: 'A list of readings that are only used in names associated with the kanji', type: 'string[]' },
@@ -141,10 +152,7 @@ const KANJI_FIELDS = [
         name: 'jlpt',
         description: [
             'The former ',
-            m(
-                'a.black[href=https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test]',
-                'JLPT',
-            ),
+            m(Link, { href: 'https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test' }, 'JLPT'),
             ' test level for the kanji',
         ],
         type: 'number',
@@ -153,10 +161,7 @@ const KANJI_FIELDS = [
         name: 'unicode',
         description: [
             'The ',
-            m(
-                'a.black[href=https://en.wikipedia.org/wiki/Unicode]',
-                'Unicode'
-            ),
+            m(Link, { href: 'https://en.wikipedia.org/wiki/Unicode' }, 'Unicode'),
             ' codepoint of the kanji',
         ],
         type: 'string',
@@ -200,7 +205,7 @@ const Schema = {
 
 const EndpointDescription = {
     view: ({ attrs: { url, description, fields, type } }) => [
-        m('.mt2', url),
+        m('.mt2.f3', url),
         m('.i.f7.f6-ns', description),
         m('.small-caps', type),
         m(Schema, { fields } ),
@@ -209,17 +214,17 @@ const EndpointDescription = {
 
 const Docs = {
     view: () => [
-        m('.self-center.mv2.tc.underline', m(m.route.Link, { href: '/', class: 'black' }, 'home')),
+        m('.self-center.mv2.tc.underline', m(m.route.Link, { href: '/', class: 'vermillion' }, 'home')),
         m(EndpointDescription, {
             url: 'GET /v1/kanji/{character}',
             type: 'object',
-            description: 'provides general information about the supplied kanji character',
+            description: 'Provides general information about the supplied kanji character',
             fields: KANJI_FIELDS,
         }),
         m(EndpointDescription, {
             url: 'GET /v1/reading/{reading}',
             type: 'object',
-            description: 'provides lists of kanji associated with the supplied reading',
+            description: 'Provides lists of kanji associated with the supplied reading',
             fields: READING_FIELDS,
         }),
         //m(EndpointDescription, {
@@ -236,9 +241,18 @@ function Home() {
 
     return {
         view: () => [
-            m('.self-center.mv2.b.tc', 'A modern JSON API for Kanji'),
-            m('.self-center.mv2.tc.underline', m(m.route.Link, { href: '/documentation', class: 'black' }, 'documentation')),
-            m('.self-center.mv2.tc', 'Check out ', m('a[href=https://kai.kanjiapi.dev].black', 'kanjikai'), ', a webapp powered by kanjiapi.dev'),
+            m('.self-center.mv2.b.tc', 'A modern JSON API for kanji'),
+            m('.self-center.mv2.tc.underline', m(
+                m.route.Link,
+                { href: '/documentation', class: 'vermillion' },
+                'documentation'),
+            ),
+            m(
+                '.self-center.mv2.tc',
+                'Check out ',
+                m(Link, { href: 'https://kai.kanjiapi.dev' }, 'kanjikai'),
+                ', a webapp powered by kanjiapi.dev',
+            ),
             m(Separator),
             m('.mv1.self-start', 'Try it!'),
             m(Search, { path }),
