@@ -143,11 +143,31 @@ const KANJI_FIELDS = [
         ],
         type: 'number',
     },
-    { name: 'stroke_count', description: 'The number of strokes necessary to write the kanji', type: 'number' },
-    { name: 'meanings', description: 'A list of English meanings associated with the kanji', type: 'string[]' },
-    { name: 'kun_readings', description: 'A list of kun readings associated with the kanji', type: 'string[]' },
-    { name: 'on_readings', description: 'A list of on readings associated with the kanji', type: 'string[]' },
-    { name: 'name_readings', description: 'A list of readings that are only used in names associated with the kanji', type: 'string[]' },
+    {
+        name: 'stroke_count',
+        description: 'The number of strokes necessary to write the kanji',
+        type: 'number'
+    },
+    {
+        name: 'meanings',
+        description: 'A list of English meanings associated with the kanji',
+        type: 'string[]'
+    },
+    {
+        name: 'kun_readings',
+        description: 'A list of kun readings associated with the kanji',
+        type: 'string[]'
+    },
+    {
+        name: 'on_readings',
+        description: 'A list of on readings associated with the kanji',
+        type: 'string[]'
+    },
+    {
+        name: 'name_readings',
+        description: 'A list of readings that are only used in names associated with the kanji',
+        type: 'string[]'
+    },
     {
         name: 'jlpt',
         description: [
@@ -169,13 +189,60 @@ const KANJI_FIELDS = [
 ]
 
 const READING_FIELDS = [
-    { name: 'reading', description: 'The reading itself', type: 'string' },
-    { name: 'main_kanji', description: 'A list of kanji that use the associated reading', type: 'string[]' },
-    { name: 'name_kanji', description: 'A list of kanji that use the associated reading exclusively in names', type: 'string[]' },
+    {
+        name: 'reading',
+        description: 'The reading itself',
+        type: 'string'
+    },
+    {
+        name: 'main_kanji',
+        description: 'A list of kanji that use the associated reading',
+        type: 'string[]'
+    },
+    {
+        name: 'name_kanji',
+        description: 'A list of kanji that use the associated reading exclusively in names',
+        type: 'string[]'
+    },
 ]
 
 const WORD_FIELDS = [
-    { name: 'reading', description: 'The reading itself', type: 'string' },
+    {
+        name: 'meanings',
+        description: 'A list of distinct meanings that the entry has',
+        type: 'meaning[]'
+    },
+    {
+        name: 'variants',
+        description: 'A list of written variations for the entry',
+        type: 'variant[]'
+    },
+]
+
+const MEANING_FIELDS = [
+    {
+        name: 'glosses',
+        description: 'A list of English equivalent terms for the particular meaning',
+        type: 'string[]'
+    },
+]
+
+const VARIANT_FIELDS = [
+    {
+        name: 'written',
+        description: 'The written form of the variant',
+        type: 'string'
+    },
+    {
+        name: 'pronounced',
+        description: 'The pronounced form of the variant (in kana)',
+        type: 'string'
+    },
+    {
+        name: 'priorities',
+        description: 'A list of strings designating frequency lists in which the variant appears',
+        type: 'string[]'
+    },
 ]
 
 const SchemaRow = {
@@ -204,35 +271,51 @@ const Schema = {
 }
 
 const EndpointDescription = {
-    view: ({ attrs: { url, description, fields, type } }) => [
-        m('.mt2.f3', url),
+    view: ({ children, attrs: { url, description, fields, type } }) => [
+        m('.f3', url),
         m('.i.f7.f6-ns', description),
         m('.small-caps', type),
-        m(Schema, { fields } ),
+        children,
     ],
 }
 
 const Docs = {
     view: () => [
         m('.self-center.mv2.tc.underline', m(m.route.Link, { href: '/', class: 'vermillion' }, 'home')),
-        m(EndpointDescription, {
-            url: 'GET /v1/kanji/{character}',
-            type: 'object',
-            description: 'Provides general information about the supplied kanji character',
-            fields: KANJI_FIELDS,
-        }),
-        m(EndpointDescription, {
-            url: 'GET /v1/reading/{reading}',
-            type: 'object',
-            description: 'Provides lists of kanji associated with the supplied reading',
-            fields: READING_FIELDS,
-        }),
-        //m(EndpointDescription, {
-        //    url: 'GET /v1/words/{character}',
-        //    type: 'object[]',
-        //    description: 'Provides a list of words associated with the supplied kanji character',
-        //    fields: WORD_FIELDS,
-        //}),
+        m(
+            EndpointDescription,
+            {
+                url: 'GET /v1/kanji/{character}',
+                type: 'kanji',
+                description: 'Provides general information about the supplied kanji character',
+            },
+            m(Schema, { fields: KANJI_FIELDS }),
+        ),
+        m(Separator),
+        m(
+            EndpointDescription,
+            {
+                url: 'GET /v1/reading/{reading}',
+                type: 'reading',
+                description: 'Provides lists of kanji associated with the supplied reading',
+            },
+            m(Schema, { fields: READING_FIELDS }),
+        ),
+        m(Separator),
+        m(
+            EndpointDescription,
+            {
+                url: 'GET /v1/words/{character}',
+                type: 'word[]',
+                description: 'Provides a list of dictionary entries associated with the supplied kanji character',
+            },
+            m('.small-caps.mt3', 'word'),
+            m(Schema, { fields: WORD_FIELDS }),
+            m('.small-caps', 'meaning'),
+            m(Schema, { fields: MEANING_FIELDS }),
+            m('.small-caps', 'variant'),
+            m(Schema, { fields: VARIANT_FIELDS }),
+        ),
     ]
 }
 
