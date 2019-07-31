@@ -2,7 +2,8 @@ const m = require('mithril')
 const stream = require('mithril/stream')
 const { Kanjiapi } = require('kanjiapi-wrapper')
 
-const kanjiapi = Kanjiapi.build(m.redraw)
+const kanjiapi = Kanjiapi.build()
+kanjiapi.addListener('app', m.redraw)
 
 const Link = {
     view: ({ children, attrs: { href } }) => m('a.vermillion', { href }, children),
@@ -116,12 +117,12 @@ const Examples = {
 }
 
 const SearchResult = {
-    view: ({ attrs: { url } }) => m(
+    view: ({ attrs: { result } }) => m(
         '.self-stretch.f7.f6-ns.pa1.pa2-ns.mv1.ba.b--black-10.border-box.shadow-4.code.pre.pre-wrap',
-        kanjiapi.getUrl(`/${url}`).status === Kanjiapi.SUCCESS ?
-        JSON.stringify(kanjiapi.getUrl(`/${url}`).value, null, 2) :
-        kanjiapi.getUrl(`/${url}`).status === Kanjiapi.LOADING ? 'Loading' :
-        kanjiapi.getUrl(`/${url}`).status === Kanjiapi.ERROR ? 'Not Found' : 'Error',
+        result.status === Kanjiapi.SUCCESS ?
+            JSON.stringify(result.value, null, 2) :
+            result.status === Kanjiapi.LOADING ? 'Loading' :
+            result.status === Kanjiapi.ERROR ? 'Not Found' : 'Error',
     ),
 }
 
@@ -320,7 +321,7 @@ function Home() {
     let path = stream('kanji/蛍')
 
     return {
-        view: () => [
+        view: ({ attrs: { kanjiapi } }) => [
             m('.self-center.mv2.f4.f3-ns.tc', 'A modern JSON API for kanji'),
             m('.self-center.mv2.tc.underline', m(
                 m.route.Link,
@@ -328,17 +329,24 @@ function Home() {
                 'documentation'),
             ),
             m(
+                '.self-center.mv2.tc.underline',
+                m(
+                    Link,
+                    { href: 'https://github.com/onlyskin/kanjiapi-wrapper' },
+                    'official wrapper library',
+                ),
+            ),
+            m(
                 '.self-center.mv2.tc',
-                'Check out ',
                 m(Link, { href: 'https://kai.kanjiapi.dev' }, 'kanjikai'),
-                ', a webapp powered by kanjiapi.dev',
+                ': a webapp powered by kanjiapi.dev',
             ),
             m(Separator),
             m('.mv1.self-start', 'Try it!'),
             m(Search, { path }),
             m(Examples, { path }),
             m('.mv1.self-start', 'Resource:'),
-            m(SearchResult, { url: path() }),
+            m(SearchResult, { result: kanjiapi.getUrl(`/${path()}`) }),
             m(Separator),
             m(About),
         ],
@@ -357,6 +365,6 @@ const Page = {
 }
 
 m.route(document.body, '/', {
-    '/': { render: () => m(Page, m(Home)) },
+    '/': { render: () => m(Page, m(Home, { kanjiapi })) },
     '/documentation': { render: () => m(Page, m(Docs)) },
 })

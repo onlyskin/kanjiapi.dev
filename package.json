@@ -6,7 +6,7 @@
   "author": "Sam Szreter <s.szreter@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "kanjiapi-wrapper": "^1.0.6",
+    "kanjiapi-wrapper": "^1.1.1",
     "mithril": "^2.0.3"
   },
   "devDependencies": {
