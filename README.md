@@ -225,7 +225,7 @@ The API version for deployment is hardcoded in `api_data.py` and the `makefile`.
 
 After building, to sync the built assets to the website bucket run:
 
-`gsutil -m rsync -c -d out/site gs://kanjiapi-static` (syncs the built site dir (`out/site`) up with the root of the bucket, but non-recursively)
+`gsutil -m rsync -c -d out/site gs://kanjiapi.dev` (syncs the built site dir (`out/site`) up with the root of the bucket, but non-recursively)
 
 `gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1 gs://kanjiapi-static/v1` (syncs the built api dir (`out/{version}`) up with the dir `/{version}` in the bucket recursively based on file hashes)
 
@@ -240,4 +240,4 @@ the process of getting a new certificate (requires certbot - `brew install certb
 
 #### Setting CORS policy:
 
-The CORS policy is stored in `cors.json`, it can be updated by editing this file and running `gsutil cors set cors.json gs://kanjiapi-static`
+The CORS policy is stored in `cors.json`, it can be updated by editing this file and running `gsutil cors set cors.json gs://kanjiapi.dev`
