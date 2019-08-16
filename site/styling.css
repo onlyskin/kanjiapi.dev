@@ -2,12 +2,14 @@
   --dark-ink: #1f1f1f;
   --mid-ink: #636363;
   --light-ink: #cccbcb;
-  --lightest-ink: #ececec
+  --lightest-ink: #ececec;
+  --text-vermillion: hsla(0, 100%, 45%, 1);
+  --fill-vermillion: hsla(0, 100%, 63%, 1);
 }
 
 .vermillion {
-  color: #ff4141;
-  fill: #ff4141;
+  color: var(--text-vermillion);
+  fill: var(--fill-vermillion);
 }
 
 .bg-dark-ink {
