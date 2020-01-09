@@ -37,7 +37,8 @@ def test_kanji_data_xml():
     "つぐ"
   ],
   "jlpt": 1,
-  "unicode": "4e9c"
+  "unicode": "4e9c",
+  "heisig_en": "Asia"
 }'''
 
 

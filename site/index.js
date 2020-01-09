@@ -13,6 +13,7 @@ const KANJI_URL = 'https://en.wikipedia.org/wiki/Kanji'
 const MITHRIL_URL = 'https://mithril.js.org/'
 const JLPT_URL = 'https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test#Previous_format_(1984%E2%80%932009)'
 const UNICODE_URL = 'https://en.wikipedia.org/wiki/Unicode'
+const HEISIG_URL = 'https://en.wikipedia.org/wiki/Remembering_the_Kanji_and_Remembering_the_Hanzi'
 const KANJIAPI_WRAPPER_URL = 'https://github.com/onlyskin/kanjiapi-wrapper'
 const KANJIKAI_URL = 'https://kai.kanjiapi.dev'
 const EDRDG_URL = 'http://www.edrdg.org/'
@@ -169,7 +170,7 @@ const KANJI_FIELDS = [
             m(Link, { href: JINMEIIYO_URL }, 'Jinmeiyō kanji'),
             ')',
         ],
-        type: [ m('.di.f7', '1..6 | 8..10 '), 'number' ],
+        type: [ m('.di.f7', '1..6 | 8..10 | '), 'null' ],
     },
     {
         name: 'stroke_count',
@@ -180,6 +181,15 @@ const KANJI_FIELDS = [
         name: 'meanings',
         description: 'A list of English meanings associated with the kanji',
         type: 'string[]'
+    },
+    {
+        name: 'heisig_en',
+        description: [
+          'The ',
+          m(Link, { href: HEISIG_URL }, 'Heisig'),
+          ' keyword associated with the kanji for English',
+        ],
+        type: [ 'string ', m('.di.f7', '|'), ' null' ],
     },
     {
         name: 'kun_readings',
@@ -203,7 +213,7 @@ const KANJI_FIELDS = [
             m(Link, { href: JLPT_URL }, 'former JLPT'),
             ' test level for the kanji',
         ],
-        type: [ m('.di.f7', '1..4 '), 'number' ],
+        type: [ m('.di.f7', '1..4 | '), 'null'],
     },
     {
         name: 'unicode',

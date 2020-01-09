@@ -1,6 +1,7 @@
 import ujson
 from collections import defaultdict, OrderedDict
 from lxml import etree
+import csv
 
 from .entry_data import word_dict
 
@@ -51,6 +52,20 @@ def unicode_codepoint(character):
     return CODEPOINT(character)[0].text
 
 
+heisig_keywords = None
+
+def heisig_keyword(character_literal):
+    global heisig_keywords
+
+    if not heisig_keywords:
+        with open('heisig.tsv') as f:
+            heisig_keywords = { character: keyword
+                              for character, keyword
+                              in csv.reader(f, delimiter='\t') }
+
+    return heisig_keywords.get(character_literal)
+
+
 def jlpt(character):
     try:
         return int(JLPT(character)[0].text)
@@ -63,8 +78,10 @@ def literal(character):
 
 
 def kanji_data(character):
+    character_literal = literal(character)
+
     return OrderedDict([
-        ('kanji', literal(character)),
+        ('kanji', character_literal),
         ('grade', grade(character)),
         ('stroke_count', stroke_count(character)),
         ('meanings', meanings(character)),
@@ -73,6 +90,7 @@ def kanji_data(character):
         ('name_readings', nanori(character)),
         ('jlpt', jlpt(character)),
         ('unicode', unicode_codepoint(character)),
+        ('heisig_en', heisig_keyword(character_literal)),
         ])
 
 
