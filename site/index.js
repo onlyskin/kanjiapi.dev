@@ -157,17 +157,44 @@ const SearchResult = {
     ),
 }
 
+const JINMEIYO_LINK = {
+    view: () => m(Link, { href: JINMEIIYO_URL }, 'Jinmeiyō kanji'),
+}
+
+const JOYO_LINK = {
+    view: () => m(Link, { href: JOYO_URL }, 'Jōyō kanji'),
+}
+
+const KYOIKU_LINK = {
+    view: () => m(Link, { href: KYOIKU_URL }, 'Kyōiku kanji'),
+}
+
+const KANJI_LISTS = [
+    { endpoint: '/v1/kanji/joyo', description: ['List of ', m(JOYO_LINK)]},
+    { endpoint: '/v1/kanji/jouyou', description: ['List of ', m(JOYO_LINK)]},
+    { endpoint: '/v1/kanji/jinmeiyo', description: ['List of ', m(JINMEIYO_LINK)]},
+    { endpoint: '/v1/kanji/jinmeiyou', description: ['List of ', m(JINMEIYO_LINK)]},
+    { endpoint: '/v1/kanji/grade-1', description: ['List of Grade 1 ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/grade-2', description: ['List of Grade 2 ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/grade-3', description: ['List of Grade 3 ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/grade-4', description: ['List of Grade 4 ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/grade-5', description: ['List of Grade 5 ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/grade-6', description: ['List of Grade 6 ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/grade-8', description: ['List of remaining ', m(JOYO_LINK), ' which are not ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/all', description: ['List of all 13,000+ available kanji (most use cases will only need ', m(JOYO_LINK), ' and ', m(JINMEIYO_LINK), ')'] },
+]
+
 const KANJI_FIELDS = [
     { name: 'kanji', description: 'The kanji itself', type: 'string' },
     {
         name: 'grade',
         description: [
             'The official grade of the kanji (1-6 for ',
-            m(Link, { href: KYOIKU_URL }, 'Kyōiku kanji'),
+            m(KYOIKU_LINK),
             ', 8 for the remaining ',
-            m(Link, { href: JOYO_URL }, 'Jōyō kanji'),
+            m(JOYO_LINK),
             ', 9/10 for ',
-            m(Link, { href: JINMEIIYO_URL }, 'Jinmeiyō kanji'),
+            m(JINMEIYO_LINK),
             ')',
         ],
         type: [ m('.di.f7', '1..6 | 8..10 | '), 'null' ],
@@ -283,6 +310,14 @@ const VARIANT_FIELDS = [
     },
 ]
 
+const KanjiListRow = {
+    view: ({ attrs: { endpoint, description } }) => m(
+        '.cf.pv2.pv0-ns.bb.b--silver',
+        m('.fl.w-50.w-third-ns.pa1.code', `${endpoint}`),
+        m('.f7.f6-ns.fl.w-50.w-two-thirds-ns.pa1.i', description),
+    ),
+}
+
 const SchemaRow = {
     view: ({ attrs: { field, isLast } }) => m(
         '.cf.pv2.pv0-ns.bb.b--silver',
@@ -319,6 +354,18 @@ const Docs = {
         m(
             '.self-center.mv2.tc.underline',
             m(InternalLink, { href: '/' }, 'home'),
+        ),
+        m(
+            EndpointDescription,
+            {
+                url: 'GET /v1/kanji/{list}',
+                type: 'string[]',
+                description: 'Provides lists of kanji by category',
+            },
+            m(
+                '.pa1.pa3-ns.mv2.ba.b--black-10.shadow-4',
+                KANJI_LISTS.map(kanji_list => m(KanjiListRow, kanji_list)),
+            ),
         ),
         m(
             EndpointDescription,
