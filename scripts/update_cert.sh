@@ -23,6 +23,4 @@ gcloud --project=onlyskin-dev compute ssl-certificates create kanjiapi-dev-ssl-c
     --certificate=/tmp/certbot/config/live/kanjiapi.dev/fullchain.pem \
     --private-key=/tmp/certbot/config/live/kanjiapi.dev/privkey.pem
 
-gcloud --project=onlyskin-dev compute target-https-proxies update onlyskin-dev-load-balancer-target-proxy-2 --ssl-certificates kanjiapi-dev-ssl-certificate-$DATE
-# You probably want to set both certificates for onlyskin.dev and kanjiapi.dev
-#--ssl-certificates onlyskin-dev-ssl-certificate-$DATE,kanjiapi-dev-ssl-certificate-$DATE
+# run this file, then run the one in ../onlskin.dev/scripts/update_cert.sh which actually sets the certificates on gcloud
