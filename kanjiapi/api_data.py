@@ -122,9 +122,10 @@ def dump_json(filename, obj):
 
 def main():
     VERSION_PATH = 'v1'
-    KANJI_DIR = 'out/' + VERSION_PATH + '/kanji/'
-    WORD_DIR = 'out/' + VERSION_PATH + '/words/'
-    READING_DIR = 'out/' + VERSION_PATH + '/reading/'
+    OUT_PATH = f'out/{VERSION_PATH}'
+    KANJI_DIR = f'{OUT_PATH}/kanji/'
+    WORD_DIR = f'{OUT_PATH}/words/'
+    READING_DIR = f'{OUT_PATH}/reading/'
     JOUYOU_GRADES = [1, 2, 3, 4, 5, 6, 8]
     JINMEIYOU_GRADES = [9, 10]
 
