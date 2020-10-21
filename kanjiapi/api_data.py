@@ -161,7 +161,7 @@ def main():
         dump_json(KANJI_DIR + kanji['kanji'], kanji)
         try:
             entries = kanji_to_entries[kanji['kanji']]
-            dump_json(WORD_DIR + kanji['kanji'], entries)
+            dump_json(WORD_DIR + kanji['kanji'], tuple(entries))
         except KeyError:
             continue
 
