@@ -1,7 +1,9 @@
+import os
 import ujson
 from collections import defaultdict, OrderedDict
 from lxml import etree
 import csv
+from zipfile import ZipFile, ZIP_DEFLATED
 
 from .entry_data import word_dict
 
@@ -122,6 +124,7 @@ def dump_json(filename, obj):
 
 def main():
     VERSION_PATH = 'v1'
+    SITE_PATH = f'out/site'
     OUT_PATH = f'out/{VERSION_PATH}'
     KANJI_DIR = f'{OUT_PATH}/kanji/'
     WORD_DIR = f'{OUT_PATH}/words/'
@@ -157,11 +160,13 @@ def main():
             if kanji['grade'] in JINMEIYOU_GRADES
             ]
 
+    words = []
     for kanji in kanjis:
         dump_json(KANJI_DIR + kanji['kanji'], kanji)
         try:
-            entries = kanji_to_entries[kanji['kanji']]
-            dump_json(WORD_DIR + kanji['kanji'], tuple(entries))
+            entries = tuple(kanji_to_entries[kanji['kanji']])
+            words.append(entries)
+            dump_json(WORD_DIR + kanji['kanji'], entries)
         except KeyError:
             continue
 
@@ -173,6 +178,18 @@ def main():
     dump_json(KANJI_DIR + 'joyo', jouyou_kanji)
     dump_json(KANJI_DIR + 'jinmeiyou', jinmeiyou_kanji)
     dump_json(KANJI_DIR + 'jinmeiyo', jinmeiyou_kanji)
+
+    with ZipFile(f'{SITE_PATH}/kanjiapi_full.zip', 'w', compression=ZIP_DEFLATED) as archive:
+        api_data_download = {
+            'kanjis': kanjis,
+            'readings': readings,
+            'words': words,
+        }
+        json_filename = f'{SITE_PATH}/kanjiapi_full.json'
+
+        dump_json(json_filename, api_data_download)
+        archive.write(json_filename, arcname='kanjiapi_full.json')
+        os.remove(json_filename)
 
     for grade_numeral in JOUYOU_GRADES:
         grade_kanji = [

@@ -99,6 +99,18 @@ const About = {
             m(Link, { href: MITHRIL_URL }, 'mithril.js'),
             '.',
         ),
+        m('.f4.f3-ns.tc.mv2.nowrap', 'Projects that use kanjiapi.dev'),
+        m(
+            '.self-start.pv2',
+            m(Link, { href: KANJIKAI_URL }, 'kanjikai'),
+            ': a rabbit hole kanji dictionary in which every character and every reading is clickable'
+        ),
+        m(
+            '.self-start.pv2',
+            'Raise a ',
+            m(Link, { href: GITHUB_URL }, 'PR'),
+            ' to add your project here!'
+        )
     ],
 }
 
@@ -422,11 +434,11 @@ function Home() {
                     'official wrapper library',
                 ),
             ),
-            m(
-                '.self-center.mv2.tc',
-                m(Link, { href: KANJIKAI_URL }, 'kanjikai'),
-                ': a webapp powered by kanjiapi.dev',
-            ),
+            m('.self-center.mv2.tc.underline', m(
+                Link,
+                { href: 'kanjiapi_full.zip' },
+                'API data download',
+            )),
             m(Separator),
             m('.mv1.self-start', 'Try it!'),
             m(Search, { path }),
