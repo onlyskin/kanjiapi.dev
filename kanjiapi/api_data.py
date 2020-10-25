@@ -160,13 +160,13 @@ def main():
             if kanji['grade'] in JINMEIYOU_GRADES
             ]
 
-    words = []
+    words = {}
     for kanji in kanjis:
         dump_json(KANJI_DIR + kanji['kanji'], kanji)
         try:
             entries = tuple(kanji_to_entries[kanji['kanji']])
-            words.append(entries)
             dump_json(WORD_DIR + kanji['kanji'], entries)
+            words[kanji['kanji']] = entries
         except KeyError:
             continue
 
@@ -181,8 +181,8 @@ def main():
 
     with ZipFile(f'{SITE_PATH}/kanjiapi_full.zip', 'w', compression=ZIP_DEFLATED) as archive:
         api_data_download = {
-            'kanjis': kanjis,
-            'readings': readings,
+            'kanjis': {kanji['kanji']: kanji for kanji in kanjis},
+            'readings': {reading['reading']: reading for reading in readings},
             'words': words,
         }
         json_filename = f'{SITE_PATH}/kanjiapi_full.json'
