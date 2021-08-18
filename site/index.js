@@ -17,6 +17,7 @@ const HEISIG_URL = 'https://en.wikipedia.org/wiki/Remembering_the_Kanji_and_Reme
 const KANJIAPI_WRAPPER_URL = 'https://github.com/onlyskin/kanjiapi-wrapper'
 const KANJIKAI_URL = 'https://kai.kanjiapi.dev'
 const ONKUN_URL = 'https://www.onkun.org/'
+const KANJIDOJO_URL = 'https://kanji-dojo.vercel.app/'
 const EDRDG_URL = 'http://www.edrdg.org/'
 const EDRDG_LICENCE_URL = 'http://www.edrdg.org/edrdg/licence.html'
 const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
@@ -110,6 +111,11 @@ const About = {
             '.self-start.pv2',
             m(Link, { href: ONKUN_URL }, 'onkun'),
             ': the simple kanji dictionary'
+        ),
+        m(
+            '.self-start.pv2',
+            m(Link, { href: KANJIDOJO_URL}, 'kanji dojo'),
+            ': a place to learn new kanji vocabulary'
         ),
         m(
             '.self-start.pv2',
