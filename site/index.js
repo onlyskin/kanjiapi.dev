@@ -121,7 +121,7 @@ const About = {
         m(
             '.self-start.pv2',
             m(Link, { href: KANJI_FLASH_URL}, 'kanji flash'),
-            ': kanji flashcards by jlpt level and more'
+            ': kanji flashcards by JLPT level and more'
         ),
         m(
             '.self-start.pv2',
