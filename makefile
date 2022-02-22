@@ -10,7 +10,7 @@ TACHYONS := node_modules/tachyons/css/tachyons.min.css
 
 .PHONY: directories all clean
 
-all: $(OUT_DIR)/kanji.stamp $(SITE_DIR)/index.html $(SITE_DIR)/404.html $(SITE_DIR)/v1
+all: $(OUT_DIR)/kanji.stamp $(SITE_DIR)/index.html $(SITE_DIR)/404.json $(SITE_DIR)/v1
 
 directories: $(OUT_DIR) $(SITE_DIR) $(API_DIR) $(KANJI_DIR) $(WORDS_DIR) $(READING_DIR)
 
@@ -51,7 +51,7 @@ $(SITE_DIR)/favicon.png: | directories
 $(SITE_DIR)/index.js: $(SITE_SRC_DIR)/index.js | directories
 	$(BROWSERIFY) $^ -o $@
 
-$(SITE_DIR)/404.html: $(SITE_SRC_DIR)/404.html | $(SITE_DIR)/styling.css directories
+$(SITE_DIR)/404.json: $(SITE_SRC_DIR)/404.json | directories
 	cp $^ $@
 
 $(SITE_DIR)/styling.css: $(SITE_SRC_DIR)/styling.css | directories
