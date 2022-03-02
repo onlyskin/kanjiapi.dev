@@ -133,7 +133,10 @@ def main():
     JINMEIYOU_GRADES = [9, 10]
 
     kanjidic_root = etree.parse('kanjidic2.xml')
+    jmdict_entries = etree.parse('JMDict').xpath('//entry')
+
     characters = kanjidic_root.xpath('./character')
+    kanji_to_entries = word_dict(jmdict_entries)
 
     kanjis = [
             kanji_data(character)
@@ -141,24 +144,9 @@ def main():
             if not CJK_compatibility(character)
             ]
 
-    jmdict_entries = etree.parse('JMDict').xpath('//entry')
-    kanji_to_entries = word_dict(jmdict_entries)
-
     readings = reading_data(kanjis)
 
     all_kanji = [kanji['kanji'] for kanji in kanjis]
-
-    jouyou_kanji = [
-            kanji['kanji']
-            for kanji in kanjis
-            if kanji['grade'] in JOUYOU_GRADES
-            ]
-
-    jinmeiyou_kanji = [
-            kanji['kanji']
-            for kanji in kanjis
-            if kanji['grade'] in JINMEIYOU_GRADES
-            ]
 
     words = {}
     for kanji in kanjis:
@@ -172,6 +160,18 @@ def main():
 
     for reading in readings:
         dump_json(READING_DIR + reading['reading'], reading)
+
+    jouyou_kanji = [
+            kanji['kanji']
+            for kanji in kanjis
+            if kanji['grade'] in JOUYOU_GRADES
+            ]
+
+    jinmeiyou_kanji = [
+            kanji['kanji']
+            for kanji in kanjis
+            if kanji['grade'] in JINMEIYOU_GRADES
+            ]
 
     dump_json(KANJI_DIR + 'all', all_kanji)
     dump_json(KANJI_DIR + 'jouyou', jouyou_kanji)
