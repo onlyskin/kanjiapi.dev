@@ -68,15 +68,15 @@ const Footer = {
 
 const Header = {
     view: () => m(
-        '.border-box.pa2.pa3-ns.white.w-100.bg-dark-ink',
-        m('.tc.ma1.f2.f1-ns.rounded', '漢字'),
-        m('.tc.ma1.f2.f1-ns', 'kanjiapi.dev'),
+        '.border-box.pa2.pa3-l.white.w-100.bg-dark-ink',
+        m('.tc.ma1.f2.f1-l.rounded', '漢字'),
+        m('.tc.ma1.f2.f1-l', 'kanjiapi.dev'),
     )
 }
 
 const About = {
     view: () => [
-        m('.f4.f3-ns.tc.mv2.nowrap', 'What is this?'),
+        m('.f4.f3-l.tc.mv2.nowrap', 'What is this?'),
         m(
             '.self-start.pv2',
             'This is an API that provides JSON endpoints for over 13,000 ',
@@ -102,7 +102,7 @@ const About = {
             m(Link, { href: MITHRIL_URL }, 'mithril.js'),
             '.',
         ),
-        m('.f4.f3-ns.tc.mv2.nowrap', 'Projects that use kanjiapi.dev'),
+        m('.f4.f3-l.tc.mv2.nowrap', 'Projects that use kanjiapi.dev'),
         m(
             '.self-start.pv2',
             m(Link, { href: KANJIKAI_URL }, 'kanjikai'),
@@ -160,7 +160,7 @@ const Example = {
 
 const Examples = {
     view: ({ attrs: { path } }) => m(
-        '.f7.f6-ns.self-start.mt0.mb1',
+        '.f7.f6-l.self-start.mt0.mb1',
         'Hint: try ',
         m(Example, { path, url: 'kanji/蜜' }),
         ', ',
@@ -176,7 +176,7 @@ const SearchResult = {
     view: ({ attrs: { result } }) => m(
         '',
         {
-            class: [ 'self-stretch', 'f7', 'f6-ns', 'pa1', 'pa2-ns', 'mv1',
+            class: [ 'self-stretch', 'f7', 'f6-l', 'pa1', 'pa2-l', 'mv1',
                 'ba', 'b--black-10', 'border-box', 'shadow-4', 'code', 'pre',
                 'pre-wrap' ].join(' '),
         },
@@ -342,26 +342,26 @@ const VARIANT_FIELDS = [
 
 const KanjiListRow = {
     view: ({ attrs: { endpoint, description } }) => m(
-        '.cf.pv2.pv0-ns.bb.b--silver',
-        m('.fl.w-50.w-third-ns.pa1.code', `${endpoint}`),
-        m('.f7.f6-ns.fl.w-50.w-two-thirds-ns.pa1.i', description),
+        '.cf.pv2.pv0-l.bb.b--silver',
+        m('.fl.w-100.w-third-l.pa1.code', `${endpoint}`),
+        m('.f7.f6-l.fl.w-100.w-two-thirds-l.pa1.i', description),
     ),
 }
 
 const SchemaRow = {
     view: ({ attrs: { field, isLast } }) => m(
-        '.cf.pv2.pv0-ns.bb.b--silver',
-        m('.fl.w-50.w-third-ns.pa1.code', `"${field.name}":`),
-        m('.fl.w-50.w-third-ns.pa1.code.small-caps.tr.tl-ns', field.type),
-        m('.f7.f6-ns.fl.w-100.w-third-ns.pa1.i', field.description),
+        '.cf.pv2.pv0-l.bb.b--silver',
+        m('.fl.w-50.w-third-l.pa1.code', `"${field.name}":`),
+        m('.fl.w-50.w-third-l.pa1.code.small-caps.tr.tl-l', field.type),
+        m('.f7.f6-l.fl.w-100.w-third-l.pa1.i', field.description),
     ),
 }
 
 const Schema = {
     view: ({ attrs: { fields } }) => m(
-        '.pa1.pa3-ns.mv2.ba.b--black-10.shadow-4',
+        '.pa1.pa3-l.mv2.ba.b--black-10.shadow-4',
         [ 'field', 'type', 'description' ].map(heading => m(
-            '.fl.w-100.w-third-ns.f4.f3-ns.dn.db-ns.ph1.bb.b--silver',
+            '.fl.w-100.w-third-l.f4.f3-l.dn.db-l.ph1.bb.b--silver',
             heading,
         )),
         fields.map((field, i) => m(
@@ -372,8 +372,8 @@ const Schema = {
 
 const EndpointDescription = {
     view: ({ children, attrs: { url, description, fields, type } }) => [
-        m('.f4.f3-ns', url),
-        m('.i.f7.f6-ns', description),
+        m('.f4.f3-l', url),
+        m('.i.f7.f6-l', description),
         m('.small-caps', type),
         children,
     ],
@@ -393,7 +393,7 @@ const Docs = {
                 description: 'Provides lists of kanji by category',
             },
             m(
-                '.pa1.pa3-ns.mv2.ba.b--black-10.shadow-4',
+                '.pa1.pa3-l.mv2.ba.b--black-10.shadow-4',
                 KANJI_LISTS.map(kanji_list => m(KanjiListRow, kanji_list)),
             ),
         ),
@@ -439,7 +439,7 @@ function Home() {
 
     return {
         view: ({ attrs: { kanjiapi } }) => [
-            m('.self-center.mv2.f4.f3-ns.tc', 'A modern JSON API for kanji'),
+            m('.self-center.mv2.f4.f3-l.tc', 'A modern JSON API for kanji'),
             m(
                 '.self-center.mv2.tc.underline',
                 m(InternalLink, { href: '/documentation' }, 'documentation'),
