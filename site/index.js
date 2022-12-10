@@ -372,7 +372,7 @@ const Schema = {
 
 const EndpointDescription = {
     view: ({ children, attrs: { url, description, fields, type } }) => [
-        m('.f4.f3-l', url),
+        m('.f4.f3-l.code', url),
         m('.i.f7.f6-l', description),
         m('.small-caps', type),
         children,
@@ -397,6 +397,7 @@ const Docs = {
                 KANJI_LISTS.map(kanji_list => m(KanjiListRow, kanji_list)),
             ),
         ),
+        m(Separator),
         m(
             EndpointDescription,
             {
