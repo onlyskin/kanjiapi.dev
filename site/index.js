@@ -199,7 +199,7 @@ const KYOIKU_LINK = {
     view: () => m(Link, { href: KYOIKU_URL }, 'Kyōiku kanji'),
 }
 
-const KANJI_LISTS = [
+const KANJI_LIST_ENDPOINTS = [
     { endpoint: '/v1/kanji/joyo', description: ['List of ', m(JOYO_LINK)]},
     { endpoint: '/v1/kanji/jouyou', description: ['List of ', m(JOYO_LINK)]},
     { endpoint: '/v1/kanji/jinmeiyo', description: ['List of ', m(JINMEIYO_LINK)]},
@@ -340,17 +340,17 @@ const VARIANT_FIELDS = [
     },
 ]
 
-const KanjiListRow = {
-    view: ({ attrs: { endpoint, description } }) => m(
-        '.cf.pv2.pv0-l.bb.b--silver',
-        m('.fl.w-100.w-third-l.pa1.code', `${endpoint}`),
-        m('.f7.f6-l.fl.w-100.w-two-thirds-l.pa1.i', description),
+const KanjiListEndpoint = {
+    view: ({ attrs: { isLast, endpoint } }) => m(
+        `.cf.pv2.pv0-l${isLast ? '.bn' : '.bb'}.b--silver`,
+        m('.fl.w-100.w-third-l.pa1.code', `${endpoint.endpoint}`),
+        m('.f7.f6-l.fl.w-100.w-two-thirds-l.pa1.i', endpoint.description),
     ),
 }
 
 const SchemaRow = {
     view: ({ attrs: { field, isLast } }) => m(
-        '.cf.pv2.pv0-l.bb.b--silver',
+        `.cf.pv2.pv0-l${isLast ? '.bn' : '.bb'}.b--silver`,
         m('.fl.w-50.w-third-l.pa1.code', `"${field.name}":`),
         m('.fl.w-50.w-third-l.pa1.code.small-caps.tr.tl-l', field.type),
         m('.f7.f6-l.fl.w-100.w-third-l.pa1.i', field.description),
@@ -394,7 +394,13 @@ const Docs = {
             },
             m(
                 '.pa1.pa3-l.mv2.ba.b--black-10.shadow-4',
-                KANJI_LISTS.map(kanji_list => m(KanjiListRow, kanji_list)),
+                KANJI_LIST_ENDPOINTS.map((endpoint, i) => m(
+                    KanjiListEndpoint,
+                    {
+                        endpoint,
+                        isLast: (i === KANJI_LIST_ENDPOINTS.length - 1),
+                    },
+                )),
             ),
         ),
         m(Separator),
