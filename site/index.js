@@ -474,7 +474,7 @@ const Page = {
     view: ({ children }) => [
         m(Header),
         m(
-            '.f5.flex.flex-column.items-stretch.flex-auto.pv3.ph2.w-80-m.w-70-l.lh-copy',
+            '.f5.flex.flex-column.items-stretch.flex-auto.pv3.ph2.w-70-l.lh-copy',
             children,
         ),
         m(Footer),
