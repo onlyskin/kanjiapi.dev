@@ -19,9 +19,7 @@ def test_jsonify_simple_entry():
     {
       "written": "愛猫",
       "pronounced": "あいびょう",
-      "priorities": [
-
-      ]
+      "priorities": []
     }
   ],
   "meanings": [
@@ -57,16 +55,12 @@ def test_words_for_entry_with_multiple_kanji_forms():
     {
       "written": "お客さん",
       "pronounced": "おきゃくさん",
-      "priorities": [
-
-      ]
+      "priorities": []
     },
     {
       "written": "御客さん",
       "pronounced": "おきゃくさん",
-      "priorities": [
-
-      ]
+      "priorities": []
     }
   ],
   "meanings": [
@@ -117,9 +111,7 @@ def test_words_for_entry_with_kanji_priority():
     {
       "written": "其所",
       "pronounced": "そこ",
-      "priorities": [
-
-      ]
+      "priorities": []
     }
   ],
   "meanings": [
@@ -161,16 +153,12 @@ def test_words_for_entry_with_two_readings():
     {
       "written": "だぼ鯊",
       "pronounced": "だぼはぜ",
-      "priorities": [
-
-      ]
+      "priorities": []
     },
     {
       "written": "だぼ鯊",
       "pronounced": "ダボハゼ",
-      "priorities": [
-
-      ]
+      "priorities": []
     }
   ],
   "meanings": [
@@ -218,23 +206,17 @@ def test_words_with_restricted_reading():
     {
       "written": "何の位",
       "pronounced": "どのくらい",
-      "priorities": [
-
-      ]
+      "priorities": []
     },
     {
       "written": "何の位",
       "pronounced": "どのぐらい",
-      "priorities": [
-
-      ]
+      "priorities": []
     },
     {
       "written": "何のくらい",
       "pronounced": "どのくらい",
-      "priorities": [
-
-      ]
+      "priorities": []
     }
   ],
   "meanings": [
