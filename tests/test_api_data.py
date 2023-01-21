@@ -63,7 +63,8 @@ def test_handles_kanji_without_grades():
   ],
   "name_readings": [],
   "jlpt": null,
-  "unicode": "5516"
+  "unicode": "5516",
+  "heisig_en": "babble"
 }'''
 
 
@@ -93,7 +94,8 @@ def test_handles_kanji_with_multiple_stroke_counts():
     "おう"
   ],
   "jlpt": null,
-  "unicode": "9022"
+  "unicode": "9022",
+  "heisig_en": "tryst"
 }'''
 
 
@@ -117,7 +119,8 @@ def test_handles_CJK_character():
     "はん"
   ],
   "jlpt": 3,
-  "unicode": "6f22"
+  "unicode": "6f22",
+  "heisig_en": "Sino-"
 }'''
 
 
