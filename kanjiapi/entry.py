@@ -134,5 +134,5 @@ class Entry():
         return [{
             'written': kanji_form.form,
             'pronounced': reading.reading,
-            'priorities': tuple(kanji_form.priorities)
+            'priorities': tuple(sorted(kanji_form.priorities))
             } for kanji_form, reading in combinations]
