@@ -125,7 +125,7 @@ const About = {
             ': kanji flashcards by JLPT level and more'
         ),
         m(
-            'self-start.pv2',
+            '.self-start.pv2',
             m(Link, { href: TENORI_URL }, 'tenori'),
             ': a cross-platform kanji memorization tool based on electron'
         ),
