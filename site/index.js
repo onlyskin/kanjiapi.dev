@@ -22,6 +22,7 @@ const EDRDG_URL = 'http://www.edrdg.org/'
 const EDRDG_LICENCE_URL = 'http://www.edrdg.org/edrdg/licence.html'
 const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
 const KANJI_FLASH_URL = 'https://www.kanjiflash.com'
+const VR_KANJI_CARDS_URL = 'https://playingwcolor.itch.io/vr-kanji-cards'
 
 const Link = {
     view: ({ children, attrs: { href } }) => m(
@@ -122,6 +123,11 @@ const About = {
             '.self-start.pv2',
             m(Link, { href: KANJI_FLASH_URL}, 'kanji flash'),
             ': kanji flashcards by JLPT level and more'
+        ),
+		m(
+            '.self-start.pv2',
+            m(Link, { href: VR_KANJI_CARDS_URL}, 'vr kanji cards'),
+            ': place kanji flashcards in a vr mind palace'
         ),
         m(
             '.self-start.pv2',
