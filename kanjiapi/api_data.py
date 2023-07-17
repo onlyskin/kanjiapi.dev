@@ -2,12 +2,13 @@ import os
 import ujson
 from collections import defaultdict, OrderedDict
 from lxml import etree
-import csv
 from zipfile import ZipFile, ZIP_DEFLATED
 
 
 from .entry_data import word_dict
 from .canonicalise import canonicalise
+from .unihan import joyo_list, jinmeiyo_list
+from .heisig import heisig_keyword
 
 
 NANORI = etree.XPath('./reading_meaning//nanori')
@@ -54,20 +55,6 @@ def stroke_count(character):
 
 def unicode_codepoint(character):
     return CODEPOINT(character)[0].text
-
-
-heisig_keywords = None
-
-def heisig_keyword(character_literal):
-    global heisig_keywords
-
-    if not heisig_keywords:
-        with open('heisig.tsv') as f:
-            heisig_keywords = { character: keyword
-                              for character, keyword
-                              in csv.reader(f, delimiter='\t') }
-
-    return heisig_keywords.get(character_literal)
 
 
 def jlpt(character):
@@ -132,7 +119,6 @@ def main():
     WORD_DIR = f'{OUT_PATH}/words/'
     READING_DIR = f'{OUT_PATH}/reading/'
     JOUYOU_GRADES = [1, 2, 3, 4, 5, 6, 8]
-    JINMEIYOU_GRADES = [9, 10]
 
     kanjidic_root = etree.parse('kanjidic2.xml')
     jmdict_entries = etree.parse('JMDict').xpath('//entry')
@@ -162,17 +148,9 @@ def main():
     for reading in readings:
         dump_json(READING_DIR + reading['reading'], canonicalise(reading))
 
-    jouyou_kanji = [
-            kanji['kanji']
-            for kanji in kanjis
-            if kanji['grade'] in JOUYOU_GRADES
-            ]
+    jouyou_kanji = joyo_list()
 
-    jinmeiyou_kanji = [
-            kanji['kanji']
-            for kanji in kanjis
-            if kanji['grade'] in JINMEIYOU_GRADES
-            ]
+    jinmeiyou_kanji = jinmeiyo_list()
 
     all_kanji = [kanji['kanji'] for kanji in kanjis]
     dump_json(KANJI_DIR + 'all', canonicalise(all_kanji))

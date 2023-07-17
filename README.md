@@ -59,9 +59,15 @@ $ curl https://kanjiapi.dev/v1/kanji/猫
 
 `$ curl https://kanjiapi.dev/v1/kanji/joyo` (also `/jouyou`)
 
+JOYO kanji are general use kanji outlined by the Japanese government. The Unihan Database labels four additional kanji as Joyo kanji, bringing the total to 2140 codepoints. Four of the Joyo kanji are missing in the JIS X 0208 encoding, so a different kanji which is present in JIS X 0208 was historically used. Therefore, in the Unihan Database, both the four official kanji and the four JIS X 0208-compatible kanji are marked as Joyo kanji
+
 #### List of jinmeiyo kanji
 
 `$ curl https://kanjiapi.dev/v1/kanji/jinmeiyo` (also `/jinmeiyou`)
+
+#### List of heisig kanji
+
+`$ curl https://kanjiapi.dev/v1/kanji/heisig`
 
 #### List of kanji of a certain grade
 
@@ -202,6 +208,8 @@ Install node dependencies using `yarn` or `npm install`.
 Save and extract the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) to the root of the project.
 
 Save and extract the jmdict dictionary file `JMdict` from [EDRDG](http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project) to the root of the project.
+
+Save and extract the file Unihan_OtherMappings.txt from Unihan.zip from [Unicode](https://www.unicode.org/versions/components-15.0.0.html) to the root of the project.
 
 Ensure system has `System/Library/Fonts/ヒラギノ丸ゴ\ ProN\ W4.ttc` font
 available (for favicon generation).
