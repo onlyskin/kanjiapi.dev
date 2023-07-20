@@ -124,6 +124,28 @@ def test_handles_CJK_character():
 }'''
 
 
+class TestGrades:
+    def test_kyouiku_grade(self):
+        character = element_for(root, '一')
+        kanji = kanji_data(character)
+        assert kanji['grade'] == 1
+
+    def test_joyo_grade(self):
+        character = element_for(root, '蜜')
+        kanji = kanji_data(character)
+        assert kanji['grade'] == 8
+
+    def test_jinmeiyo_grade(self):
+        character = element_for(root, '與')
+        kanji = kanji_data(character)
+        assert kanji['grade'] == 9
+
+    def test_ungraded(self):
+        character = element_for(root, '蠍')
+        kanji = kanji_data(character)
+        assert kanji['grade'] == None
+
+
 def test_reading_data():
     character = element_for(root, '亜')
     kanjis = [kanji_data(character)]

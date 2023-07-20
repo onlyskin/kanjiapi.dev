@@ -9,13 +9,13 @@ from .entry_data import word_dict
 from .canonicalise import canonicalise
 from .unihan import joyo_list, jinmeiyo_list
 from .heisig import heisig_keyword
+from .grades import grade_to_kanji_list, all_kyoiku, grade_for_char
 
 
 NANORI = etree.XPath('./reading_meaning//nanori')
 ON_READINGS = etree.XPath('./reading_meaning//reading[@r_type="ja_on"]')
 KUN_READINGS = etree.XPath('./reading_meaning//reading[@r_type="ja_kun"]')
 MEANINGS = etree.XPath('./reading_meaning//meaning[not(@m_lang)]')
-GRADE = etree.XPath('./misc/grade')
 STROKE_COUNT = etree.XPath('./misc/stroke_count')
 CODEPOINT = etree.XPath('.//cp_value[@cp_type="ucs"]')
 JLPT = etree.XPath('./misc/jlpt')
@@ -42,13 +42,6 @@ def meanings(character):
     return [meaning.text for meaning in meanings]
 
 
-def grade(character):
-    try:
-        return int(GRADE(character)[0].text)
-    except (AttributeError, IndexError):
-        return None
-
-
 def stroke_count(character):
     return int(STROKE_COUNT(character)[0].text)
 
@@ -68,12 +61,23 @@ def literal(character):
     return LITERAL(character)[0].text
 
 
+def grade(character_literal):
+    if character_literal in all_kyoiku():
+        return grade_for_char(character_literal)
+    elif character_literal in joyo_list():
+        return 8
+    elif character_literal in jinmeiyo_list():
+        return 9
+    else:
+        return None
+
+
 def kanji_data(character):
     character_literal = literal(character)
 
     return OrderedDict([
         ('kanji', character_literal),
-        ('grade', grade(character)),
+        ('grade', grade(character_literal)),
         ('stroke_count', stroke_count(character)),
         ('meanings', meanings(character)),
         ('kun_readings', kun_readings(character)),
@@ -118,7 +122,6 @@ def main():
     KANJI_DIR = f'{OUT_PATH}/kanji/'
     WORD_DIR = f'{OUT_PATH}/words/'
     READING_DIR = f'{OUT_PATH}/reading/'
-    JOUYOU_GRADES = [1, 2, 3, 4, 5, 6, 8]
 
     kanjidic_root = etree.parse('kanjidic2.xml')
     jmdict_entries = etree.parse('JMDict').xpath('//entry')
@@ -148,17 +151,6 @@ def main():
     for reading in readings:
         dump_json(READING_DIR + reading['reading'], canonicalise(reading))
 
-    jouyou_kanji = joyo_list()
-
-    jinmeiyou_kanji = jinmeiyo_list()
-
-    all_kanji = [kanji['kanji'] for kanji in kanjis]
-    dump_json(KANJI_DIR + 'all', canonicalise(all_kanji))
-    dump_json(KANJI_DIR + 'jouyou', canonicalise(jouyou_kanji))
-    dump_json(KANJI_DIR + 'joyo', canonicalise(jouyou_kanji))
-    dump_json(KANJI_DIR + 'jinmeiyou', canonicalise(jinmeiyou_kanji))
-    dump_json(KANJI_DIR + 'jinmeiyo', canonicalise(jinmeiyou_kanji))
-
     with ZipFile(f'{SITE_PATH}/kanjiapi_full.zip', 'w', compression=ZIP_DEFLATED) as archive:
         api_data_download = {
             'kanjis': {kanji['kanji']: kanji for kanji in kanjis},
@@ -171,11 +163,16 @@ def main():
         archive.write(json_filename, arcname='kanjiapi_full.json')
         os.remove(json_filename)
 
-    for grade_numeral in JOUYOU_GRADES:
-        grade_kanji = [
-                kanji['kanji']
-                for kanji in kanjis
-                if kanji['grade'] == grade_numeral
-                ]
+    for grade_numeral, grade_kanji in grade_to_kanji_list().items():
+        dump_json(f'{KANJI_DIR}grade-{grade_numeral}', canonicalise(grade_kanji))
+    high_school_kanji = [k for k in joyo_list() if k not in all_kyoiku()]
+    dump_json(f'{KANJI_DIR}grade-8', canonicalise(high_school_kanji))
+    dump_json(f'{KANJI_DIR}kyouiku', canonicalise(all_kyoiku()))
+    dump_json(f'{KANJI_DIR}kyoiku', canonicalise(all_kyoiku()))
 
-        dump_json(KANJI_DIR + 'grade-' + str(grade_numeral), canonicalise(grade_kanji))
+    all_kanji = [kanji['kanji'] for kanji in kanjis]
+    dump_json(KANJI_DIR + 'all', canonicalise(all_kanji))
+    dump_json(KANJI_DIR + 'jouyou', canonicalise(joyo_list()))
+    dump_json(KANJI_DIR + 'joyo', canonicalise(joyo_list()))
+    dump_json(KANJI_DIR + 'jinmeiyou', canonicalise(jinmeiyo_list()))
+    dump_json(KANJI_DIR + 'jinmeiyo', canonicalise(jinmeiyo_list()))

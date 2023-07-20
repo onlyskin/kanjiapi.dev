@@ -195,6 +195,10 @@ const JOYO_LINK = {
     view: () => m(Link, { href: JOYO_URL }, 'Jōyō kanji'),
 }
 
+const HEISIG_LINK = {
+    view: () => m(Link, { href: HEISIG_URL }, 'Heisig'),
+}
+
 const KYOIKU_LINK = {
     view: () => m(Link, { href: KYOIKU_URL }, 'Kyōiku kanji'),
 }
@@ -204,13 +208,16 @@ const KANJI_LIST_ENDPOINTS = [
     { endpoint: '/v1/kanji/jouyou', description: ['List of ', m(JOYO_LINK)]},
     { endpoint: '/v1/kanji/jinmeiyo', description: ['List of ', m(JINMEIYO_LINK)]},
     { endpoint: '/v1/kanji/jinmeiyou', description: ['List of ', m(JINMEIYO_LINK)]},
+    { endpoint: '/v1/kanji/heisig', description: ['List of kanji which have a ', m(HEISIG_LINK), ' keyword']},
+    { endpoint: '/v1/kanji/kyouiku', description: ['List of all ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/kyoiku', description: ['List of all ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-1', description: ['List of Grade 1 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-2', description: ['List of Grade 2 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-3', description: ['List of Grade 3 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-4', description: ['List of Grade 4 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-5', description: ['List of Grade 5 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-6', description: ['List of Grade 6 ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/grade-8', description: ['List of remaining ', m(JOYO_LINK), ' which are not ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/grade-8', description: ['List of ', m(JOYO_LINK), ' excluding ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/all', description: ['List of all 13,000+ available kanji (most use cases will only need ', m(JOYO_LINK), ' and ', m(JINMEIYO_LINK), ')'] },
 ]
 
@@ -223,11 +230,11 @@ const KANJI_FIELDS = [
             m(KYOIKU_LINK),
             ', 8 for the remaining ',
             m(JOYO_LINK),
-            ', 9/10 for ',
+            ', 9 for ',
             m(JINMEIYO_LINK),
             ')',
         ],
-        type: [ m('.di.f7', '1..6 | 8..10 | '), 'null' ],
+        type: [ m('.di.f7', '1..6 | 8 | 9 | '), 'null' ],
     },
     {
         name: 'stroke_count',
