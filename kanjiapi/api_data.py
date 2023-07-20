@@ -106,8 +106,8 @@ def reading_data(kanjis):
         ]) for reading, data in readings.items()]
 
 
-def CJK_compatibility(character):
-    return u'\uF900' <= literal(character) <= u'\uFAFF'
+def CJK_compatibility(kanji):
+    return u'\uF900' <= kanji <= u'\uFAFF'
 
 
 def dump_json(filename, obj):
@@ -120,7 +120,9 @@ def main():
     SITE_PATH = f'out/site'
     OUT_PATH = f'out/{VERSION_PATH}'
     KANJI_DIR = f'{OUT_PATH}/kanji/'
+    CJK_KANJI_DIR = f'{OUT_PATH}/kanji_cjk/'
     WORD_DIR = f'{OUT_PATH}/words/'
+    CJK_WORD_DIR = f'{OUT_PATH}/words_cjk/'
     READING_DIR = f'{OUT_PATH}/reading/'
 
     kanjidic_root = etree.parse('kanjidic2.xml')
@@ -129,21 +131,23 @@ def main():
     characters = kanjidic_root.xpath('./character')
     kanji_to_entries = word_dict(jmdict_entries)
 
-    kanjis = [
-            kanji_data(character)
-            for character in characters
-            if not CJK_compatibility(character)
-            ]
+    kanjis = [kanji_data(character) for character in characters]
 
     readings = reading_data(kanjis)
 
     words = {}
     for kanji in kanjis:
-        dump_json(KANJI_DIR + kanji['kanji'], canonicalise(kanji))
+        if CJK_compatibility(kanji['kanji']):
+            dump_json(CJK_KANJI_DIR + kanji['kanji'], canonicalise(kanji))
+        else:
+            dump_json(KANJI_DIR + kanji['kanji'], canonicalise(kanji))
         try:
             entries = kanji_to_entries[kanji['kanji']]
             entry_words = tuple(canonicalise([entry.words() for entry in entries]))
-            dump_json(WORD_DIR + kanji['kanji'], entry_words)
+            if CJK_compatibility(kanji['kanji']):
+                dump_json(CJK_WORD_DIR + kanji['kanji'], entry_words)
+            else:
+                dump_json(WORD_DIR + kanji['kanji'], entry_words)
             words[kanji['kanji']] = entry_words
         except KeyError:
             continue

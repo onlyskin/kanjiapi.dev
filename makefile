@@ -3,7 +3,9 @@ SITE_SRC_DIR := site
 SITE_DIR := $(OUT_DIR)/site
 API_DIR := $(OUT_DIR)/v1
 KANJI_DIR := $(API_DIR)/kanji
+CJK_KANJI_DIR := $(API_DIR)/kanji_cjk
 WORDS_DIR := $(API_DIR)/words
+CJK_WORDS_DIR := $(API_DIR)/words_cjk
 READING_DIR := $(API_DIR)/reading
 BROWSERIFY := node_modules/browserify/bin/cmd.js
 TACHYONS := node_modules/tachyons/css/tachyons.min.css
@@ -12,7 +14,7 @@ TACHYONS := node_modules/tachyons/css/tachyons.min.css
 
 all: $(OUT_DIR)/kanji.stamp $(SITE_DIR)/index.html $(SITE_DIR)/404.json $(SITE_DIR)/v1
 
-directories: $(OUT_DIR) $(SITE_DIR) $(API_DIR) $(KANJI_DIR) $(WORDS_DIR) $(READING_DIR)
+directories: $(OUT_DIR) $(SITE_DIR) $(API_DIR) $(KANJI_DIR) $(CJK_KANJI_DIR) $(WORDS_DIR) $(CJK_WORDS_DIR) $(READING_DIR)
 
 $(OUT_DIR):
 	mkdir -p $@
@@ -26,7 +28,13 @@ $(API_DIR):
 $(KANJI_DIR):
 	mkdir -p $@
 
+$(CJK_KANJI_DIR):
+	mkdir -p $@
+
 $(WORDS_DIR):
+	mkdir -p $@
+
+$(CJK_WORDS_DIR):
 	mkdir -p $@
 
 $(READING_DIR):
