@@ -7,6 +7,12 @@ def heisig_dict(heisig_keywords={}):
             heisig_keywords.update({ character: keyword
                                      for character, keyword
                                      in csv.reader(f, delimiter='\t') })
+            heisig_keywords.update({
+                '𠮟': 'scold [alt]',
+                '塡': 'stuff up [alt]',
+                '剝': 'peel off [alt]',
+                '頰': 'cheek [alt]',
+            })
     return heisig_keywords
 
 

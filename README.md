@@ -69,6 +69,8 @@ JOYO kanji are general use kanji outlined by the Japanese government. The Unihan
 
 `$ curl https://kanjiapi.dev/v1/kanji/heisig`
 
+Note, there are four extra kanji in the heisig list labeled with '[alt]' after the normal keyword. These are the four official joyo variants of the missing JIS X 0208 kanji (the Heisig book series assigned these keywords to the JIS compatible characters, but a person looking for them could come from either the JIS compatible version or the official version). This is related to the extra four in the Joyo kanji list.
+
 #### List of kanji of a certain grade
 
 `$ curl https://kanjiapi.dev/v1/kanji/grade-1` (school grades 1-6, with grade 8 signalling remaining highschool grade)

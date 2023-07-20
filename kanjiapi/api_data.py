@@ -8,7 +8,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from .entry_data import word_dict
 from .canonicalise import canonicalise
 from .unihan import joyo_list, jinmeiyo_list
-from .heisig import heisig_keyword
+from .heisig import heisig_keyword, all_heisig
 from .grades import grade_to_kanji_list, all_kyoiku, grade_for_char
 
 
@@ -176,3 +176,4 @@ def main():
     dump_json(KANJI_DIR + 'joyo', canonicalise(joyo_list()))
     dump_json(KANJI_DIR + 'jinmeiyou', canonicalise(jinmeiyo_list()))
     dump_json(KANJI_DIR + 'jinmeiyo', canonicalise(jinmeiyo_list()))
+    dump_json(KANJI_DIR + 'heisig', canonicalise(all_heisig()))
