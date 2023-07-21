@@ -1,18 +1,19 @@
+from functools import cache
 import csv
 
 
-def heisig_dict(heisig_keywords={}):
-    if not heisig_keywords:
-        with open('heisig.tsv') as f:
-            heisig_keywords.update({ character: keyword
-                                     for character, keyword
-                                     in csv.reader(f, delimiter='\t') })
-            heisig_keywords.update({
-                '𠮟': 'scold [alt]',
-                '塡': 'stuff up [alt]',
-                '剝': 'peel off [alt]',
-                '頰': 'cheek [alt]',
-            })
+@cache
+def heisig_dict():
+    with open('heisig.tsv') as f:
+        heisig_keywords = {character: keyword
+                           for character, keyword
+                           in csv.reader(f, delimiter='\t')}
+    heisig_keywords.update({
+        '𠮟': 'scold [alt]',
+        '塡': 'stuff up [alt]',
+        '剝': 'peel off [alt]',
+        '頰': 'cheek [alt]',
+    })
     return heisig_keywords
 
 
