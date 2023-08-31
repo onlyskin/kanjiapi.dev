@@ -1,6 +1,8 @@
 const m = require('mithril')
 const stream = require('mithril/stream')
 const { Kanjiapi } = require('kanjiapi-wrapper')
+const { DateTime } = require('luxon')
+const { LogProvider } = require('./log_provider');
 
 const kanjiapi = Kanjiapi.build()
 kanjiapi.addListener('app', m.redraw)
@@ -23,6 +25,90 @@ const EDRDG_URL = 'http://www.edrdg.org/'
 const EDRDG_LICENCE_URL = 'http://www.edrdg.org/edrdg/licence.html'
 const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
 const KANJI_FLASH_URL = 'https://www.kanjiflash.com'
+
+const PopularityLogs = {
+    log_display_count: 10,
+    increment_log_display_count: function() {
+        this.log_display_count = this.log_display_count * 2
+    },
+    longest_log_count: function() {
+        return Math.max(
+            this.topJoyo.length,
+            this.topJinmeiyo.length,
+            this.topHeisig.length,
+            this.topOther.length,
+        )
+    },
+    topAll: [],
+    getTops: function() {
+        if (
+            kanjiapi.getJoyoSet().value &&
+            kanjiapi.getJinmeiyoSet().value &&
+            kanjiapi.getHeisigSet().value &&
+            this.topJoyo.length === 0 &&
+            !this.hasLoading()
+        ) {
+            this.getCollatedItems().forEach(item => {
+                this.topAll.push(item);
+                if (kanjiapi.getJoyoSet().value.has(item[0])) {
+                    this.topJoyo.push(item);
+                } else if (kanjiapi.getJinmeiyoSet().value.has(item[0])) {
+                    this.topJinmeiyo.push(item);
+                } else if (kanjiapi.getHeisigSet().value.has(item[0])) {
+                    this.topHeisig.push(item);
+                } else if (item[0].length === 1) {
+                    this.topOther.push(item);
+                } else {
+                    this.topExtra.push(item);
+                }
+            });
+            m.redraw();
+        }
+    },
+    topJoyo: [],
+    getTopJoyo: function() {
+        this.getTops()
+        return this.topJoyo;
+    },
+    topJinmeiyo: [],
+    getTopJinmeiyo: function() {
+        this.getTops()
+        return this.topJinmeiyo;
+    },
+    topHeisig: [],
+    getTopHeisig: function() {
+        this.getTops()
+        return this.topHeisig;
+    },
+    topOther: [],
+    getTopOther: function() {
+        this.getTops()
+        return this.topOther;
+    },
+    topExtra: [],
+    getTopExtra: function() {
+        this.getTops()
+        return this.topExtra;
+    },
+    getFlatSevenDaysHours: function() {
+        const today = DateTime.utc().startOf('day')
+        return [...Array(7).keys()]
+            .map(i => today.minus({days: 7-i}))
+            .map(d => [...Array(24).keys()].map(i => d.plus({hours: i})))
+            .flat()
+    },
+    hasLoading: function() {
+        const loadingRequests = this.getFlatSevenDaysHours()
+            .map(d => log_provider.getLog(d.toISO()))
+            .filter(res => res.status === 'LOADING');
+        return loadingRequests.length > 0;
+    },
+    getCollatedItems: function() {
+        return collateLogRequests(this.getFlatSevenDaysHours())
+    },
+}
+const log_provider = new LogProvider()
+log_provider.addListener('app', m.redraw)
 
 const Link = {
     view: ({ children, attrs: { href } }) => m(
@@ -134,7 +220,60 @@ const About = {
 }
 
 const Separator = {
-    view: () => m('hr.w-100.black-50.mv3'),
+    view: () => m('hr.w-100.black-50.mv4'),
+}
+
+const PopularityKanji = {
+    view: ({ attrs: { kanji }}) => m(
+        'a.black.no-underline.pointer',
+        { href: `https://kai.kanjiapi.dev/#!/${kanji}` },
+        kanji,
+    ),
+}
+
+const KanjiPopularityColumn = {
+    view: ({ attrs: { title, data } }) => m(
+        '.h-100.w-25.flex.flex-column.justify-between.ph2.pv2.pv0-l',
+        [
+            m('.flex.items-start.justify-center.pb2', title),
+            m(
+                '',
+                data.slice(0, PopularityLogs.log_display_count)
+                   .map((item, index) => m('.flex.justify-center', [
+                       m(
+                           `.mr3`,
+                           m(
+                               PopularityKanji,
+                               { kanji: `${item[0].length === 1 ? '' : '/'}${item[0]}` })
+                       ),
+                       m('', item[1]),
+                   ])),
+            ),
+        ],
+    ),
+};
+
+const ShowMoreLogsButton = {
+    view: () => PopularityLogs.getTopJoyo().length !== 0 &&
+        PopularityLogs.longest_log_count() > PopularityLogs.log_display_count ?  m(
+            '.self-center.flex.flex-column.items-center.vermillion.pointer',
+            { role: 'button', onclick: e => PopularityLogs.increment_log_display_count() },
+            m('', '↓'),
+            m('', 'show more'),
+        ) : null,
+}
+
+const KanjiPopularity = {
+    view: () => PopularityLogs.hasLoading() ? null : [
+        m(
+            '.flex.pt3',
+            m(KanjiPopularityColumn, {title: 'Joyo only', data: PopularityLogs.getTopJoyo()}),
+            m(KanjiPopularityColumn, {title: 'Jinmeiyō only', data: PopularityLogs.getTopJinmeiyo()}),
+            m(KanjiPopularityColumn, {title: 'non-Jōyō, non-Jinmeiyō, in Heisig', data: PopularityLogs.getTopHeisig()}),
+            m(KanjiPopularityColumn, {title: 'non-Jōyō, non-Jinmeiyō, non-Heisig kanji', data: PopularityLogs.getTopOther()}),
+        ),
+        m(ShowMoreLogsButton),
+    ],
 }
 
 const Search = {
@@ -153,7 +292,7 @@ const Search = {
 
 const Example = {
     view: ({ attrs: { path, url } }) => m(
-        '.di.i.underline.nowrap.vermillion',
+        '.di.i.underline.nowrap.vermillion.pointer',
         { role: 'button',  onclick: () => path(url) },
         url,
     ),
@@ -397,6 +536,85 @@ const EndpointDescription = {
     ],
 }
 
+function sumArray(array) {
+    if (array.length === 0) { return 0; }
+
+    return array.reduce((a, b) => a + b);
+}
+
+function sumLogRequests(datetimes) {
+    const allCounts = datetimes
+        .map(d => log_provider.getLog(d.toISO()))
+        .filter(res => res.status === 'SUCCESS')
+        .map(res => res.value)
+        .flat()
+        .map(([kanji, count]) => count)
+    return sumArray(allCounts)
+}
+
+function collateLogRequests(datetimes) {
+    const allResults = datetimes
+        .map(d => log_provider.getLog(d.toISO()))
+        .filter(res => res.status === 'SUCCESS')
+        .map(res => res.value)
+        .flat();
+
+    const countByKanji = allResults
+        .reduce((acc, [kanji, n]) => {
+            let count = acc[kanji];
+            if (count === undefined) count = 0;
+            acc[kanji] = count+n;
+            return acc;
+        }, {});
+
+    const sorted = Object.entries(countByKanji).sort((a, b) => b[1] - a[1]);
+    return sorted;
+}
+
+const TotalPopularityByDay = {
+    view: () => {
+        const today = DateTime.utc().startOf('day')
+        const previous_seven_days_hours = [...Array(7).keys()]
+            .map(i => today.minus({days: 7-i}))
+            .map(d => [...Array(24).keys()].map(i => d.plus({hours: i})))
+
+        const previous_seven_days_flat = previous_seven_days_hours.flat()
+
+        return m(
+            '.ma3',
+            previous_seven_days_hours.map(datetimes => [
+                m('.fl.w-50.tr.pr3', datetimes[0].toLocaleString(DateTime.DATE_SHORT)),
+                m('.fl.w-50', sumLogRequests(datetimes).toLocaleString()),
+            ]),
+            [
+                m('.fl.w-50.tr.pr3.vermillion', 'Total',),
+                m('.fl.w-50.vermillion', sumLogRequests(previous_seven_days_flat).toLocaleString()),
+            ],
+        )
+    },
+}
+
+const LogsDashboard = {
+    view: () => [
+        m(
+            '.self-center.mv2.tc.underline',
+            m(InternalLink, { href: '/' }, 'home'),
+        ),
+        m(
+            '.mh3',
+            [
+                'These logs show how many times ',
+                m('span.vermillion', '/kanji/{character}'),
+                ' and ',
+                m('span.vermillion', '/kanji/{list}'),
+                ' endpoints were served successfully in the last 7 days (there is a lag on logs coming through, so the last 24-48 hours may show less than the final total)',
+            ],
+        ),
+        m(TotalPopularityByDay),
+        m(KanjiPopularity),
+    ],
+}
+
 const Docs = {
     view: () => [
         m(
@@ -475,6 +693,10 @@ function Home() {
             ),
             m(
                 '.self-center.mv2.tc.underline',
+                m(InternalLink, { href: '/logs' }, 'logs dashboard'),
+            ),
+            m(
+                '.self-center.mv2.tc.underline',
                 m(
                     Link,
                     { href: KANJIAPI_WRAPPER_URL },
@@ -512,4 +734,5 @@ const Page = {
 m.route(document.body, '/', {
     '/': { render: () => m(Page, m(Home, { kanjiapi })) },
     '/documentation': { render: () => m(Page, m(Docs)) },
+    '/logs': { render: () => m(Page, m(LogsDashboard)) },
 })
