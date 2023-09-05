@@ -1,6 +1,8 @@
 out
-kanjidic2.xml
-JMdict
+kanjidic*
+JMdict*
+JMnedict*
+Unihan*
 .env
 *.pyc
 __pycache__
