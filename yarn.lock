@@ -594,10 +594,10 @@ jsonparse@^1.2.0:
   resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
   integrity sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA=
 
-kanjiapi-wrapper@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/kanjiapi-wrapper/-/kanjiapi-wrapper-1.1.1.tgz#6e206269c3a4638c9c1244e18c093d60460ab88e"
-  integrity sha512-k3qzxI5wCB1DW324b7BLrv/7EzYyDQYKbNs1QFPmfzzGF1EeSbXD1ryPvJ2+NENfCWUTLSLn6U2onrA/9RecUw==
+kanjiapi-wrapper@1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/kanjiapi-wrapper/-/kanjiapi-wrapper-1.1.4.tgz#21ad0cd5b0523995b030937bbb0598d4459d8a02"
+  integrity sha512-yxtIQH5ApGhxpxZIo0fW2R/pcsBA67KGMQxd6Dc8pOuzO6AO5OT+rce/NwsV3UNiJcXb8D01XQkV13s44zFsCQ==
 
 labeled-stream-splicer@^2.0.0:
   version "2.0.2"
