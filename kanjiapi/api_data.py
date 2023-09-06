@@ -146,8 +146,6 @@ def main():
 
     readings = reading_data(kanjis)
 
-    all_kanji = [kanji['kanji'] for kanji in kanjis]
-
     words = {}
     for kanji in kanjis:
         dump_json(KANJI_DIR + kanji['kanji'], kanji)
@@ -173,6 +171,7 @@ def main():
             if kanji['grade'] in JINMEIYOU_GRADES
             ]
 
+    all_kanji = [kanji['kanji'] for kanji in kanjis]
     dump_json(KANJI_DIR + 'all', all_kanji)
     dump_json(KANJI_DIR + 'jouyou', jouyou_kanji)
     dump_json(KANJI_DIR + 'joyo', jouyou_kanji)
