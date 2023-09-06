@@ -1,5 +1,5 @@
 import pytest
-import json
+import ujson
 from lxml import etree
 
 from kanjiapi.api_data import kanji_data, reading_data
@@ -14,7 +14,7 @@ def element_for(root, kanji):
 def test_kanji_data_xml():
     character = element_for(root, '亜')
     kanji = kanji_data(character)
-    output = json.dumps(kanji, indent=2, ensure_ascii=False)
+    output = ujson.dumps(kanji, indent=2, ensure_ascii=False)
     assert output == '''{
   "kanji": "亜",
   "grade": 8,
@@ -45,7 +45,7 @@ def test_kanji_data_xml():
 def test_handles_kanji_without_grades():
     character = element_for(root, '唖')
     kanji = kanji_data(character)
-    output = json.dumps(kanji, indent=2, ensure_ascii=False)
+    output = ujson.dumps(kanji, indent=2, ensure_ascii=False)
     assert output == '''{
   "kanji": "唖",
   "grade": null,
@@ -71,7 +71,7 @@ def test_handles_kanji_without_grades():
 def test_handles_kanji_with_multiple_stroke_counts():
     character = element_for(root, '逢')
     kanji = kanji_data(character)
-    output = json.dumps(kanji, indent=2, ensure_ascii=False)
+    output = ujson.dumps(kanji, indent=2, ensure_ascii=False)
     assert output == '''{
   "kanji": "逢",
   "grade": 9,
@@ -102,7 +102,7 @@ def test_handles_kanji_with_multiple_stroke_counts():
 def test_handles_CJK_character():
     character = element_for(root, '漢')
     kanji = kanji_data(character)
-    output = json.dumps(kanji, indent=2, ensure_ascii=False)
+    output = ujson.dumps(kanji, indent=2, ensure_ascii=False)
     assert output == '''{
   "kanji": "漢",
   "grade": 3,
@@ -128,7 +128,7 @@ def test_reading_data():
     character = element_for(root, '亜')
     kanjis = [kanji_data(character)]
     readings = reading_data(kanjis)
-    output = json.dumps(readings, indent=2, ensure_ascii=False)
+    output = ujson.dumps(readings, indent=2, ensure_ascii=False)
     assert output == '''[
   {
     "reading": "つ.ぐ",

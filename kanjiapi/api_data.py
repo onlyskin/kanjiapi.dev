@@ -5,7 +5,9 @@ from lxml import etree
 import csv
 from zipfile import ZipFile, ZIP_DEFLATED
 
+
 from .entry_data import word_dict
+from .canonicalise import canonicalise
 
 
 NANORI = etree.XPath('./reading_meaning//nanori')
@@ -148,16 +150,17 @@ def main():
 
     words = {}
     for kanji in kanjis:
-        dump_json(KANJI_DIR + kanji['kanji'], kanji)
+        dump_json(KANJI_DIR + kanji['kanji'], canonicalise(kanji))
         try:
-            entries = tuple(kanji_to_entries[kanji['kanji']])
-            dump_json(WORD_DIR + kanji['kanji'], entries)
-            words[kanji['kanji']] = entries
+            entries = kanji_to_entries[kanji['kanji']]
+            entry_words = tuple(canonicalise([entry.words() for entry in entries]))
+            dump_json(WORD_DIR + kanji['kanji'], entry_words)
+            words[kanji['kanji']] = entry_words
         except KeyError:
             continue
 
     for reading in readings:
-        dump_json(READING_DIR + reading['reading'], reading)
+        dump_json(READING_DIR + reading['reading'], canonicalise(reading))
 
     jouyou_kanji = [
             kanji['kanji']
@@ -172,11 +175,11 @@ def main():
             ]
 
     all_kanji = [kanji['kanji'] for kanji in kanjis]
-    dump_json(KANJI_DIR + 'all', all_kanji)
-    dump_json(KANJI_DIR + 'jouyou', jouyou_kanji)
-    dump_json(KANJI_DIR + 'joyo', jouyou_kanji)
-    dump_json(KANJI_DIR + 'jinmeiyou', jinmeiyou_kanji)
-    dump_json(KANJI_DIR + 'jinmeiyo', jinmeiyou_kanji)
+    dump_json(KANJI_DIR + 'all', canonicalise(all_kanji))
+    dump_json(KANJI_DIR + 'jouyou', canonicalise(jouyou_kanji))
+    dump_json(KANJI_DIR + 'joyo', canonicalise(jouyou_kanji))
+    dump_json(KANJI_DIR + 'jinmeiyou', canonicalise(jinmeiyou_kanji))
+    dump_json(KANJI_DIR + 'jinmeiyo', canonicalise(jinmeiyou_kanji))
 
     with ZipFile(f'{SITE_PATH}/kanjiapi_full.zip', 'w', compression=ZIP_DEFLATED) as archive:
         api_data_download = {
@@ -186,7 +189,7 @@ def main():
         }
         json_filename = f'{SITE_PATH}/kanjiapi_full.json'
 
-        dump_json(json_filename, api_data_download)
+        dump_json(json_filename, canonicalise(api_data_download))
         archive.write(json_filename, arcname='kanjiapi_full.json')
         os.remove(json_filename)
 
@@ -197,4 +200,4 @@ def main():
                 if kanji['grade'] == grade_numeral
                 ]
 
-        dump_json(KANJI_DIR + 'grade-' + str(grade_numeral), grade_kanji)
+        dump_json(KANJI_DIR + 'grade-' + str(grade_numeral), canonicalise(grade_kanji))

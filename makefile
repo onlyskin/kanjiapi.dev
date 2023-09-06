@@ -35,7 +35,7 @@ $(READING_DIR):
 $(SITE_DIR)/v1: $(SITE_DIR)
 	ln -sF ../v1 $@
 
-$(OUT_DIR)/kanji.stamp: kanjidic2.xml main.py kanjiapi/api_data.py kanjiapi/entry.py kanjiapi/entry_data.py | directories
+$(OUT_DIR)/kanji.stamp: kanjidic2.xml main.py kanjiapi/api_data.py kanjiapi/entry.py kanjiapi/entry_data.py kanjiapi/canonicalise.py | directories
 	python main.py
 	touch $@
 

@@ -6,14 +6,14 @@ from kanjiapi.entry import Entry, Meaning, KanjiForm, Reading
 
 def test_jsonify_simple_entry():
     entry = Entry(
-        [KanjiForm('愛猫', set())],
-        [Reading('あいびょう', [])],
-        [
-            Meaning(['pet cat', 'beloved cat']),
-            Meaning(['ailurophilia', 'fondness for cats']),
-            ],
+        (KanjiForm('愛猫', ()),),
+        (Reading('あいびょう', ()),),
+        (
+            Meaning(('pet cat', 'beloved cat')),
+            Meaning(('ailurophilia', 'fondness for cats')),
+        ),
         )
-    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
+    output = ujson.dumps(entry.words(), indent=2, ensure_ascii=False)
     assert output == '''{
   "variants": [
     {
@@ -41,15 +41,15 @@ def test_jsonify_simple_entry():
 
 def test_words_for_entry_with_multiple_kanji_forms():
     entry = Entry(
-        [KanjiForm('お客さん', set()), KanjiForm('御客さん', set())],
-        [Reading('おきゃくさん', [])],
-        [
-            Meaning(['guest', 'visitor']),
-            Meaning(['customer', 'client', 'shopper', 'spectator',
-                    'audience', 'tourist', 'sightseer', 'passenger']),
-            ],
+        (KanjiForm('お客さん', ()), KanjiForm('御客さん', ())),
+        (Reading('おきゃくさん', ()),),
+        (
+            Meaning(('guest', 'visitor')),
+            Meaning(('customer', 'client', 'shopper', 'spectator',
+                    'audience', 'tourist', 'sightseer', 'passenger')),
+        ),
         )
-    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
+    output = ujson.dumps(entry.words(), indent=2, ensure_ascii=False)
     assert output == '''{
   "variants": [
     {
@@ -88,17 +88,17 @@ def test_words_for_entry_with_multiple_kanji_forms():
 
 def test_words_for_entry_with_kanji_priority():
     entry = Entry(
-        [KanjiForm('其処', set(['spec1'])), KanjiForm('其所', set())],
-        [Reading('そこ', [])],
-        [
-            Meaning(['there (place relatively near listener)']),
-            Meaning(['there (place just mentioned)', 'that place']),
-            Meaning(['then (of some incident just spoken of)',
-                    'that (of point just raised)']),
-            Meaning(['you']),
-            ],
-        )
-    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
+        (KanjiForm('其処', ('spec1',)), KanjiForm('其所', ())),
+        (Reading('そこ', ()),),
+        (
+            Meaning(('there (place relatively near listener)',)),
+            Meaning(('there (place just mentioned)', 'that place',)),
+            Meaning(('then (of some incident just spoken of)',
+                    'that (of point just raised)')),
+            Meaning(('you',)),
+        ),
+    )
+    output = ujson.dumps(entry.words(), indent=2, ensure_ascii=False)
     assert output == '''{
   "variants": [
     {
@@ -143,11 +143,11 @@ def test_words_for_entry_with_kanji_priority():
 
 def test_words_for_entry_with_two_readings():
     entry = Entry(
-        [KanjiForm('だぼ鯊', set())],
-        [Reading('だぼはぜ', []), Reading('ダボハゼ', [])],
-        [Meaning(['goby (fish)'])],
+        (KanjiForm('だぼ鯊', ()),),
+        (Reading('だぼはぜ', ()), Reading('ダボハゼ', ())),
+        (Meaning(('goby (fish)',)),),
         )
-    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
+    output = ujson.dumps(entry.words(), indent=2, ensure_ascii=False)
     assert output == '''{
   "variants": [
     {
@@ -173,18 +173,18 @@ def test_words_for_entry_with_two_readings():
 
 def test_words_with_restricted_reading():
     entry = Entry(
-        [
-            KanjiForm('どの位', set(['ichi1', 'spec1'])),
-            KanjiForm('何の位', set()),
-            KanjiForm('何のくらい', set()),
-            ],
-        [
-            Reading('どのくらい', []),
-            Reading('どのぐらい', ['どの位', '何の位']),
-            ],
-        [Meaning(['how long', 'how far', 'how much'])],
+        (
+            KanjiForm('どの位', ('ichi1', 'spec1')),
+            KanjiForm('何の位', ()),
+            KanjiForm('何のくらい', ()),
+        ),
+        (
+            Reading('どのくらい', ()),
+            Reading('どのぐらい', ('どの位', '何の位')),
+        ),
+        (Meaning(('how long', 'how far', 'how much')),),
         )
-    output = ujson.dumps(entry, indent=2, ensure_ascii=False)
+    output = ujson.dumps(entry.words(), indent=2, ensure_ascii=False)
     assert output == '''{
   "variants": [
     {

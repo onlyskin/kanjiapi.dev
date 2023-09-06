@@ -16,28 +16,28 @@ K_ELE = etree.XPath('./k_ele')
 
 def reading_from(r_ele):
     reading = REB(r_ele)[0].text
-    restrictions = [
+    restrictions = tuple([
             restriction.text
             for restriction in RE_RESTR(r_ele)
-            ]
+            ])
     return Reading(reading, restrictions)
 
 
 def readings(kanji_forms, entry):
-    return [reading_from(r_ele) for r_ele in R_ELE(entry)]
+    return tuple([reading_from(r_ele) for r_ele in R_ELE(entry)])
 
 
 def meanings(entry):
     meanings = []
     for sense in SENSES(entry):
-        glosses = GLOSSES(sense)
+        glosses = tuple(GLOSSES(sense))
         if glosses:
             meanings.append(Meaning(glosses))
-    return meanings
+    return tuple(meanings)
 
 
 def k_ele_priorities(element):
-    return set([e.text for e in KE_PRI(element)])
+    return tuple(sorted(set([e.text for e in KE_PRI(element)])))
 
 
 def kanji_from(k_ele):
@@ -47,7 +47,7 @@ def kanji_from(k_ele):
 
 
 def make_entry(entry):
-    kanji_forms = [kanji_from(k_ele) for k_ele in K_ELE(entry)]
+    kanji_forms = tuple([kanji_from(k_ele) for k_ele in K_ELE(entry)])
     return Entry(
             kanji_forms,
             readings(kanji_forms, entry),
