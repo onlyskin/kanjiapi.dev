@@ -49,26 +49,22 @@ def test_entry_with_multiple_kanji_forms():
 
 
 def test_entry_with_common_and_rare_kanji_forms():
-    entries = [element_for(root, '1006670')]
+    entries = [element_for(root, '1001950')]
 
     entries_by_kanji = word_dict(entries)
 
     entry = Entry(
-        (KanjiForm('其処', ('spec1',)), KanjiForm('其所', ())),
-        (Reading('そこ', ()),),
         (
-            Meaning(('there (place relatively near listener)',)),
-            Meaning(('there (place just mentioned)', 'that place',)),
-            Meaning(('then (of some incident just spoken of)',
-                    'that (of point just raised)')),
-            Meaning(('you',)),
+            KanjiForm('お参り', ('ichi1', 'news2', 'nf36')),
+            KanjiForm('御参り', ()),
         ),
+        (Reading('おまいり', ()),),
+        (Meaning(('visit (to a shrine, grave, etc.)', 'worship')),),
     )
     assert entries_by_kanji == dict({
-        '其': {entry},
-        '処': {entry},
-        '所': {entry},
-        })
+        '参': {entry},
+        '御': {entry},
+    })
 
 
 def test_entry_with_two_rebs():
@@ -118,7 +114,7 @@ def xtest_sense_restricted_by_kanji():
 
 
 def test_combines_multiple_entries():
-    entries = [element_for(root, '1151020'), element_for(root, '1267700')]
+    entries = [element_for(root, '1151020'), element_for(root, '1772990')]
 
     entries_by_kanji = word_dict(entries)
 
@@ -131,14 +127,14 @@ def test_combines_multiple_entries():
         ),
     )
     entry2 = Entry(
-        (KanjiForm('虎猫', ()),),
-        (Reading('とらねこ', ()), Reading('トラネコ', ())),
+        (KanjiForm('海猫', ()),),
+        (Reading('うみねこ', ()), Reading('ウミネコ', ())),
         (
-            Meaning(('tabby cat', 'tiger cat', 'stripped cat')),
+            Meaning(('black-tailed gull (Larus crassirostris)',)),
         ),
         )
     assert entries_by_kanji == dict({
         '愛': {entry1},
         '猫': {entry1, entry2},
-        '虎': {entry2},
+        '海': {entry2},
         })
