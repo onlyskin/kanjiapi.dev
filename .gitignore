@@ -1,7 +1,7 @@
 out
-kanjidic*
-JMdict*
-JMnedict*
+*kanjidic*
+*JMdict*
+*JMnedict*
 Unihan*
 .env
 *.pyc
