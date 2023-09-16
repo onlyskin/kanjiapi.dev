@@ -59,17 +59,63 @@ $ curl https://kanjiapi.dev/v1/kanji/猫
 
 `$ curl https://kanjiapi.dev/v1/kanji/joyo` (also `/jouyou`)
 
-JOYO kanji are general use kanji outlined by the Japanese government. The Unihan Database labels four additional kanji as Joyo kanji, bringing the total to 2140 codepoints. Four of the Joyo kanji are missing in the JIS X 0208 encoding, so a different kanji which is present in JIS X 0208 was historically used. Therefore, in the Unihan Database, both the four official kanji and the four JIS X 0208-compatible kanji are marked as Joyo kanji
+JOYO kanji are general use kanji outlined by the Japanese government. The
+Unihan Database labels four additional kanji as Joyo kanji, bringing the total
+to 2140 codepoints. This is because four of the Joyo kanji are missing in the
+JIS X 0208 encoding, so a different kanji which *is* present in JIS X 0208 was
+historically used. Therefore, in the Unihan Database, both the four official
+kanji and the four JIS X 0208-compatible kanji are marked as Joyo kanji. This
+is mirrored in the `/joyo` list provided by kanjiapi.dev.
+
+The affected characters are:
+| official Joyo | historical JIS X 0208 compatible |
+| --- | --- |
+|𠮟 U+20B9F |叱 U+53F1|
+|塡 U+5861  |填 U+586B|
+|剝 U+525D  |剥 U+5265|
+|頰 U+9830  |頬 U+982C|
 
 #### List of jinmeiyo kanji
 
 `$ curl https://kanjiapi.dev/v1/kanji/jinmeiyo` (also `/jinmeiyou`)
 
+Note, 82 kanji in the Jinmeiyo list have codepoints in the Unicode CJK
+compatibility code block. Therefore, they will sometimes be treated as "the
+same kanji" as another character. This is specified by Unicode in the Unihan
+Database.
+
+`kanjiapi.dev` provides `/kanji/{character}` endpoints for these CJK
+compatibility codepoints, but adds a special field to them for ease of
+accessing the unified version of the character. In addition, these
+compatibility characters mostly have no words listed in their equivalent
+`/words/{character}` endpoint file, and much more limited information in the
+`/kanji/{character}` endpoint fields. This reflects the data which is present
+in the `KANJIDIC` file.
+
+For example, the Jinmeiyo character 海 (U+FA45) is considered by Unicode to be
+the same as the Joyo character 海 (U+6d77). The Jinmeiyo version is therefore
+present in the CJK compatibility block.
+
+This is an issue because any layer of software (e.g. browser caching, url
+encoding) may perform unicode normalisation, which would convert the Jinmeiyo
+character to a different character. If you expect to see a Jinmeiyo character,
+but you see a Joyo character, this is probably the reason.
+
+If necessary, the css property `font-variant-east-asian: traditional;` can be
+used to tell the browser to display the unified equivalent character in the
+traditional way, which should mean that a Joyo character codepoint displaysa s
+its Jinmeiyo equivalent.
+
 #### List of heisig kanji
 
 `$ curl https://kanjiapi.dev/v1/kanji/heisig`
 
-Note, there are four extra kanji in the heisig list labeled with '[alt]' after the normal keyword. These are the four official joyo variants of the missing JIS X 0208 kanji (the Heisig book series assigned these keywords to the JIS compatible characters, but a person looking for them could come from either the JIS compatible version or the official version). This is related to the extra four in the Joyo kanji list.
+List of characters which have a Heisig keyword assigned. Note, there are four
+extra kanji in the heisig list labeled with '[alt]' after the normal keyword.
+These are the four official joyo variants of the missing JIS X 0208 kanji (the
+Heisig book series assigned these keywords to the JIS compatible characters,
+but a person looking for them could come from either the JIS compatible version
+or the official version). See the `List of joyo kanji` section above.
 
 #### List of kanji of a certain grade
 
@@ -212,6 +258,8 @@ Save and extract the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://w
 Save and extract the jmdict dictionary file `JMdict` from [EDRDG](http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project) to the root of the project.
 
 Save and extract the file Unihan_OtherMappings.txt from Unihan.zip from [Unicode](https://www.unicode.org/versions/components-15.0.0.html) to the root of the project.
+
+Save and extract the file Unihan_IRGSources.txt from Unihan.zip from [Unicode](https://www.unicode.org/versions/components-15.0.0.html) to the root of the project.
 
 Ensure system has `System/Library/Fonts/ヒラギノ丸ゴ\ ProN\ W4.ttc` font
 available (for favicon generation).
