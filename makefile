@@ -56,7 +56,7 @@ $(SITE_DIR)/favicon.png: | directories
 		label:字 $@
 	convert $@ -size 32x32 $@
 
-$(SITE_DIR)/index.js: $(SITE_SRC_DIR)/index.js | directories
+$(SITE_DIR)/index.js: $(SITE_SRC_DIR)/index.js package.json | directories
 	$(BROWSERIFY) $^ -o $@
 
 $(SITE_DIR)/404.json: $(SITE_SRC_DIR)/404.json | directories
