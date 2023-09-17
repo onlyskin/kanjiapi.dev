@@ -275,19 +275,34 @@ build of the site, you can set the root of your fileserver to out/site (e.g.
 with `serveit`: `serveit -s out/site make`). There is a symlink to `out/v1`
 inside `out/site` to enable this.
 
+Note: endpoint files for characters in the Unicode CJK Compatibility block are
+written out to a separate directory as some filesystems normalise them with the
+non-compatibility equivalents. This means that a few of the
+`/kanji/{character}` and `/words/{character}` endpoints don't show up under the
+normal path in the API during local development.
+
 ### Deployment (Requires google cloud account credentials):
 
 #### Versioning
 
 The API version for deployment is hardcoded in `api_data.py` and the `makefile`.
 
+
+#### Uploading to bucket
+
 After building, to sync the built assets to the website bucket run:
 
-`gsutil -m rsync -c -d out/site gs://kanjiapi.dev` (syncs the built site dir (`out/site`) up with the root of the bucket, but non-recursively)
+NB: it's a good idea to run all of these commands with `rsync -n` for a dry-run first
 
-`gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1 gs://kanjiapi.dev/v1` (syncs the built api dir (`out/{version}`) up with the dir `/{version}` in the bucket recursively based on file hashes)
+To sync the built site dir (`out/site`) up with the root of the bucket, but non-recursively:
+`gsutil -m rsync -c -d out/site gs://kanjiapi.dev`
 
-NB: it's a good idea to run both these commands with `rsync -n` for a dry-run first
+To sync the built api dir folders (`out/{version}`) up with the dir `/{version}` in the bucket recursively based on file hashes:
+`gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1/kanji gs://kanjiapi.dev/v1/kanji/`
+`gsutil -m -h "Content-Type:application/json" rsync -r -c out/v1/kanji_cjk gs://kanjiapi.dev/v1/kanji/`
+`gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1/words gs://kanjiapi.dev/v1/words/`
+`gsutil -m -h "Content-Type:application/json" rsync -r -c out/v1/words_cjk gs://kanjiapi.dev/v1/words/`
+`gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1/reading gs://kanjiapi.dev/v1/reading/`
 
 #### Renewing SSL certificate:
 
