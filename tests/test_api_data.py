@@ -37,8 +37,9 @@ def test_kanji_data_xml():
     "つぐ"
   ],
   "jlpt": 1,
-  "unicode": "4e9c",
-  "heisig_en": "Asia"
+  "unicode": "4E9C",
+  "heisig_en": "Asia",
+  "notes": []
 }'''
 
 
@@ -64,7 +65,8 @@ def test_handles_kanji_without_grades():
   "name_readings": [],
   "jlpt": null,
   "unicode": "5516",
-  "heisig_en": "babble"
+  "heisig_en": "babble",
+  "notes": []
 }'''
 
 
@@ -95,32 +97,76 @@ def test_handles_kanji_with_multiple_stroke_counts():
   ],
   "jlpt": null,
   "unicode": "9022",
-  "heisig_en": "tryst"
+  "heisig_en": "tryst",
+  "notes": []
 }'''
 
 
-def test_handles_CJK_character():
-    character = element_for(root, '漢')
+def test_handles_character_with_CJK_equivalent():
+    character = element_for(root, '海')
     kanji = kanji_data(character)
     output = ujson.dumps(kanji, indent=2, ensure_ascii=False)
     assert output == '''{
-  "kanji": "漢",
-  "grade": 3,
-  "stroke_count": 13,
+  "kanji": "海",
+  "grade": 2,
+  "stroke_count": 9,
   "meanings": [
-    "Sino-",
-    "China"
+    "sea",
+    "ocean"
   ],
-  "kun_readings": [],
+  "kun_readings": [
+    "うみ"
+  ],
   "on_readings": [
-    "カン"
+    "カイ"
   ],
   "name_readings": [
-    "はん"
+    "あ",
+    "あま",
+    "うな",
+    "うん",
+    "え",
+    "か",
+    "た",
+    "ひろ",
+    "ひろし",
+    "ぶ",
+    "まち",
+    "まま",
+    "み",
+    "め",
+    "わたる"
   ],
   "jlpt": 3,
-  "unicode": "6f22",
-  "heisig_en": "Sino-"
+  "unicode": "6D77",
+  "heisig_en": "sea",
+  "notes": []
+}'''
+
+
+def test_handles_character_in_CJK_block():
+    character = element_for(root, '海')
+    kanji = kanji_data(character)
+    output = ujson.dumps(kanji, indent=2, ensure_ascii=False)
+    assert output == '''{
+  "kanji": "海",
+  "grade": 9,
+  "stroke_count": 10,
+  "meanings": [],
+  "kun_readings": [
+    "うみ"
+  ],
+  "on_readings": [
+    "カイ"
+  ],
+  "name_readings": [],
+  "jlpt": null,
+  "unicode": "FA45",
+  "heisig_en": null,
+  "unihan_cjk_compatibility_variant": "海",
+  "notes": [
+    "The character `海` is in the Unicode CJK Compatibility block. The unified codepoint for this character can be found in this response in the field `unihan_cjk_compatibility_variant`. To learn more, look at the kanjiapi.dev `README.md`"
+  ]
 }'''
 
 

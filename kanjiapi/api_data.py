@@ -7,7 +7,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 from .entry_data import word_dict
 from .canonicalise import canonicalise
-from .unihan import joyo_list, jinmeiyo_list
+from .unihan import joyo_list, jinmeiyo_list, compatibility_variant
 from .heisig import heisig_keyword, all_heisig
 from .grades import grade_to_kanji_list, all_kyoiku, grade_for_char
 
@@ -47,7 +47,7 @@ def stroke_count(character):
 
 
 def unicode_codepoint(character):
-    return CODEPOINT(character)[0].text
+    return CODEPOINT(character)[0].text.upper()
 
 
 def jlpt(character):
@@ -74,8 +74,9 @@ def grade(character_literal):
 
 def kanji_data(character):
     character_literal = literal(character)
+    notes = []
 
-    return OrderedDict([
+    fields = [
         ('kanji', character_literal),
         ('grade', grade(character_literal)),
         ('stroke_count', stroke_count(character)),
@@ -86,7 +87,19 @@ def kanji_data(character):
         ('jlpt', jlpt(character)),
         ('unicode', unicode_codepoint(character)),
         ('heisig_en', heisig_keyword(character_literal)),
-        ])
+    ]
+
+    if CJK_compatibility(character_literal):
+        try:
+            fields.append(
+                ('unihan_cjk_compatibility_variant', compatibility_variant(character_literal)),
+            )
+            notes.append(f'The character `{character_literal}` is in the Unicode CJK Compatibility block. The unified codepoint for this character can be found in this response in the field `unihan_cjk_compatibility_variant`. To learn more, look at the kanjiapi.dev `README.md`')
+        except KeyError:
+            pass
+
+    fields.append(('notes', notes))
+    return OrderedDict(fields)
 
 
 def reading_data(kanjis):

@@ -9,6 +9,7 @@ const KYOIKU_URL = 'https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanji'
 const JOYO_URL = 'https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji'
 const JINMEIIYO_URL = 'https://en.wikipedia.org/wiki/Jinmeiy%C5%8D_kanji'
 const GITHUB_URL = 'https://github.com/onlyskin/kanjiapi.dev'
+const README_URL = 'https://github.com/onlyskin/kanjiapi.dev#readme'
 const KANJI_URL = 'https://en.wikipedia.org/wiki/Kanji'
 const MITHRIL_URL = 'https://mithril.js.org/'
 const JLPT_URL = 'https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test#Previous_format_(1984%E2%80%932009)'
@@ -218,7 +219,7 @@ const KANJI_LIST_ENDPOINTS = [
     { endpoint: '/v1/kanji/grade-5', description: ['List of Grade 5 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-6', description: ['List of Grade 6 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-8', description: ['List of ', m(JOYO_LINK), ' excluding ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/all', description: ['List of all 13,000+ available kanji (most use cases will only need ', m(JOYO_LINK), ' and ', m(JINMEIYO_LINK), ')'] },
+    { endpoint: '/v1/kanji/all', description: 'List of all 13,000+ available kanji' },
 ]
 
 const KANJI_FIELDS = [
@@ -287,6 +288,16 @@ const KANJI_FIELDS = [
             ' codepoint of the kanji',
         ],
         type: 'string',
+    },
+    {
+        name: 'unihan_cjk_compatibility_variant',
+        description: 'if the kanji is a compatibility variant character, the unified version of the character (see README.md Jinmeiyo section for more information)',
+        type: 'string | undefined',
+    },
+    {
+        name: 'notes',
+        description: 'any notes about the kanji or its fields',
+        type: 'string[]',
     },
 ]
 
@@ -358,7 +369,7 @@ const KanjiListEndpoint = {
 const SchemaRow = {
     view: ({ attrs: { field, isLast } }) => m(
         `.cf.pv2.pv0-l${isLast ? '.bn' : '.bb'}.b--silver`,
-        m('.fl.w-50.w-third-l.pa1.code', `"${field.name}":`),
+        m('.f6.fl.w-50.w-third-l.pa1.code.truncate', `"${field.name}":`),
         m('.fl.w-50.w-third-l.pa1.code.small-caps.tr.tl-l', field.type),
         m('.f7.f6-l.fl.w-100.w-third-l.pa1.i', field.description),
     ),
@@ -397,7 +408,11 @@ const Docs = {
             {
                 url: 'GET /v1/kanji/{list}',
                 type: 'string[]',
-                description: 'Provides lists of kanji by category',
+                description: [
+                    'Provides lists of kanji by category (see ',
+                    m(Link, { href: README_URL }, 'README'),
+                    ' for detailed information on which characters are in which list)',
+                ],
             },
             m(
                 '.pa1.pa3-l.mv2.ba.b--black-10.shadow-4',
