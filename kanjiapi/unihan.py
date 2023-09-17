@@ -15,7 +15,7 @@ def load_unihan():
     
 
 def unicode_to_char(unicode_string):
-    raw_code = unicode_string.replace('U+', '')
+    raw_code = unicode_string.partition('<')[0].replace('U+', '')
     return chr(int(raw_code, 16))
 
 
