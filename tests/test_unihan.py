@@ -1,4 +1,4 @@
-from kanjiapi.unihan import joyo_list, jinmeiyo_list, unicode_to_char
+from kanjiapi.unihan import joyo_list, jinmeiyo_list, compatibility_variant, unicode_to_char
 
 
 def test_joyo_list_has_2136_chars_plus_four_duplicated():
@@ -29,6 +29,11 @@ def test_jinmeiyo_list_has_old_forms_of_CJK_chars_and_not_new_forms():
 
 def test_jinmeiyo_list_has_recent_addition():
     assert '渾' in jinmeiyo_list()
+
+
+def test_gets_compatibility_variant():
+    assert compatibility_variant('\uFA45') == '\u6D77'
+
 
 def test_unicode_to_char():
     assert unicode_to_char('U+86CD') == '蛍'
