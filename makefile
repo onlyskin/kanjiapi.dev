@@ -7,7 +7,7 @@ CJK_KANJI_DIR := $(API_DIR)/kanji_cjk
 WORDS_DIR := $(API_DIR)/words
 CJK_WORDS_DIR := $(API_DIR)/words_cjk
 READING_DIR := $(API_DIR)/reading
-BROWSERIFY := node_modules/browserify/bin/cmd.js
+ESBUILD=node_modules/.bin/esbuild
 TACHYONS := node_modules/tachyons/css/tachyons.min.css
 
 .PHONY: directories all clean
@@ -57,7 +57,7 @@ $(SITE_DIR)/favicon.png: | directories
 	convert $@ -size 32x32 $@
 
 $(SITE_DIR)/index.js: $(SITE_SRC_DIR)/index.js package.json | directories
-	$(BROWSERIFY) $^ -o $@
+	$(ESBUILD) $< --bundle --minify --sourcemap --outfile=$@
 
 $(SITE_DIR)/404.json: $(SITE_SRC_DIR)/404.json | directories
 	cp $^ $@
