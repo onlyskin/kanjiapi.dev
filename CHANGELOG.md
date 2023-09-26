@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [Released under `/v1`]
+- canonicalise api data
+    - enables easier partial updates to the live API bucket
+    - the response data returned on all API endpoints is now canonicalised,
+      meaning all dicts are recursively sorted by key and then by value, and
+      most lists are also recursively sorted
+    - the lists of glosses under the `/words` endpoints are not sorted as these
+      are in rough order of importance in the source data
 - change jouyou and jinmeiyou list source of truth to Unihan_OtherMappings.txt from Unihan.zip from [Unicode](https://www.unicode.org/versions/components-15.0.0.html)
     - this corrects some kanji which were on the wrong list in KANJIDIC
     - this adds four alternate unicode characters to `/kanji/jouyou` lists (see
@@ -21,12 +30,3 @@ All notable changes to this project will be documented in this file.
 - add `/kanji/kyouiku` and `/kanji/kyoiku` endpoints
 - and `/kanji/heisig` endpoint listing all kanji with a Heisig keyword
 - uppercase the value for the `unicode` field on `kanji/{character}` endpoints
-
-## [Released under `/v1`]
-- canonicalise api data
-    - enables easier partial updates to the live API bucket
-    - the response data returned on all API endpoints is now canonicalised,
-      meaning all dicts are recursively sorted by key and then by value, and
-      most lists are also recursively sorted
-    - the lists of glosses under the `/words` endpoints are not sorted as these
-      are in rough order of importance in the source data
