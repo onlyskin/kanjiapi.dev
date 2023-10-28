@@ -295,7 +295,7 @@ After building, to sync the built assets to the website bucket run:
 NB: it's a good idea to run all of these commands with `rsync -n` for a dry-run first
 
 To sync the built site dir (`out/site`) up with the root of the bucket, but non-recursively:
-`gsutil -m rsync -c -d out/site gs://kanjiapi.dev`
+`gsutil -m rsync -c -d -x ".*\.map$" out/site gs://kanjiapi.dev`
 
 To sync the built api dir folders (`out/{version}`) up with the dir `/{version}` in the bucket recursively based on file hashes:
 `gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1/kanji gs://kanjiapi.dev/v1/kanji/`
