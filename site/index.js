@@ -364,38 +364,6 @@ const KANJI_LIST_ENDPOINTS = [
 const KANJI_FIELDS = [
     { name: 'kanji', description: 'The kanji itself', type: 'string' },
     {
-        name: 'grade',
-        description: [
-            'The official grade of the kanji (1-6 for ',
-            m(KYOIKU_LINK),
-            ', 8 for the remaining ',
-            m(JOYO_LINK),
-            ', 9 for ',
-            m(JINMEIYO_LINK),
-            ')',
-        ],
-        type: [ m('.di.f7', '1..6 | 8 | 9 | '), 'null' ],
-    },
-    {
-        name: 'stroke_count',
-        description: 'The number of strokes necessary to write the kanji',
-        type: 'number'
-    },
-    {
-        name: 'meanings',
-        description: 'A list of English meanings associated with the kanji',
-        type: 'string[]'
-    },
-    {
-        name: 'heisig_en',
-        description: [
-          'The ',
-          m(Link, { href: HEISIG_URL }, 'Heisig'),
-          ' keyword associated with the kanji for English',
-        ],
-        type: [ 'string ', m('.di.f7', '|'), ' null' ],
-    },
-    {
         name: 'kun_readings',
         description: 'A list of kun readings associated with the kanji',
         type: 'string[]'
@@ -411,13 +379,14 @@ const KANJI_FIELDS = [
         type: 'string[]'
     },
     {
-        name: 'jlpt',
-        description: [
-            'The ',
-            m(Link, { href: JLPT_URL }, 'former JLPT'),
-            ' test level for the kanji',
-        ],
-        type: [ m('.di.f7', '1..4 | '), 'null'],
+        name: 'meanings',
+        description: 'A list of English meanings associated with the kanji',
+        type: 'string[]'
+    },
+    {
+        name: 'stroke_count',
+        description: 'The number of strokes necessary to write the kanji',
+        type: 'number'
     },
     {
         name: 'unicode',
@@ -429,13 +398,44 @@ const KANJI_FIELDS = [
         type: 'string',
     },
     {
+        name: 'grade',
+        description: [
+            'The official grade of the kanji (1-6 for ',
+            m(KYOIKU_LINK),
+            ', 8 for the remaining ',
+            m(JOYO_LINK),
+            ', 9 for ',
+            m(JINMEIYO_LINK),
+            ')',
+        ],
+        type: [ m('.di.f7', '1..6 | 8 | 9 | '), 'null' ],
+    },
+    {
+        name: 'jlpt',
+        description: [
+            'The ',
+            m(Link, { href: JLPT_URL }, 'former JLPT'),
+            ' test level for the kanji',
+        ],
+        type: [ m('.di.f7', '1..4 | '), 'null'],
+    },
+    {
+        name: 'heisig_en',
+        description: [
+          'The ',
+          m(Link, { href: HEISIG_URL }, 'Heisig'),
+          ' keyword associated with the kanji for English',
+        ],
+        type: [ 'string ', m('.di.f7', '|'), ' null' ],
+    },
+    {
         name: 'unihan_cjk_compatibility_variant',
-        description: 'if the kanji is a compatibility variant character, the unified version of the character (see README.md Jinmeiyo section for more information)',
-        type: 'string | undefined',
+        description: 'If the kanji is a compatibility variant character, the unified version of the character (see README.md Jinmeiyo section for more information)',
+        type: [ 'string ', m('.di.f7', '|'), ' undefined' ],
     },
     {
         name: 'notes',
-        description: 'any notes about the kanji or its fields',
+        description: 'Any notes about the kanji or its fields',
         type: 'string[]',
     },
 ]
