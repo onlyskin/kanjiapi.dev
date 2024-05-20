@@ -37,6 +37,7 @@ def test_kanji_data_xml():
     "つぐ"
   ],
   "jlpt": 1,
+  "freq_mainichi_shinbun": 1509,
   "unicode": "4E9C",
   "heisig_en": "Asia",
   "notes": []
@@ -64,6 +65,7 @@ def test_handles_kanji_without_grades():
   ],
   "name_readings": [],
   "jlpt": null,
+  "freq_mainichi_shinbun": null,
   "unicode": "5516",
   "heisig_en": "babble",
   "notes": []
@@ -96,6 +98,7 @@ def test_uses_first_stroke_count_for_kanji_with_multiple_stroke_counts():
     "おう"
   ],
   "jlpt": null,
+  "freq_mainichi_shinbun": 2116,
   "unicode": "9022",
   "heisig_en": "tryst",
   "notes": []
@@ -138,6 +141,7 @@ def test_handles_character_with_CJK_equivalent():
     "わたる"
   ],
   "jlpt": 3,
+  "freq_mainichi_shinbun": 200,
   "unicode": "6D77",
   "heisig_en": "sea",
   "notes": []
@@ -161,6 +165,7 @@ def test_handles_character_in_CJK_block():
   ],
   "name_readings": [],
   "jlpt": null,
+  "freq_mainichi_shinbun": null,
   "unicode": "FA45",
   "heisig_en": null,
   "unihan_cjk_compatibility_variant": "海",

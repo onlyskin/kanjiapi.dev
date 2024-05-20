@@ -19,6 +19,7 @@ MEANINGS = etree.XPath('./reading_meaning//meaning[not(@m_lang)]')
 STROKE_COUNT = etree.XPath('./misc/stroke_count')
 CODEPOINT = etree.XPath('.//cp_value[@cp_type="ucs"]')
 JLPT = etree.XPath('./misc/jlpt')
+FREQ = etree.XPath('./misc/freq')
 LITERAL = etree.XPath('literal')
 
 
@@ -57,6 +58,13 @@ def jlpt(character):
         return None
 
 
+def freq(character):
+    try:
+        return int(FREQ(character)[0].text)
+    except (AttributeError, IndexError):
+        return None
+
+
 def literal(character):
     return LITERAL(character)[0].text
 
@@ -85,6 +93,7 @@ def kanji_data(character):
         ('on_readings', on_readings(character)),
         ('name_readings', nanori(character)),
         ('jlpt', jlpt(character)),
+        ('freq_mainichi_shinbun', freq(character)),
         ('unicode', unicode_codepoint(character)),
         ('heisig_en', heisig_keyword(character_literal)),
     ]

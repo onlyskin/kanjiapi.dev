@@ -23,6 +23,7 @@ const ONKUN_URL = 'https://www.onkun.org/'
 const KANJIDOJO_URL = 'https://kanji-dojo.vercel.app/'
 const EDRDG_URL = 'https://www.edrdg.org/'
 const EDRDG_LICENCE_URL = 'https://www.edrdg.org/edrdg/licence.html'
+const KANJIDIC_URL = 'https://www.edrdg.org/wiki/index.php/KANJIDIC_Project'
 const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
 const KANJI_FLASH_URL = 'https://www.kanjiflash.com'
 
@@ -427,6 +428,15 @@ const KANJI_FIELDS = [
           ' keyword associated with the kanji for English',
         ],
         type: [ 'string ', m('.di.f7', '|'), ' null' ],
+    },
+    {
+        name: 'freq_mainichi_shinbun',
+        description: [
+          'A relative frequency ranking from an analysis of Mainichi Shinbun newspaper articles. The 2,501 most-used characters received a ranking (see the ',
+          m(Link, { href: KANJIDIC_URL }, 'KANJIDIC'),
+          ' project for more information)',
+        ],
+        type: [ 'number ', m('.di.f7', '|'), ' null' ],
     },
     {
         name: 'unihan_cjk_compatibility_variant',

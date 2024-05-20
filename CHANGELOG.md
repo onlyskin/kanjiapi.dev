@@ -30,3 +30,4 @@ All notable changes to this project will be documented in this file.
 - add `/kanji/kyouiku` and `/kanji/kyoiku` endpoints
 - and `/kanji/heisig` endpoint listing all kanji with a Heisig keyword
 - uppercase the value for the `unicode` field on `kanji/{character}` endpoints
+- add `freq_mainichi_shinbun` field to the `/kanji/{character}` endpoints providing kanji frequency information from that analysis
