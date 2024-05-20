@@ -70,7 +70,7 @@ def test_handles_kanji_without_grades():
 }'''
 
 
-def test_handles_kanji_with_multiple_stroke_counts():
+def test_uses_first_stroke_count_for_kanji_with_multiple_stroke_counts():
     character = element_for(root, '逢')
     kanji = kanji_data(character)
     output = ujson.dumps(kanji, indent=2, ensure_ascii=False)
