@@ -26,6 +26,7 @@ const EDRDG_LICENCE_URL = 'https://www.edrdg.org/edrdg/licence.html'
 const KANJIDIC_URL = 'https://www.edrdg.org/wiki/index.php/KANJIDIC_Project'
 const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
 const KANJI_FLASH_URL = 'https://www.kanjiflash.com'
+const TENORI_URL = 'https://violetfrost.net/tenori'
 
 const PopularityLogs = {
     log_display_count: 10,
@@ -210,6 +211,11 @@ const About = {
             '.self-start.pv2',
             m(Link, { href: KANJI_FLASH_URL}, 'kanji flash'),
             ': kanji flashcards by JLPT level and more'
+        ),
+        m(
+            '.self-start.pv2',
+            m(Link, { href: TENORI_URL }, 'tenori'),
+            ': a cross-platform kanji memorization tool based on electron'
         ),
         m(
             '.self-start.pv2',
