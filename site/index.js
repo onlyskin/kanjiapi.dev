@@ -11,6 +11,7 @@ const KYOIKU_URL = 'https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanji'
 const JOYO_URL = 'https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji'
 const JINMEIIYO_URL = 'https://en.wikipedia.org/wiki/Jinmeiy%C5%8D_kanji'
 const GITHUB_URL = 'https://github.com/onlyskin/kanjiapi.dev'
+const BUY_ME_A_COFFE_URL = 'https://www.buymeacoffee.com/onlyskin'
 const README_URL = 'https://github.com/onlyskin/kanjiapi.dev#readme'
 const KANJI_URL = 'https://en.wikipedia.org/wiki/Kanji'
 const MITHRIL_URL = 'https://mithril.js.org/'
@@ -150,9 +151,16 @@ const GithubIcon = {
 
 const Footer = {
     view: () => m(
-        '',
-        { style: { 'height': '50px' } },
-        m(Link, { href: GITHUB_URL }, m(GithubIcon)),
+        '.flex.flex-column.items-center.justify-center',
+        { style: { 'height': '100px' } },
+        m(
+            '.mv2',
+            m(Link, { href: GITHUB_URL }, m(GithubIcon))
+        ),
+        m(
+            '.mv2',
+            m(Link, { href: BUY_ME_A_COFFE_URL }, 'buy me a coffee')
+        ),
     ),
 }
 
