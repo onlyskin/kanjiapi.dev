@@ -208,28 +208,28 @@ const About = {
         ),
         m(
             '.self-start.pv2',
-            m(Link, { href: ONKUN_URL }, 'onkun'),
+            m(Link, { href: ONKUN_URL }, 'OnKun'),
             ': the simple kanji dictionary'
         ),
         m(
             '.self-start.pv2',
-            m(Link, { href: KANJIDOJO_URL}, 'kanji dojo'),
+            m(Link, { href: KANJIDOJO_URL }, 'Kanji Dojo'),
             ': a place to learn new kanji vocabulary'
         ),
         m(
             '.self-start.pv2',
-            m(Link, { href: KANJI_FLASH_URL}, 'kanji flash'),
+            m(Link, { href: KANJI_FLASH_URL }, 'Kanji Flash'),
             ': kanji flashcards by JLPT level and more'
         ),
 		m(
             '.self-start.pv2',
-            m(Link, { href: VR_KANJI_CARDS_URL}, 'vr kanji cards'),
-            ': place kanji flashcards in a vr mind palace'
+            m(Link, { href: VR_KANJI_CARDS_URL }, 'VR Kanji Cards'),
+            ': place kanji flashcards in a VR mind palace'
         ),
         m(
             '.self-start.pv2',
-            m(Link, { href: TRACE_KANJI_URL}, 'trace kanji'),
-            ': kanji recognizer and spaced-repetition study tool'
+            m(Link, { href: TRACE_KANJI_URL }, 'Trace Kanji'),
+            ': kanji recognizer and spaced repetition study tool'
         ),
         m(
             '.self-start.pv2',
