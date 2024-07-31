@@ -2,9 +2,13 @@
 
 Over 13,000 kanji served at [https://kanjiapi.dev](https://kanjiapi.dev)
 
-## Documentation
+## Links
+- API documentation: https://kanjiapi.dev/#!/documentation
+- Help understanding why which kanji exist in which list: https://onlyskin.dev/official-kanji-list-diffs/
 
-https://kanjiapi.dev/#!/documentation
+## Buy me a coffee
+
+https://buymeacoffee.com/onlyskin
 
 ## Examples
 
