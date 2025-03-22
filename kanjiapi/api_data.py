@@ -191,6 +191,8 @@ def main():
 
     for grade_numeral, grade_kanji in grade_to_kanji_list().items():
         dump_json(f'{KANJI_DIR}grade-{grade_numeral}', canonicalise(grade_kanji))
+    for jlpt_level, jlpt_level_kanji in jlpt_level_to_kanji_list().items():
+        dump_json(f'{KANJI_DIR}jlpt-{jlpt_level}', canonicalise(jlpt_level_kanji))
     high_school_kanji = [k for k in joyo_list() if k not in all_kyoiku()]
     dump_json(f'{KANJI_DIR}grade-8', canonicalise(high_school_kanji))
     dump_json(f'{KANJI_DIR}kyouiku', canonicalise(all_kyoiku()))
