@@ -6,12 +6,12 @@
   "author": "Iridium Szreter <s.szreter@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "esbuild": "^0.19.3",
     "kanjiapi-wrapper": "^1.1.5",
     "luxon": "^3.4.2",
     "mithril": "^2.0.3"
   },
   "devDependencies": {
+    "esbuild": "^0.25.1",
     "tachyons": "^4.11.1"
   }
 }
