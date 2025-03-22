@@ -15,7 +15,7 @@ const BUY_ME_A_COFFE_URL = 'https://www.buymeacoffee.com/onlyskin'
 const README_URL = 'https://github.com/onlyskin/kanjiapi.dev#readme'
 const KANJI_URL = 'https://en.wikipedia.org/wiki/Kanji'
 const MITHRIL_URL = 'https://mithril.js.org/'
-const JLPT_URL = 'https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test#Previous_format_(1984%E2%80%932009)'
+const JLPT_URL = 'https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Test'
 const UNICODE_URL = 'https://en.wikipedia.org/wiki/Unicode'
 const HEISIG_URL = 'https://en.wikipedia.org/wiki/Remembering_the_Kanji_and_Remembering_the_Hanzi'
 const KANJIAPI_WRAPPER_URL = 'https://github.com/onlyskin/kanjiapi-wrapper'
@@ -29,6 +29,7 @@ const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
 const KANJI_FLASH_URL = 'https://www.kanjiflash.com'
 const VR_KANJI_CARDS_URL = 'https://playingwcolor.itch.io/vr-kanji-cards'
 const TRACE_KANJI_URL = 'https://tracekanji.com/'
+const WALLER_JLPT_URL = 'https://www.tanos.co.uk/jlpt/'
 
 const PopularityLogs = {
     log_display_count: 10,
@@ -196,6 +197,13 @@ const About = {
             ),
             ', and are used in conformance with the Group\'s ',
             m(Link, { href: EDRDG_LICENCE_URL }, 'licence'),
+            '.',
+        ),
+        m(
+            '.self-start.pv2',
+            m(JLPT_LINK),
+            ' level information comes from ',
+            m(Link, { href: WALLER_JLPT_URL }, 'Jonathan Waller\'s JLPT Resources page'),
             '.',
         ),
         m(
@@ -368,6 +376,10 @@ const KYOIKU_LINK = {
     view: () => m(Link, { href: KYOIKU_URL }, 'Kyōiku kanji'),
 }
 
+const JLPT_LINK = {
+    view: () => m(Link, { href: JLPT_URL }, 'JLPT'),
+}
+
 const KANJI_LIST_ENDPOINTS = [
     { endpoint: '/v1/kanji/joyo', description: ['List of ', m(JOYO_LINK)]},
     { endpoint: '/v1/kanji/jouyou', description: ['List of ', m(JOYO_LINK)]},
@@ -383,6 +395,11 @@ const KANJI_LIST_ENDPOINTS = [
     { endpoint: '/v1/kanji/grade-5', description: ['List of Grade 5 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-6', description: ['List of Grade 6 ', m(KYOIKU_LINK)]},
     { endpoint: '/v1/kanji/grade-8', description: ['List of ', m(JOYO_LINK), ' excluding ', m(KYOIKU_LINK)]},
+    { endpoint: '/v1/kanji/jlpt-5', description: ['List of ', m(JLPT_LINK), ' N5 kanji']},
+    { endpoint: '/v1/kanji/jlpt-4', description: ['List of ', m(JLPT_LINK), ' N4 kanji']},
+    { endpoint: '/v1/kanji/jlpt-3', description: ['List of ', m(JLPT_LINK), ' N3 kanji']},
+    { endpoint: '/v1/kanji/jlpt-2', description: ['List of ', m(JLPT_LINK), ' N2 kanji']},
+    { endpoint: '/v1/kanji/jlpt-1', description: ['List of ', m(JLPT_LINK), ' N1 kanji']},
     { endpoint: '/v1/kanji/all', description: 'List of all 13,000+ available kanji' },
 ]
 
