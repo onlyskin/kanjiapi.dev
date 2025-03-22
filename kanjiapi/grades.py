@@ -11,10 +11,6 @@ def grade_to_kanji_list():
     return kanji_by_grade
 
 
-def all_grades():
-    return list(grade_to_kanji_list().keys())
-
-
 @cache
 def kanji_to_grade():
     return {kanji: grade for grade, kanji_list in

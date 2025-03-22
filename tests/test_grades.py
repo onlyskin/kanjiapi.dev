@@ -1,4 +1,4 @@
-from kanjiapi.grades import all_in_grade, all_kyoiku, grade_for_char, all_grades
+from kanjiapi.grades import all_in_grade, all_kyoiku, grade_for_char, grade_to_kanji_list
 
 
 def test_grade_1():
@@ -33,5 +33,6 @@ def test_grade_for_char():
     assert grade_for_char('羽') == 2
 
 
-def test_all_grades():
-    assert all_grades() == [1, 2, 3, 4, 5, 6]
+def test_no_duplication_between_grades():
+    full_list = [k for ks in grade_to_kanji_list().values() for k in ks]
+    assert len(full_list) == len(set(full_list))
