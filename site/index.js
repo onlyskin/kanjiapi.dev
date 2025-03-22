@@ -52,13 +52,17 @@ const PopularityLogs = {
             this.topJoyo.length === 0 &&
             !this.hasLoading()
         ) {
+            const joyoSet = kanjiapi.getJoyoSet().value;
+            const jinmeiyoSet = kanjiapi.getJinmeiyoSet().value;
+            const heisigSet = kanjiapi.getHeisigSet().value;
+
             this.getCollatedItems().forEach(item => {
                 this.topAll.push(item);
-                if (kanjiapi.getJoyoSet().value.has(item[0])) {
+                if (joyoSet.has(item[0])) {
                     this.topJoyo.push(item);
-                } else if (kanjiapi.getJinmeiyoSet().value.has(item[0])) {
+                } else if (jinmeiyoSet.has(item[0])) {
                     this.topJinmeiyo.push(item);
-                } else if (kanjiapi.getHeisigSet().value.has(item[0])) {
+                } else if (heisigSet.has(item[0])) {
                     this.topHeisig.push(item);
                 } else if (item[0].length === 1) {
                     this.topOther.push(item);
