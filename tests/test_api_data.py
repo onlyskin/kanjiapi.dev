@@ -140,7 +140,7 @@ def test_handles_character_with_CJK_equivalent():
     "め",
     "わたる"
   ],
-  "jlpt": 3,
+  "jlpt": 4,
   "freq_mainichi_shinbun": 200,
   "unicode": "6D77",
   "heisig_en": "sea",

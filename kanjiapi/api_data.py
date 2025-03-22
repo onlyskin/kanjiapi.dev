@@ -10,6 +10,7 @@ from .canonicalise import canonicalise
 from .unihan import joyo_list, jinmeiyo_list, compatibility_variant
 from .heisig import heisig_keyword, all_heisig
 from .grades import grade_to_kanji_list, all_kyoiku, grade_for_char
+from .jlpt import jlpt_level_to_kanji_list, all_jlpt, jlpt_level_for_char
 
 
 NANORI = etree.XPath('./reading_meaning//nanori')
@@ -18,7 +19,6 @@ KUN_READINGS = etree.XPath('./reading_meaning//reading[@r_type="ja_kun"]')
 MEANINGS = etree.XPath('./reading_meaning//meaning[not(@m_lang)]')
 STROKE_COUNT = etree.XPath('./misc/stroke_count')
 CODEPOINT = etree.XPath('.//cp_value[@cp_type="ucs"]')
-JLPT = etree.XPath('./misc/jlpt')
 FREQ = etree.XPath('./misc/freq')
 LITERAL = etree.XPath('literal')
 
@@ -51,10 +51,10 @@ def unicode_codepoint(character):
     return CODEPOINT(character)[0].text.upper()
 
 
-def jlpt(character):
-    try:
-        return int(JLPT(character)[0].text)
-    except (AttributeError, IndexError):
+def jlpt(character_literal):
+    if character_literal in all_jlpt():
+        return jlpt_level_for_char(character_literal)
+    else:
         return None
 
 
@@ -92,7 +92,7 @@ def kanji_data(character):
         ('kun_readings', kun_readings(character)),
         ('on_readings', on_readings(character)),
         ('name_readings', nanori(character)),
-        ('jlpt', jlpt(character)),
+        ('jlpt', jlpt(character_literal)),
         ('freq_mainichi_shinbun', freq(character)),
         ('unicode', unicode_codepoint(character)),
         ('heisig_en', heisig_keyword(character_literal)),
