@@ -29,6 +29,7 @@ const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
 const KANJI_FLASH_URL = 'https://www.kanjiflash.com'
 const VR_KANJI_CARDS_URL = 'https://playingwcolor.itch.io/vr-kanji-cards'
 const TRACE_KANJI_URL = 'https://tracekanji.com/'
+const KANJI_HEATMAP_URL = 'https://kanjiheatmap.com/'
 const WALLER_JLPT_URL = 'https://www.tanos.co.uk/jlpt/'
 
 const PopularityLogs = {
@@ -242,6 +243,11 @@ const About = {
             '.self-start.pv2',
             m(Link, { href: TRACE_KANJI_URL }, 'Trace Kanji'),
             ': kanji recognizer and spaced repetition study tool'
+        ),
+        m(
+            '.self-start.pv2',
+            m(Link, { href: KANJI_HEATMAP_URL }, 'Kanji Heatmap'),
+            ': exploration tool with filtering, sorting, and frequency heatmap'
         ),
         m(
             '.self-start.pv2',
