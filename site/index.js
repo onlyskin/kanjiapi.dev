@@ -31,6 +31,7 @@ const VR_KANJI_CARDS_URL = 'https://playingwcolor.itch.io/vr-kanji-cards'
 const TRACE_KANJI_URL = 'https://tracekanji.com/'
 const KANJI_HEATMAP_URL = 'https://kanjiheatmap.com/'
 const WALLER_JLPT_URL = 'https://www.tanos.co.uk/jlpt/'
+const KANJI_PRE_READER_URL = 'https://kanji-pre-reader.netlify.app/'
 
 const PopularityLogs = {
     log_display_count: 10,
@@ -248,6 +249,11 @@ const About = {
             '.self-start.pv2',
             m(Link, { href: KANJI_HEATMAP_URL }, 'Kanji Heatmap'),
             ': exploration tool with filtering, sorting, and frequency heatmap'
+        ),
+        m(
+            '.self-start.pv2',
+            m(Link, { href: KANJI_PRE_READER_URL }, 'Kanji Pre-Reader'),
+            ': pre-reads text to create kanji study sheets'
         ),
         m(
             '.self-start.pv2',
