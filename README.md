@@ -1,3 +1,35 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=id">Bahasa Indonesia</a>
+        | <a href="https://openaitx.github.io/view.html?user=onlyskin&project=kanjiapi.dev&lang=as">অসমীয়া</
+      </div>
+    </div>
+  </details>
+</div>
+
 # kanjiapi.dev: a modern JSON API for Kanji
 
 Over 13,000 kanji served at [https://kanjiapi.dev](https://kanjiapi.dev)
