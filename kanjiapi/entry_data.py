@@ -7,11 +7,16 @@ from .entry import Entry, Meaning, KanjiForm, Reading
 SENSES = etree.XPath('./sense')
 GLOSSES = etree.XPath('./gloss[not(@xml:lang)]/text()')
 R_ELE = etree.XPath('./r_ele')
+RE_PRI = etree.XPath('./re_pri')
 REB = etree.XPath('./reb')
 RE_RESTR = etree.XPath('./re_restr')
 KE_PRI = etree.XPath('./ke_pri')
 KEB = etree.XPath('./keb')
 K_ELE = etree.XPath('./k_ele')
+
+
+def r_ele_priorities(element):
+    return tuple(sorted(set([e.text for e in RE_PRI(element)])))
 
 
 def reading_from(r_ele):
@@ -20,7 +25,8 @@ def reading_from(r_ele):
             restriction.text
             for restriction in RE_RESTR(r_ele)
             ])
-    return Reading(reading, restrictions)
+    priorities = r_ele_priorities(r_ele)
+    return Reading(reading, restrictions, priorities)
 
 
 def readings(kanji_forms, entry):

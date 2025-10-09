@@ -6,6 +6,7 @@ from dataclasses import dataclass, asdict
 class Reading():
     reading: str
     restrictions: tuple[str]
+    priorities: tuple[str]
 
 
 @dataclass(frozen=True, order=True)
@@ -41,8 +42,9 @@ class Entry():
                     )
                 ]
 
+        any_reading_has_priority = any([r for k, r in combinations if r.priorities])
         return [{
             'written': kanji_form.form,
             'pronounced': reading.reading,
-            'priorities': kanji_form.priorities,
+            'priorities': reading.priorities if any_reading_has_priority else kanji_form.priorities,
             } for kanji_form, reading in combinations]

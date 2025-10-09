@@ -16,7 +16,7 @@ def test_extracts_kanji_to_entries_dict_from_single_entry():
 
     entry = Entry(
         (KanjiForm('愛猫', ()),),
-        (Reading('あいびょう', ()),),
+        (Reading('あいびょう', (), ()),),
         (
             Meaning(('pet cat', 'beloved cat')),
             Meaning(('ailurophilia', 'fondness for cats')),
@@ -35,7 +35,7 @@ def test_entry_with_multiple_kanji_forms():
 
     entry = Entry(
         (KanjiForm('お客さん', ()), KanjiForm('御客さん', ())),
-        (Reading('おきゃくさん', ()),),
+        (Reading('おきゃくさん', (), ()),),
         (
             Meaning(('guest', 'visitor')),
             Meaning(('customer', 'client', 'shopper', 'spectator',
@@ -58,7 +58,7 @@ def test_entry_with_common_and_rare_kanji_forms():
             KanjiForm('お参り', ('ichi1', 'news2', 'nf36')),
             KanjiForm('御参り', ()),
         ),
-        (Reading('おまいり', ()),),
+        (Reading('おまいり', (), ('ichi1', 'news2', 'nf36')),),
         (Meaning(('visit (to a shrine, grave, etc.)', 'worship')),),
     )
     assert entries_by_kanji == dict({
@@ -74,7 +74,7 @@ def test_entry_with_two_rebs():
 
     entry = Entry(
         (KanjiForm('だぼ鯊', ()),),
-        (Reading('だぼはぜ', ()), Reading('ダボハゼ', ())),
+        (Reading('だぼはぜ', (), ()), Reading('ダボハゼ', (), ())),
         (Meaning(('goby (fish)',)),),
         )
     assert entries_by_kanji == dict({
@@ -94,8 +94,8 @@ def test_entry_with_restricted_reading():
             KanjiForm('何のくらい', ()),
         ),
         (
-            Reading('どのくらい', ()),
-            Reading('どのぐらい', ('どの位', '何の位')),
+            Reading('どのくらい', (), ('ichi1',)),
+            Reading('どのぐらい', ('どの位', '何の位'), ('spec1',)),
         ),
         (Meaning(('how long', 'how far', 'how much')),),
         )
@@ -104,6 +104,29 @@ def test_entry_with_restricted_reading():
         '何': {entry},
     })
 
+
+def test_entry_with_reading_priority():
+    entries = [element_for(root, '1585060')]
+
+    entries_by_kanji = word_dict(entries)
+
+    entry = Entry(
+        (KanjiForm('雷', ('ichi1', 'news1', 'nf11')),),
+        (
+            Reading('かみなり', (), ('ichi1', 'news1', 'nf11')),
+            Reading('いかずち', (), ()),
+            Reading('いかづち', (), ()),
+            Reading('らい', (), ()),
+        ),
+        (
+            Meaning(('lightning', 'thunder', 'thunderbolt')),
+            Meaning(('god of thunder', 'god of lightning')),
+            Meaning(('anger', 'fit of anger')),
+        ),
+        )
+    assert entries_by_kanji == dict({
+        '雷': {entry},
+        })
 
 def xtest_sense_restricted_by_reading():
     entries = [element_for(root, '1165180')]
@@ -120,7 +143,7 @@ def test_combines_multiple_entries():
 
     entry1 = Entry(
         (KanjiForm('愛猫', ()),),
-        (Reading('あいびょう', ()),),
+        (Reading('あいびょう', (), ()),),
         (
             Meaning(('pet cat', 'beloved cat')),
             Meaning(('ailurophilia', 'fondness for cats')),
@@ -128,7 +151,7 @@ def test_combines_multiple_entries():
     )
     entry2 = Entry(
         (KanjiForm('海猫', ()),),
-        (Reading('うみねこ', ()), Reading('ウミネコ', ())),
+        (Reading('うみねこ', (), ()), Reading('ウミネコ', (), ())),
         (
             Meaning(('black-tailed gull (Larus crassirostris)',)),
         ),
