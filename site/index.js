@@ -19,19 +19,11 @@ const JLPT_URL = 'https://en.wikipedia.org/wiki/Japanese-Language_Proficiency_Te
 const UNICODE_URL = 'https://en.wikipedia.org/wiki/Unicode'
 const HEISIG_URL = 'https://en.wikipedia.org/wiki/Remembering_the_Kanji_and_Remembering_the_Hanzi'
 const KANJIAPI_WRAPPER_URL = 'https://github.com/onlyskin/kanjiapi-wrapper'
-const KANJIKAI_URL = 'https://kai.kanjiapi.dev'
-const ONKUN_URL = 'https://www.onkun.org/'
-const KANJIDOJO_URL = 'https://kanji-dojo.vercel.app/'
 const EDRDG_URL = 'https://www.edrdg.org/'
 const EDRDG_LICENCE_URL = 'https://www.edrdg.org/edrdg/licence.html'
 const KANJIDIC_URL = 'https://www.edrdg.org/wiki/index.php/KANJIDIC_Project'
 const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
-const KANJI_FLASH_URL = 'https://www.kanjiflash.com'
-const VR_KANJI_CARDS_URL = 'https://playingwcolor.itch.io/vr-kanji-cards'
-const TRACE_KANJI_URL = 'https://tracekanji.com/'
-const KANJI_HEATMAP_URL = 'https://kanjiheatmap.com/'
 const WALLER_JLPT_URL = 'https://www.tanos.co.uk/jlpt/'
-const KANJI_PRE_READER_URL = 'https://kanji-pre-reader.netlify.app/'
 
 const PopularityLogs = {
     log_display_count: 10,
@@ -179,6 +171,67 @@ const Header = {
     )
 }
 
+const Project = {
+    view: ({ attrs: { href, name, slug } }) => m(
+        '.self-start.pv2',
+        m(Link, { href }, name),
+        `: ${slug}`
+    )
+}
+
+const projects = [
+    {
+      href: 'https://kai.kanjiapi.dev',
+      name: 'kanjikai',
+      slug: 'a rabbit hole kanji dictionary in which every character and every reading is clickable'
+    },
+    {
+      href: 'https://www.onkun.org',
+      name: 'OnKun',
+      slug: 'the simple kanji dictionary'
+    },
+    {
+      href: 'https://kanji-dojo.vercel.app',
+      name: 'Kanji Dojo',
+      slug: 'a place to learn new kanji vocabulary'
+    },
+    {
+      href: 'https://www.kanjiflash.com',
+      name: 'Kanji Flash',
+      slug: 'kanji flashcards by JLPT level and more'
+    },
+    {
+      href: 'https://playingwcolor.itch.io/vr-kanji-cards',
+      name: 'VR Kanji Cards',
+      slug: 'place kanji flashcards in a VR mind palace'
+    },
+    {
+      href: 'https://tracekanji.com',
+      name: 'Trace Kanji',
+      slug: 'kanji recognizer and spaced repetition study tool'
+    },
+    {
+      href: 'https://kanjiheatmap.com',
+      name: 'Kanji Heatmap',
+      slug: 'exploration tool with filtering, sorting, and frequency heatmap'
+    },
+    {
+      href: 'https://kanji-pre-reader.netlify.app',
+      name: 'Kanji Pre-Reader',
+      slug: 'pre-reads text to create kanji study sheets'
+    },
+    {
+      href: 'https://mistmage.github.io/kanji-memory-game-AI/',
+      name: 'Kanji Memory Game',
+      slug: 'a game of memory with kanji'
+    },
+    {
+      href: 'https://masscom.media/playground/tools/kanji-sensei/',
+      name: 'Kanji Sensei',
+      slug: 'a kanji writing practice tool'
+    },
+]
+
 const About = {
     view: () => [
         m('.f4.f3-l.tc.mv2.nowrap', 'What is this?'),
@@ -215,46 +268,7 @@ const About = {
             '.',
         ),
         m('.f4.f3-l.tc.mv2.nowrap', 'Projects that use kanjiapi.dev'),
-        m(
-            '.self-start.pv2',
-            m(Link, { href: KANJIKAI_URL }, 'kanjikai'),
-            ': a rabbit hole kanji dictionary in which every character and every reading is clickable'
-        ),
-        m(
-            '.self-start.pv2',
-            m(Link, { href: ONKUN_URL }, 'OnKun'),
-            ': the simple kanji dictionary'
-        ),
-        m(
-            '.self-start.pv2',
-            m(Link, { href: KANJIDOJO_URL }, 'Kanji Dojo'),
-            ': a place to learn new kanji vocabulary'
-        ),
-        m(
-            '.self-start.pv2',
-            m(Link, { href: KANJI_FLASH_URL }, 'Kanji Flash'),
-            ': kanji flashcards by JLPT level and more'
-        ),
-		m(
-            '.self-start.pv2',
-            m(Link, { href: VR_KANJI_CARDS_URL }, 'VR Kanji Cards'),
-            ': place kanji flashcards in a VR mind palace'
-        ),
-        m(
-            '.self-start.pv2',
-            m(Link, { href: TRACE_KANJI_URL }, 'Trace Kanji'),
-            ': kanji recognizer and spaced repetition study tool'
-        ),
-        m(
-            '.self-start.pv2',
-            m(Link, { href: KANJI_HEATMAP_URL }, 'Kanji Heatmap'),
-            ': exploration tool with filtering, sorting, and frequency heatmap'
-        ),
-        m(
-            '.self-start.pv2',
-            m(Link, { href: KANJI_PRE_READER_URL }, 'Kanji Pre-Reader'),
-            ': pre-reads text to create kanji study sheets'
-        ),
+        projects.map(project => m(Project, project)),
         m(
             '.self-start.pv2',
             'Raise a ',
