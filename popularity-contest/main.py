@@ -26,7 +26,7 @@ def get_match_string(dt):
 
 def get_last_n_hours_datetimes(n):
     return [datetime.utcnow() - timedelta(hours=i) for i in range(0, n)]
-        
+
 
 @functions_framework.cloud_event
 def handle(e):
@@ -39,12 +39,8 @@ def handle(e):
 
     storage_client = storage.Client()
 
-    usage_blobs_matching_new_log_datetime = [
-            blob for blob
-            in storage_client.list_blobs(logging_bucket_name)
-            if new_log_file_name[:38]in blob.name
-    ]
-
+    prefix = new_log_file_name[:38]
+    usage_blobs_matching_new_log_datetime = list(storage_client.list_blobs(logging_bucket_name, prefix=prefix))
     popularity_bucket = storage_client.bucket(popularity_bucket_name)
 
     blobs_as_contents = [blob.download_as_text() for blob
@@ -69,7 +65,7 @@ if __name__ == '__main__':
 
     for i in range(0, 24):
         hour = datetime(today.year, today.month, today.day, i)
-        name_stub = f'kanjiapi.dev_usage_{get_match_string(hour)}'
+        name_stub = f'kanjiapi.dev_usage_{get_match_string(hour)}_00_00_08fbf5f5accfbfd7ef_v0'
         mock_event = MockEvent(name_stub)
         print(mock_event.data)
         handle(mock_event)
