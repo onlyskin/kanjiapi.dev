@@ -230,6 +230,11 @@ const projects = [
       name: 'Kanji Sensei',
       slug: 'a kanji writing practice tool'
     },
+    {
+      href: 'https://www.kanjimap.eu',
+      name: 'kanjimap',
+      slug: 'every kanji and common words with animated stroke order, readings, compounds, and radical browsing'
+    },
 ]
 
 const About = {
