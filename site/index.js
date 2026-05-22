@@ -186,11 +186,6 @@ const projects = [
       slug: 'a rabbit hole kanji dictionary in which every character and every reading is clickable'
     },
     {
-      href: 'https://www.onkun.org',
-      name: 'OnKun',
-      slug: 'the simple kanji dictionary'
-    },
-    {
       href: 'https://kanji-dojo.vercel.app',
       name: 'Kanji Dojo',
       slug: 'a place to learn new kanji vocabulary'
