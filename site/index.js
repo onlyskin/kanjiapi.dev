@@ -4,7 +4,11 @@ const { Kanjiapi } = require('kanjiapi-wrapper')
 const { DateTime } = require('luxon')
 const { LogProvider } = require('./log_provider');
 
-const kanjiapi = Kanjiapi.build()
+const LOCAL_HOSTNAMES = ['localhost', '127.0.0.1']
+
+const kanjiapi = LOCAL_HOSTNAMES.includes(window.location.hostname)
+    ? Kanjiapi.build(window.location.origin)
+    : Kanjiapi.build()
 kanjiapi.addListener('app', m.redraw)
 
 const KYOIKU_URL = 'https://en.wikipedia.org/wiki/Ky%C5%8Diku_kanji'
