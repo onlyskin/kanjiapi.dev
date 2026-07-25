@@ -406,28 +406,35 @@ const JLPT_LINK = {
     view: () => m(Link, { href: JLPT_URL }, 'JLPT'),
 }
 
-const KANJI_LIST_ENDPOINTS = [
-    { endpoint: '/v1/kanji/joyo', description: ['List of ', m(JOYO_LINK)]},
-    { endpoint: '/v1/kanji/jouyou', description: ['List of ', m(JOYO_LINK)]},
-    { endpoint: '/v1/kanji/jinmeiyo', description: ['List of ', m(JINMEIYO_LINK)]},
-    { endpoint: '/v1/kanji/jinmeiyou', description: ['List of ', m(JINMEIYO_LINK)]},
-    { endpoint: '/v1/kanji/heisig', description: ['List of kanji which have a ', m(HEISIG_LINK), ' keyword']},
-    { endpoint: '/v1/kanji/kyouiku', description: ['List of all ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/kyoiku', description: ['List of all ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/grade-1', description: ['List of Grade 1 ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/grade-2', description: ['List of Grade 2 ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/grade-3', description: ['List of Grade 3 ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/grade-4', description: ['List of Grade 4 ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/grade-5', description: ['List of Grade 5 ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/grade-6', description: ['List of Grade 6 ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/grade-8', description: ['List of ', m(JOYO_LINK), ' excluding ', m(KYOIKU_LINK)]},
-    { endpoint: '/v1/kanji/jlpt-5', description: ['List of ', m(JLPT_LINK), ' N5 kanji']},
-    { endpoint: '/v1/kanji/jlpt-4', description: ['List of ', m(JLPT_LINK), ' N4 kanji']},
-    { endpoint: '/v1/kanji/jlpt-3', description: ['List of ', m(JLPT_LINK), ' N3 kanji']},
-    { endpoint: '/v1/kanji/jlpt-2', description: ['List of ', m(JLPT_LINK), ' N2 kanji']},
-    { endpoint: '/v1/kanji/jlpt-1', description: ['List of ', m(JLPT_LINK), ' N1 kanji']},
-    { endpoint: '/v1/kanji/all', description: 'List of all 13,000+ available kanji' },
+const KANJI_LISTS = [
+    { list: 'joyo', description: () => ['List of ', m(JOYO_LINK)]},
+    { list: 'jouyou', description: () => ['List of ', m(JOYO_LINK)]},
+    { list: 'jinmeiyo', description: () => ['List of ', m(JINMEIYO_LINK)]},
+    { list: 'jinmeiyou', description: () => ['List of ', m(JINMEIYO_LINK)]},
+    { list: 'heisig', description: () => ['List of kanji which have a ', m(HEISIG_LINK), ' keyword']},
+    { list: 'kyouiku', description: () => ['List of all ', m(KYOIKU_LINK)]},
+    { list: 'kyoiku', description: () => ['List of all ', m(KYOIKU_LINK)]},
+    { list: 'grade-1', description: () => ['List of Grade 1 ', m(KYOIKU_LINK)]},
+    { list: 'grade-2', description: () => ['List of Grade 2 ', m(KYOIKU_LINK)]},
+    { list: 'grade-3', description: () => ['List of Grade 3 ', m(KYOIKU_LINK)]},
+    { list: 'grade-4', description: () => ['List of Grade 4 ', m(KYOIKU_LINK)]},
+    { list: 'grade-5', description: () => ['List of Grade 5 ', m(KYOIKU_LINK)]},
+    { list: 'grade-6', description: () => ['List of Grade 6 ', m(KYOIKU_LINK)]},
+    { list: 'grade-8', description: () => ['List of ', m(JOYO_LINK), ' excluding ', m(KYOIKU_LINK)]},
+    { list: 'jlpt-5', description: () => ['List of ', m(JLPT_LINK), ' N5 kanji']},
+    { list: 'jlpt-4', description: () => ['List of ', m(JLPT_LINK), ' N4 kanji']},
+    { list: 'jlpt-3', description: () => ['List of ', m(JLPT_LINK), ' N3 kanji']},
+    { list: 'jlpt-2', description: () => ['List of ', m(JLPT_LINK), ' N2 kanji']},
+    { list: 'jlpt-1', description: () => ['List of ', m(JLPT_LINK), ' N1 kanji']},
+    { list: 'all', description: () => 'List of all 13,000+ available kanji' },
 ]
+
+function kanjiListEndpoints(suffix) {
+    return KANJI_LISTS.map(({ list, description }) => ({
+        endpoint: `/v1/kanji/${list}${suffix}`,
+        description,
+    }))
+}
 
 const KANJI_FIELDS = [
     { name: 'kanji', description: 'The kanji itself', type: 'string' },
@@ -578,7 +585,20 @@ const KanjiListEndpoint = {
     view: ({ attrs: { isLast, endpoint } }) => m(
         `.cf.pv2.pv0-l${isLast ? '.bn' : '.bb'}.b--silver`,
         m('.fl.w-100.w-third-l.pa1.code', `${endpoint.endpoint}`),
-        m('.f7.f6-l.fl.w-100.w-two-thirds-l.pa1.i', endpoint.description),
+        m('.f7.f6-l.fl.w-100.w-two-thirds-l.pa1.i', endpoint.description()),
+    ),
+}
+
+const KanjiListEndpoints = {
+    view: ({ attrs: { endpoints } }) => m(
+        '.pa1.pa3-l.mv2.ba.b--black-10.shadow-4',
+        endpoints.map((endpoint, i) => m(
+            KanjiListEndpoint,
+            {
+                endpoint,
+                isLast: (i === endpoints.length - 1),
+            },
+        )),
     ),
 }
 
@@ -709,16 +729,21 @@ const Docs = {
                     ' for detailed information on which characters are in which list)',
                 ],
             },
-            m(
-                '.pa1.pa3-l.mv2.ba.b--black-10.shadow-4',
-                KANJI_LIST_ENDPOINTS.map((endpoint, i) => m(
-                    KanjiListEndpoint,
-                    {
-                        endpoint,
-                        isLast: (i === KANJI_LIST_ENDPOINTS.length - 1),
-                    },
-                )),
-            ),
+            m(KanjiListEndpoints, { endpoints: kanjiListEndpoints('') }),
+        ),
+        m(Separator),
+        m(
+            EndpointDescription,
+            {
+                url: 'GET /v1/kanji/{list}-enriched',
+                type: 'kanji[]',
+                description: [
+                    'Provides the same lists as ',
+                    m('span.code', '/v1/kanji/{list}'),
+                    ', in the same order, but with the full kanji object for each character rather than the character on its own',
+                ],
+            },
+            m(KanjiListEndpoints, { endpoints: kanjiListEndpoints('-enriched') }),
         ),
         m(Separator),
         m(
