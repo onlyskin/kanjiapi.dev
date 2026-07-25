@@ -299,14 +299,14 @@ After building, to sync the built assets to the website bucket run:
 NB: it's a good idea to run all of these commands with `rsync -n` for a dry-run first
 
 To sync the built site dir (`out/site`) up with the root of the bucket, but non-recursively:
-`gsutil -m rsync -c -d -x ".*\.map$" out/site gs://kanjiapi.dev`
+`gcloud storage rsync out/site gs://kanjiapi.dev --checksums-only --delete-unmatched-destination-objects --exclude=".*\.map$"`
 
 To sync the built api dir folders (`out/{version}`) up with the dir `/{version}` in the bucket recursively based on file hashes:
-`gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1/kanji gs://kanjiapi.dev/v1/kanji/`
-`gsutil -m -h "Content-Type:application/json" rsync -r -c out/v1/kanji_cjk gs://kanjiapi.dev/v1/kanji/`
-`gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1/words gs://kanjiapi.dev/v1/words/`
-`gsutil -m -h "Content-Type:application/json" rsync -r -c out/v1/words_cjk gs://kanjiapi.dev/v1/words/`
-`gsutil -m -h "Content-Type:application/json" rsync -r -c -d out/v1/reading gs://kanjiapi.dev/v1/reading/`
+`gcloud storage rsync out/v1/kanji/ gs://kanjiapi.dev/v1/kanji/ --recursive --checksums-only --delete-unmatched-destination-objects --content-type="application/json"`
+`gcloud storage rsync out/v1/kanji_cjk/ gs://kanjiapi.dev/v1/kanji/ --recursive --checksums-only --content-type="application/json"`
+`gcloud storage rsync out/v1/words/ gs://kanjiapi.dev/v1/words/ --recursive --checksums-only --delete-unmatched-destination-objects --content-type="application/json"`
+`gcloud storage rsync out/v1/words_cjk/ gs://kanjiapi.dev/v1/words/ --recursive --checksums-only --content-type="application/json"`
+`gcloud storage rsync out/v1/reading/ gs://kanjiapi.dev/v1/reading/ --recursive --checksums-only --delete-unmatched-destination-objects --content-type="application/json"`
 
 #### Setting CORS policy:
 
