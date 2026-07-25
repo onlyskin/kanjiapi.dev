@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+Any new feature should be recorded here: new endpoints, new or renamed fields,
+and changes to the data a field can hold. Changes which don't affect what the
+API serves — internal refactors, dependency updates, and site-only changes —
+are deliberately left out.
+
 ## [Unreleased]
 
 ## [Released under `/v1`]
@@ -31,3 +36,17 @@ All notable changes to this project will be documented in this file.
 - and `/kanji/heisig` endpoint listing all kanji with a Heisig keyword
 - uppercase the value for the `unicode` field on `kanji/{character}` endpoints
 - add `freq_mainichi_shinbun` field to the `/kanji/{character}` endpoints providing kanji frequency information from that analysis
+- change the `jlpt` field on `/kanji/{character}` endpoints to derive from [Jonathan Waller's JLPT Resources page](https://www.tanos.co.uk/jlpt/) instead of KANJIDIC
+    - the values now refer to the current five level test, so the field ranges
+      over `1`-`5` (N1-N5) rather than the `1`-`4` of the pre-2010 test
+    - the set of kanji which have a level at all has also changed
+- add `/kanji/jlpt-1` through `/kanji/jlpt-5` endpoints listing the kanji for each JLPT level
+- change the `priorities` field on `/words/{character}` variants to come from
+  the reading rather than the written form, for entries where any reading
+  carries priority information
+    - entries where no reading has priority information continue to use the
+      priorities of the written form
+- add an `-enriched` counterpart to every `/kanji/{list}` endpoint (e.g.
+  `/kanji/joyo-enriched`), containing the full kanji object for each character
+  instead of the character on its own
+    - the enriched list is in the same order as the plain list
