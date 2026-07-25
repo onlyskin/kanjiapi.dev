@@ -299,7 +299,7 @@ After building, to sync the built assets to the website bucket run:
 NB: it's a good idea to run all of these commands with `rsync -n` for a dry-run first
 
 To sync the built site dir (`out/site`) up with the root of the bucket, but non-recursively:
-`gcloud storage rsync out/site gs://kanjiapi.dev --checksums-only --delete-unmatched-destination-objects --exclude=".*\.map$"`
+`gcloud storage rsync out/site gs://kanjiapi.dev --checksums-only --delete-unmatched-destination-objects --exclude=".*\.map$" --cache-control="public, max-age=60"`
 
 To sync the built api dir folders (`out/{version}`) up with the dir `/{version}` in the bucket recursively based on file hashes:
 `gcloud storage rsync out/v1/kanji/ gs://kanjiapi.dev/v1/kanji/ --recursive --checksums-only --delete-unmatched-destination-objects --content-type="application/json"`
