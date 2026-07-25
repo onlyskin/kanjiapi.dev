@@ -244,6 +244,11 @@ const projects = [
       name: 'Jepang: kanji-data',
       slug: 'an offline, zero-dependency node package bundling the kanji and word data for local use'
     },
+    {
+      href: 'https://huggingface.co/datasets/ronantakizawa/japanese-text-difficulty',
+      name: 'Japanese Text Difficulty',
+      slug: 'a dataset scoring the reading difficulty of 1,800 Aozora Bunko texts, using kanji grades to measure kanji complexity'
+    },
 ]
 
 const About = {
