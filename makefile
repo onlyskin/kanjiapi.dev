@@ -51,10 +51,9 @@ $(SITE_DIR)/index.html: $(SITE_SRC_DIR)/index.html | $(SITE_DIR)/tachyons.min.cs
 	cp $^ $@
 
 $(SITE_DIR)/favicon.png: | directories
-	convert -size 128x128 -gravity center -background '#1f1f1f' -fill white \
-		-font /System/Library/Fonts/ヒラギノ丸ゴ\ ProN\ W4.ttc \
-		label:字 $@
-	convert $@ -size 32x32 $@
+	magick -size 128x128 -gravity center -background '#1f1f1f' -fill white \
+		-font "/System/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc" \
+		label:字 -resize 32x32 $@
 
 $(SITE_DIR)/index.js: $(SITE_SRC_DIR)/index.js package.json $(SITE_SRC_DIR)/log_provider.js | directories
 	$(ESBUILD) $< --bundle --minify --sourcemap --outfile=$@
