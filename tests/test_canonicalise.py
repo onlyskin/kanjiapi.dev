@@ -42,6 +42,20 @@ def test_it_canonicalises_list_of_objs():
     ]
     assert list(elements(canonicalise(obj))) == list(elements(expected))
 
+def test_it_canonicalises_none():
+    assert canonicalise(None) is None
+
+def test_it_canonicalises_list_of_objs_with_none_values():
+    obj = [
+            {'a': 1, 'b': 2},
+            {'a': 1, 'b': None},
+    ]
+    expected = [
+            {'a': 1, 'b': None},
+            {'a': 1, 'b': 2},
+    ]
+    assert canonicalise(obj) == expected
+
 def test_it_doesnt_canonicalise_glosses():
     obj = {
         'glosses': ['b', 'a']
@@ -61,6 +75,17 @@ def test_compare_obj():
     assert compare_obj([{'a': 1}], [{'b': 1}]) == -1
     assert compare_obj({'a': {'b': 1}}, {'a': {'a': 1}}) == 1
     assert compare_obj({'a': {'a': 2}}, {'a': {'a': 1}}) == 1
+
+def test_compare_obj_sorts_none_first():
+    assert compare_obj(None, None) == 0
+    assert compare_obj(None, 1) == -1
+    assert compare_obj(1, None) == 1
+    assert compare_obj(None, 'a') == -1
+    assert compare_obj('a', None) == 1
+    assert compare_obj(None, []) == -1
+    assert compare_obj([], None) == 1
+    assert compare_obj({'a': None}, {'a': 1}) == -1
+    assert compare_obj({'a': 1}, {'a': None}) == 1
 
 def elements(a):
     if isinstance(a, list):

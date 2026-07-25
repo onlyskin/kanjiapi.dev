@@ -4,6 +4,11 @@ from functools import cmp_to_key
 
 
 def compare_obj(a, b):
+    if a is None or b is None:
+        if a is None and b is None:
+            return 0
+        return -1 if a is None else 1
+
     if isinstance(a, list) or isinstance(a, tuple):
         if len(a) == len(b) and len(a) != 0:
             for x, y in zip(a, b):

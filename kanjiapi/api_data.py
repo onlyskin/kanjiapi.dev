@@ -154,6 +154,7 @@ def main():
     kanji_to_entries = word_dict(jmdict_entries)
 
     kanjis = [kanji_data(character) for character in characters]
+    character_to_kanji = {kanji['kanji']: kanji for kanji in kanjis}
 
     readings = reading_data(kanjis)
 
@@ -189,19 +190,45 @@ def main():
         archive.write(json_filename, arcname='kanjiapi_full.json')
         os.remove(json_filename)
 
-    for grade_numeral, grade_kanji in grade_to_kanji_list().items():
-        dump_json(f'{KANJI_DIR}grade-{grade_numeral}', canonicalise(grade_kanji))
-    for jlpt_level, jlpt_level_kanji in jlpt_level_to_kanji_list().items():
-        dump_json(f'{KANJI_DIR}jlpt-{jlpt_level}', canonicalise(jlpt_level_kanji))
-    high_school_kanji = [k for k in joyo_list() if k not in all_kyoiku()]
-    dump_json(f'{KANJI_DIR}grade-8', canonicalise(high_school_kanji))
-    dump_json(f'{KANJI_DIR}kyouiku', canonicalise(all_kyoiku()))
-    dump_json(f'{KANJI_DIR}kyoiku', canonicalise(all_kyoiku()))
+    def enrich(kanji_list):
+        return [canonicalise(character_to_kanji[character]) for character in kanji_list]
 
-    all_kanji = [kanji['kanji'] for kanji in kanjis]
-    dump_json(KANJI_DIR + 'all', canonicalise(all_kanji))
-    dump_json(KANJI_DIR + 'jouyou', canonicalise(joyo_list()))
-    dump_json(KANJI_DIR + 'joyo', canonicalise(joyo_list()))
-    dump_json(KANJI_DIR + 'jinmeiyou', canonicalise(jinmeiyo_list()))
-    dump_json(KANJI_DIR + 'jinmeiyo', canonicalise(jinmeiyo_list()))
-    dump_json(KANJI_DIR + 'heisig', canonicalise(all_heisig()))
+    for grade_numeral, grade_kanji in grade_to_kanji_list().items():
+        canonicalised = canonicalise(grade_kanji)
+        dump_json(f'{KANJI_DIR}grade-{grade_numeral}', canonicalised)
+        dump_json(f'{KANJI_DIR}grade-{grade_numeral}-enriched', enrich(canonicalised))
+
+    for jlpt_level, jlpt_level_kanji in jlpt_level_to_kanji_list().items():
+        canonicalised = canonicalise(jlpt_level_kanji)
+        dump_json(f'{KANJI_DIR}jlpt-{jlpt_level}', canonicalised)
+        dump_json(f'{KANJI_DIR}jlpt-{jlpt_level}-enriched', enrich(canonicalised))
+
+    high_school_kanji = canonicalise([k for k in joyo_list() if k not in all_kyoiku()])
+    dump_json(f'{KANJI_DIR}grade-8', high_school_kanji)
+    dump_json(f'{KANJI_DIR}grade-8-enriched', enrich(high_school_kanji))
+
+    kyoiku_kanji = canonicalise(all_kyoiku())
+    dump_json(f'{KANJI_DIR}kyouiku', kyoiku_kanji)
+    dump_json(f'{KANJI_DIR}kyoiku', kyoiku_kanji)
+    dump_json(f'{KANJI_DIR}kyouiku-enriched', enrich(kyoiku_kanji))
+    dump_json(f'{KANJI_DIR}kyoiku-enriched', enrich(kyoiku_kanji))
+
+    all_kanji = canonicalise([kanji['kanji'] for kanji in kanjis])
+    dump_json(KANJI_DIR + 'all', all_kanji)
+    dump_json(KANJI_DIR + 'all-enriched', enrich(all_kanji))
+
+    joyo_kanji = canonicalise(joyo_list())
+    dump_json(KANJI_DIR + 'jouyou', joyo_kanji)
+    dump_json(KANJI_DIR + 'joyo', joyo_kanji)
+    dump_json(KANJI_DIR + 'jouyou-enriched', enrich(joyo_kanji))
+    dump_json(KANJI_DIR + 'joyo-enriched', enrich(joyo_kanji))
+
+    jinmeiyo_kanji = canonicalise(jinmeiyo_list())
+    dump_json(KANJI_DIR + 'jinmeiyou', jinmeiyo_kanji)
+    dump_json(KANJI_DIR + 'jinmeiyo', jinmeiyo_kanji)
+    dump_json(KANJI_DIR + 'jinmeiyou-enriched', enrich(jinmeiyo_kanji))
+    dump_json(KANJI_DIR + 'jinmeiyo-enriched', enrich(jinmeiyo_kanji))
+
+    heisig_kanji = canonicalise(all_heisig())
+    dump_json(KANJI_DIR + 'heisig', heisig_kanji)
+    dump_json(KANJI_DIR + 'heisig-enriched', enrich(heisig_kanji))
