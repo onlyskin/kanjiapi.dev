@@ -234,6 +234,16 @@ const projects = [
       name: 'kanjimap',
       slug: 'every kanji and common words with animated stroke order, readings, compounds, and radical browsing'
     },
+    {
+      href: 'https://kanji.world/',
+      name: 'KanjiName',
+      slug: 'converts your name into kanji matching its pronunciation, saveable as an image or hanko seal'
+    },
+    {
+      href: 'https://jepang.org/kanji-data',
+      name: 'Jepang: kanji-data',
+      slug: 'an offline, zero-dependency node package bundling the kanji and word data for local use'
+    },
 ]
 
 const About = {
