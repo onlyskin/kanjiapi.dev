@@ -489,10 +489,10 @@ const KANJI_FIELDS = [
         name: 'jlpt',
         description: [
             'The ',
-            m(Link, { href: JLPT_URL }, 'former JLPT'),
-            ' test level for the kanji',
+            m(JLPT_LINK),
+            ' test level for the kanji, from 5 (N5, easiest) to 1 (N1, hardest)',
         ],
-        type: [ m('.di.f7', '1..4 | '), 'null'],
+        type: [ m('.di.f7', '1..5 | '), 'null'],
     },
     {
         name: 'heisig_en',
