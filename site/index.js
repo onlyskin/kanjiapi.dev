@@ -459,22 +459,22 @@ const KANJI_FIELDS = [
     { name: 'kanji', description: 'The kanji itself', type: 'string' },
     {
         name: 'kun_readings',
-        description: 'A list of kun readings associated with the kanji',
+        description: 'A list of kun readings associated with the kanji, in KANJIDIC order, which leads with the primary reading',
         type: 'string[]'
     },
     {
         name: 'on_readings',
-        description: 'A list of on readings associated with the kanji',
+        description: 'A list of on readings associated with the kanji, in KANJIDIC order, which leads with the primary reading',
         type: 'string[]'
     },
     {
         name: 'name_readings',
-        description: 'A list of readings that are only used in names associated with the kanji',
+        description: 'A list of readings that are only used in names associated with the kanji, in KANJIDIC order',
         type: 'string[]'
     },
     {
         name: 'meanings',
-        description: 'A list of English meanings associated with the kanji',
+        description: 'A list of English meanings associated with the kanji, in KANJIDIC order, which leads with the primary meaning',
         type: 'string[]'
     },
     {
@@ -551,12 +551,12 @@ const READING_FIELDS = [
     },
     {
         name: 'main_kanji',
-        description: 'A list of kanji that use the associated reading',
+        description: 'A list of kanji that use the associated reading. Sorted alphabetically by Unicode value',
         type: 'string[]'
     },
     {
         name: 'name_kanji',
-        description: 'A list of kanji that use the associated reading exclusively in names',
+        description: 'A list of kanji that use the associated reading exclusively in names. Sorted alphabetically by Unicode value',
         type: 'string[]'
     },
 ]
@@ -564,12 +564,12 @@ const READING_FIELDS = [
 const WORD_FIELDS = [
     {
         name: 'meanings',
-        description: 'A list of distinct meanings that the entry has',
+        description: 'A list of distinct meanings that the entry has, in JMdict order, which leads with the primary meaning',
         type: 'meaning[]'
     },
     {
         name: 'variants',
-        description: 'A list of written variations for the entry',
+        description: 'A list of written variations for the entry, in JMdict order, which runs from the most to the least common way of writing it. Rare and search-only spellings are included',
         type: 'variant[]'
     },
 ]
@@ -577,7 +577,7 @@ const WORD_FIELDS = [
 const MEANING_FIELDS = [
     {
         name: 'glosses',
-        description: 'A list of English equivalent terms for the particular meaning',
+        description: 'A list of English equivalent terms for the particular meaning, in JMdict order, which is roughly by importance',
         type: 'string[]'
     },
 ]
@@ -595,7 +595,7 @@ const VARIANT_FIELDS = [
     },
     {
         name: 'priorities',
-        description: 'A list of strings designating frequency lists in which the variant appears',
+        description: 'A list of strings designating frequency lists in which the variant appears. Sorted alphabetically',
         type: 'string[]'
     },
 ]
