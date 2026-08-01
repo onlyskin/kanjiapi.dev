@@ -269,6 +269,73 @@ def test_words_with_priority_on_reading():
 }'''
 
 
+def test_words_with_priority_on_reading_and_one_of_two_kanji_forms():
+    # see entry 1365230: 親せき is an untagged alternative spelling of 親戚, so
+    # it must not inherit しんせき's priorities
+    entry = Entry(
+        (
+            KanjiForm('親戚', ('ichi1', 'news2', 'nf30')),
+            KanjiForm('親せき', ()),
+        ),
+        (Reading('しんせき', (), ('ichi1', 'news2', 'nf30')),),
+        (Meaning(('relative', 'relation', 'kin')),),
+        )
+    output = ujson.dumps(entry.words(), indent=2, ensure_ascii=False)
+    assert output == '''{
+  "variants": [
+    {
+      "written": "親戚",
+      "pronounced": "しんせき",
+      "priorities": [
+        "ichi1",
+        "news2",
+        "nf30"
+      ]
+    },
+    {
+      "written": "親せき",
+      "pronounced": "しんせき",
+      "priorities": []
+    }
+  ],
+  "meanings": [
+    {
+      "glosses": [
+        "relative",
+        "relation",
+        "kin"
+      ]
+    }
+  ]
+}'''
+
+
+def test_words_combine_priorities_of_kanji_form_and_reading():
+    entry = Entry(
+        (KanjiForm('猫', ('ichi1',)),),
+        (Reading('ねこ', (), ('news1', 'nf15')),),
+        (Meaning(('cat',)),),
+        )
+    assert entry.words()['variants'] == [{
+        'written': '猫',
+        'pronounced': 'ねこ',
+        'priorities': ('ichi1', 'news1', 'nf15'),
+        }]
+
+
+def test_words_with_priority_on_the_reading_side_only():
+    # 393 JMdict entries tag no kanji form at all, so the reading is the only
+    # priority information there is
+    entry = Entry(
+        (KanjiForm('明白', ()), KanjiForm('偸閑', ()), KanjiForm('白地', ())),
+        (Reading('あからさま', (), ('ichi1',)),),
+        (Meaning(('plain', 'frank', 'candid')),),
+        )
+    assert [v['priorities'] for v in entry.words()['variants']] == [
+        ('ichi1',), ('ichi1',), ('ichi1',),
+        ]
+
+
 def xtest_words_with_priority_on_two_readings():
     # see entry 1578010
     pass

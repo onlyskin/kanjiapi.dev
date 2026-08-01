@@ -62,6 +62,58 @@ def test_it_doesnt_canonicalise_glosses():
     }
     assert canonicalise(obj) == obj
 
+def test_it_doesnt_sort_variants():
+    obj = {
+        'variants': [
+            {'written': '親戚', 'pronounced': 'しんせき'},
+            {'written': '親せき', 'pronounced': 'しんせき'},
+        ],
+    }
+    assert [v['written'] for v in canonicalise(obj)['variants']] == [
+        '親戚', '親せき',
+        ]
+
+def test_it_canonicalises_within_unsorted_variants():
+    obj = {'variants': [{'written': '親戚', 'priorities': ['news2', 'ichi1']}]}
+    variant = canonicalise(obj)['variants'][0]
+    assert tuple(variant.items()) == (
+        ('priorities', ['ichi1', 'news2']), ('written', '親戚'),
+        )
+
+def test_it_doesnt_sort_kanjidic_meanings():
+    obj = {'meanings': ['parent', 'intimacy', 'relative']}
+    assert canonicalise(obj) == obj
+
+def test_it_doesnt_sort_jmdict_senses():
+    obj = {
+        'meanings': [
+            {'glosses': ['intimacy', 'closeness']},
+            {'glosses': ['close relative']},
+        ],
+    }
+    assert canonicalise(obj) == obj
+
+def test_it_doesnt_sort_kanjidic_readings():
+    obj = {
+        'kun_readings': ['ふか.い', '-ぶか.い'],
+        'on_readings': ['セイ', 'ショウ'],
+        'name_readings': ['ぎ', 'ちか', 'のり'],
+    }
+    assert canonicalise(obj)['kun_readings'] == ['ふか.い', '-ぶか.い']
+    assert canonicalise(obj)['on_readings'] == ['セイ', 'ショウ']
+    assert canonicalise(obj)['name_readings'] == ['ぎ', 'ちか', 'のり']
+
+def test_it_sorts_reading_endpoint_kanji_lists():
+    obj = {'main_kanji': ['深', '侚'], 'name_kanji': ['浤', '泓']}
+    assert canonicalise(obj) == {
+        'main_kanji': ['侚', '深'],
+        'name_kanji': ['泓', '浤'],
+        }
+
+def test_it_still_sorts_lists_nested_under_an_ordered_key():
+    obj = {'variants': [{'a': ['z', 'a']}]}
+    assert canonicalise(obj) == {'variants': [{'a': ['a', 'z']}]}
+
 def test_compare_obj():
     assert compare_obj({}, {}) == 0
     assert compare_obj({'a': 1}, {'a': 1}) == 0

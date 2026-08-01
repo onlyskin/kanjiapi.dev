@@ -20,6 +20,20 @@ class Meaning():
     glosses: tuple[str]
 
 
+# A variant is only as common as its rarer half. See CHANGELOG.md
+def variant_priorities(
+        kanji_form,
+        reading,
+        any_form_has_priority,
+        any_reading_has_priority,
+        ):
+    if any_form_has_priority and not kanji_form.priorities:
+        return ()
+    if any_reading_has_priority and not reading.priorities:
+        return ()
+    return tuple(sorted(set(kanji_form.priorities) | set(reading.priorities)))
+
+
 @dataclass(frozen=True, order=True)
 class Entry():
     kanji_forms: tuple[KanjiForm]
@@ -42,9 +56,16 @@ class Entry():
                     )
                 ]
 
+        any_form_has_priority = any([k for k, r in combinations if k.priorities])
         any_reading_has_priority = any([r for k, r in combinations if r.priorities])
+
         return [{
             'written': kanji_form.form,
             'pronounced': reading.reading,
-            'priorities': reading.priorities if any_reading_has_priority else kanji_form.priorities,
+            'priorities': variant_priorities(
+                kanji_form,
+                reading,
+                any_form_has_priority,
+                any_reading_has_priority,
+                ),
             } for kanji_form, reading in combinations]

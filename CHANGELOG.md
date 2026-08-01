@@ -46,6 +46,48 @@ are deliberately left out.
   carries priority information
     - entries where no reading has priority information continue to use the
       priorities of the written form
+- change the `meanings` list to keep the order it has in the source dictionary
+  rather than being sorted by value
+    - both dictionaries put the primary sense of an entry first, so this affects
+      the senses under `/words/{character}` and the KANJIDIC meanings under
+      `/kanji/{character}` and its `-enriched` lists, e.g. `/kanji/親` now gives
+      `parent` first rather than `dealer (cards)`
+    - the glosses within a `/words` sense were already left unsorted
+- change the `kun_readings`, `on_readings` and `name_readings` lists on
+  `/kanji/{character}` endpoints and their `-enriched` lists to keep the order
+  they have in KANJIDIC rather than being sorted by value
+    - KANJIDIC lists the primary reading first, so e.g. `/kanji/生` now gives
+      the on readings as `セイ, ショウ` rather than `ショウ, セイ`
+- change the `variants` list on `/words/{character}` endpoints to keep the order
+  of the written forms in JMdict rather than being sorted by value
+    - JMdict lists the written forms of an entry from most to least common, so
+      the first variant spelled with the character searched for is now the one
+      to show for that word
+    - sorting had put forms spelled with kana ahead of the full-kanji form they
+      stand in for, since the kana blocks sit below the CJK ones in codepoint
+      order, e.g. `親せき` ahead of `親戚`
+- change the `priorities` field on `/words/{character}` variants to combine the
+  priority information of the written form and the reading, rather than taking
+  the reading's alone
+    - a variant pairs one written form with one reading, and JMdict tags priority
+      on each of those independently (`ke_pri` on the form, `re_pri` on the
+      reading), so the field now reflects both rather than the reading only
+    - where an entry tags some of its written forms and leaves others untagged,
+      the untagged ones are now empty instead of inheriting the reading's
+      priorities: `親せき` is now empty while `親戚` keeps
+      `ichi1, news2, nf30`. This affects 8989 variants across JMdict, and is the
+      reason a rare or search-only spelling used to look exactly as common as the
+      entry's main one
+    - where a variant's own written form and its own reading are both tagged, the
+      field is now the union of the two rather than the reading's tags alone,
+      e.g. `どの位/どのくらい` gains the form's `spec1` alongside the reading's
+      `ichi1`. This affects 176 variants
+    - three cases are unchanged. An entry that tags no written form anywhere
+      still gives every variant its reading's priorities, as the reading is then
+      the only information available. A reading left untagged in an entry that
+      tags another reading is still empty, e.g. `雷/いかづち` beside
+      `雷/かみなり`. An entry with no priorities anywhere is still empty
+      throughout
 - add an `-enriched` counterpart to every `/kanji/{list}` endpoint (e.g.
   `/kanji/joyo-enriched`), containing the full kanji object for each character
   instead of the character on its own

@@ -41,15 +41,29 @@ def compare_obj(a, b):
         return 1
 
 
-def canonicalise(obj):
+# Lists which the source dictionaries already order meaningfully. See
+# CHANGELOG.md.
+ORDERED_KEYS = (
+        'glosses',
+        'kun_readings',
+        'meanings',
+        'name_readings',
+        'on_readings',
+        'variants',
+        )
+
+
+def canonicalise(obj, sort=True):
     if isinstance(obj, dict):
         res = {}
         for k, v in sorted(obj.items()):
-            res[k] = v if k == 'glosses' else canonicalise(v)
+            res[k] = canonicalise(v, sort=k not in ORDERED_KEYS)
         return res
 
     if isinstance(obj, list) or isinstance(obj, tuple):
         canonicalised = [canonicalise(i) for i in obj]
+        if not sort:
+            return canonicalised
         return sorted(canonicalised, key=cmp_to_key(compare_obj))
 
     return obj
