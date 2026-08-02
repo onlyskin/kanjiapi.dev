@@ -380,13 +380,13 @@ const Examples = {
     view: ({ attrs: { path } }) => m(
         '.f7.f6-l.self-start.mt0.mb1',
         'Hint: try ',
-        m(Example, { path, url: 'kanji/蜜' }),
+        m(Example, { path, url: 'kanji/楽' }),
         ', ',
         m(Example, { path, url: 'kanji/grade-1' }),
         ', ',
-        m(Example, { path, url: 'reading/あり' }),
+        m(Example, { path, url: 'reading/うみ' }),
         ', or ',
-        m(Example, { path, url: 'words/蠍' }),
+        m(Example, { path, url: 'words/虹' }),
     ),
 }
 
