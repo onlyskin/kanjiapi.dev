@@ -16,44 +16,56 @@ https://buymeacoffee.com/onlyskin
 ```
 $ curl https://kanjiapi.dev/v1/kanji/猫
 {
-  "kanji": "猫",
+  "alternate_stroke_counts": [],
+  "freq_mainichi_shinbun": 1702,
   "grade": 8,
-  "stroke_count": 11,
-  "meanings": [
-    "cat"
-  ],
+  "heisig_en": "cat",
+  "jlpt": 3,
+  "kanji": "猫",
   "kun_readings": [
     "ねこ"
   ],
+  "meanings": [
+    "cat"
+  ],
+  "name_readings": [],
+  "notes": [],
   "on_readings": [
     "ビョウ"
   ],
-  "name_readings": [],
-  "jlpt": 2,
-  "unicode": "732b"
+  "stroke_count": 11,
+  "unicode": "732B"
 }
 ```
 
 ```javascript
 > fetch('https://kanjiapi.dev/v1/kanji/猫').then(r => r.json()).then(console.log);
 {
-  "kanji": "猫",
+  "alternate_stroke_counts": [],
+  "freq_mainichi_shinbun": 1702,
   "grade": 8,
-  "stroke_count": 11,
-  "meanings": [
-    "cat"
-  ],
+  "heisig_en": "cat",
+  "jlpt": 3,
+  "kanji": "猫",
   "kun_readings": [
     "ねこ"
   ],
+  "meanings": [
+    "cat"
+  ],
+  "name_readings": [],
+  "notes": [],
   "on_readings": [
     "ビョウ"
   ],
-  "name_readings": [],
-  "jlpt": 2,
-  "unicode": "732b"
+  "stroke_count": 11,
+  "unicode": "732B"
 }
 ```
+
+See the [documentation](https://kanjiapi.dev/#!/documentation) for what each
+field means. The `unihan_cjk_compatibility_variant` field appears only on the
+CJK compatibility characters described below.
 
 #### List of all supported kanji
 
@@ -129,76 +141,81 @@ or the official version). See the `List of joyo kanji` section above.
 ```
 $ curl https://kanjiapi.dev/v1/reading/クウ
 {
-  "reading": "クウ",
   "main_kanji": [
-    "宮",
     "供",
-    "空",
     "咼",
     "啌",
     "喎",
     "垙",
+    "宮",
     "瘸",
     "盉",
-    "舙"
+    "空",
+    "舙",
+    "骷"
   ],
-  "name_kanji": []
+  "name_kanji": [],
+  "reading": "クウ"
 }
 ```
 
 ```javascript
 > fetch('https://kanjiapi.dev/v1/reading/クウ').then(r => r.json()).then(console.log);
 {
-  "reading": "クウ",
   "main_kanji": [
-    "宮",
     "供",
-    "空",
     "咼",
     "啌",
     "喎",
     "垙",
+    "宮",
     "瘸",
     "盉",
-    "舙"
+    "空",
+    "舙",
+    "骷"
   ],
-  "name_kanji": []
+  "name_kanji": [],
+  "reading": "クウ"
 }
 ```
 
 ### Words `/v1/words/{character}`
+Every JMdict entry containing the character, 141 of them for 猫. One entry,
+with its senses and the rest of the response elided:
+
 ```
 $ curl https://kanjiapi.dev/v1/words/猫
 [
+  ...
   {
-    "variants": [
-      {
-        "written": "どら猫",
-        "pronounced": "どらねこ",
-        "priorities": []
-      }
-    ],
     "meanings": [
       {
         "glosses": [
-          "stray cat"
+          "cat (esp. the domestic cat, Felis catus)"
         ]
-      }
-    ]
-  },
-  {
-    "variants": [
-      {
-        "written": "アンゴラ猫",
-        "pronounced": "アンゴラねこ",
-        "priorities": []
-      }
-    ],
-    "meanings": [
+      },
       {
         "glosses": [
-          "Angora cat"
+          "shamisen"
         ]
+      },
+      ...
+    ],
+    "variants": [
+      {
+        "priorities": [
+          "ichi1",
+          "news1",
+          "nf07"
+        ],
+        "pronounced": "ねこ",
+        "written": "猫"
+      },
+      {
+        "priorities": [],
+        "pronounced": "ネコ",
+        "written": "猫"
       }
     ]
   },
@@ -207,37 +224,37 @@ $ curl https://kanjiapi.dev/v1/words/猫
 ```
 
 ```javascript
-> fetch('https://kanjiapi.dev/v1/reading/クウ').then(r => r.json()).then(console.log);
+> fetch('https://kanjiapi.dev/v1/words/猫').then(r => r.json()).then(console.log);
 [
+  ...
   {
-    "variants": [
-      {
-        "written": "どら猫",
-        "pronounced": "どらねこ",
-        "priorities": []
-      }
-    ],
     "meanings": [
       {
         "glosses": [
-          "stray cat"
+          "cat (esp. the domestic cat, Felis catus)"
         ]
-      }
-    ]
-  },
-  {
-    "variants": [
-      {
-        "written": "アンゴラ猫",
-        "pronounced": "アンゴラねこ",
-        "priorities": []
-      }
-    ],
-    "meanings": [
+      },
       {
         "glosses": [
-          "Angora cat"
+          "shamisen"
         ]
+      },
+      ...
+    ],
+    "variants": [
+      {
+        "priorities": [
+          "ichi1",
+          "news1",
+          "nf07"
+        ],
+        "pronounced": "ねこ",
+        "written": "猫"
+      },
+      {
+        "priorities": [],
+        "pronounced": "ネコ",
+        "written": "猫"
       }
     ]
   },
