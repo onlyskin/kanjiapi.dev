@@ -6,7 +6,7 @@ from kanjiapi.entry_data import word_dict
 from test_helper import element_for
 
 
-root = etree.parse('JMDict')
+root = etree.parse('data/JMdict_e_NG')
 
 
 def test_extracts_kanji_to_entries_dict_from_single_entry():
@@ -83,49 +83,43 @@ def test_entry_with_two_rebs():
 
 
 def test_entry_with_restricted_reading():
-    entries = [element_for(root, '1009250')]
+    entries = [element_for(root, '1004000')]
 
     entries_by_kanji = word_dict(entries)
 
     entry = Entry(
         (
-            KanjiForm('どの位', ('ichi1', 'spec1')),
-            KanjiForm('何の位', ()),
-            KanjiForm('何のくらい', ()),
+            KanjiForm('クンクン鳴く', ()),
+            KanjiForm('くんくん鳴く', ()),
         ),
         (
-            Reading('どのくらい', (), ('ichi1',)),
-            Reading('どのぐらい', ('どの位', '何の位'), ('spec1',)),
+            Reading('クンクンなく', ('クンクン鳴く',), ()),
+            Reading('くんくんなく', ('くんくん鳴く',), ()),
         ),
-        (Meaning(('how long', 'how far', 'how much')),),
+        (Meaning(('to whine (of a dog)',)),),
         )
     assert entries_by_kanji == dict({
-        '位': {entry},
-        '何': {entry},
+        '鳴': {entry},
     })
 
 
 def test_entry_with_reading_priority():
-    entries = [element_for(root, '1585060')]
+    entries = [element_for(root, '1003660')]
 
     entries_by_kanji = word_dict(entries)
 
     entry = Entry(
-        (KanjiForm('雷', ('ichi1', 'news1', 'nf11')),),
+        (KanjiForm('限り限り', ('ichi1',)),),
         (
-            Reading('かみなり', (), ('ichi1', 'news1', 'nf11')),
-            Reading('いかずち', (), ()),
-            Reading('いかづち', (), ()),
-            Reading('らい', (), ()),
+            Reading('ぎりぎり', (), ('ichi1',)),
+            Reading('ギリギリ', (), ()),
         ),
-        (
-            Meaning(('lightning', 'thunder', 'thunderbolt')),
-            Meaning(('god of thunder', 'god of lightning')),
-            Meaning(('anger', 'fit of anger')),
-        ),
+        (Meaning((
+            'just barely', 'only just', 'at the very limit',
+            'at the last moment')),),
         )
     assert entries_by_kanji == dict({
-        '雷': {entry},
+        '限': {entry},
         })
 
 def xtest_sense_restricted_by_reading():
