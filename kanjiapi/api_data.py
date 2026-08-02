@@ -47,6 +47,10 @@ def stroke_count(character):
     return int(STROKE_COUNT(character)[0].text)
 
 
+def alternate_stroke_counts(character):
+    return [int(count.text) for count in STROKE_COUNT(character)[1:]]
+
+
 def unicode_codepoint(character):
     return CODEPOINT(character)[0].text.upper()
 
@@ -88,6 +92,7 @@ def kanji_data(character):
         ('kanji', character_literal),
         ('grade', grade(character_literal)),
         ('stroke_count', stroke_count(character)),
+        ('alternate_stroke_counts', alternate_stroke_counts(character)),
         ('meanings', meanings(character)),
         ('kun_readings', kun_readings(character)),
         ('on_readings', on_readings(character)),

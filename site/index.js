@@ -483,6 +483,15 @@ const KANJI_FIELDS = [
         type: 'number'
     },
     {
+        name: 'alternate_stroke_counts',
+        description: [
+            'Any other stroke counts recorded for the kanji by ',
+            m(Link, { href: KANJIDIC_URL }, 'KANJIDIC'),
+            ', which are common miscounts rather than equally correct alternatives. Empty for almost all kanji',
+        ],
+        type: 'number[]'
+    },
+    {
         name: 'unicode',
         description: [
             'The ',

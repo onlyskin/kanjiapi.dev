@@ -19,6 +19,7 @@ def test_kanji_data_xml():
   "kanji": "亜",
   "grade": 8,
   "stroke_count": 7,
+  "alternate_stroke_counts": [],
   "meanings": [
     "Asia",
     "rank next",
@@ -52,6 +53,7 @@ def test_handles_kanji_without_grades():
   "kanji": "唖",
   "grade": null,
   "stroke_count": 10,
+  "alternate_stroke_counts": [],
   "meanings": [
     "mute",
     "dumb"
@@ -72,7 +74,7 @@ def test_handles_kanji_without_grades():
 }'''
 
 
-def test_uses_first_stroke_count_for_kanji_with_multiple_stroke_counts():
+def test_keeps_the_first_stroke_count_and_exposes_the_rest_as_alternates():
     character = element_for(root, '逢')
     kanji = kanji_data(character)
     output = ujson.dumps(kanji, indent=2, ensure_ascii=False)
@@ -80,6 +82,10 @@ def test_uses_first_stroke_count_for_kanji_with_multiple_stroke_counts():
   "kanji": "逢",
   "grade": 9,
   "stroke_count": 10,
+  "alternate_stroke_counts": [
+    9,
+    11
+  ],
   "meanings": [
     "meeting",
     "tryst",
@@ -113,6 +119,7 @@ def test_handles_character_with_CJK_equivalent():
   "kanji": "海",
   "grade": 2,
   "stroke_count": 9,
+  "alternate_stroke_counts": [],
   "meanings": [
     "sea",
     "ocean"
@@ -156,6 +163,7 @@ def test_handles_character_in_CJK_block():
   "kanji": "海",
   "grade": 9,
   "stroke_count": 10,
+  "alternate_stroke_counts": [],
   "meanings": [],
   "kun_readings": [
     "うみ"

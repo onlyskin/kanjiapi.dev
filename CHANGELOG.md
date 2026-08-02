@@ -92,3 +92,12 @@ are deliberately left out.
   `/kanji/joyo-enriched`), containing the full kanji object for each character
   instead of the character on its own
     - the enriched list is in the same order as the plain list
+- add an `alternate_stroke_counts` field to the `/kanji/{character}` endpoints
+  and their `-enriched` lists
+    - KANJIDIC records more than one stroke count for 525 of the 13,108
+      characters, and everything after the first was being discarded
+    - the extra counts are common miscounts rather than equally correct
+      alternatives, so `stroke_count` still holds the first and correct one, and
+      the rest are useful for matching a count a learner arrived at, e.g.
+      `/kanji/逢` keeps `stroke_count` 10 and gains `9, 11`
+    - the field is an empty list for the 12,583 characters with a single count
