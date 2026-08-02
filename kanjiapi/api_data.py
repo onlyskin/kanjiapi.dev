@@ -152,8 +152,8 @@ def main():
     CJK_WORD_DIR = f'{OUT_PATH}/words_cjk/'
     READING_DIR = f'{OUT_PATH}/reading/'
 
-    kanjidic_root = etree.parse('kanjidic2.xml')
-    jmdict_entries = etree.parse('JMDict').xpath('//entry')
+    kanjidic_root = etree.parse('data/kanjidic2.xml')
+    jmdict_entries = etree.parse('data/JMdict_e_NG').xpath('//entry')
 
     characters = kanjidic_root.xpath('./character')
     kanji_to_entries = word_dict(jmdict_entries)

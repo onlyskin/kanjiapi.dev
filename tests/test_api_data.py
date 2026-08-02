@@ -4,7 +4,7 @@ from lxml import etree
 
 from kanjiapi.api_data import kanji_data, reading_data, heisig_keyword
 
-root = etree.parse('kanjidic2.xml')
+root = etree.parse('data/kanjidic2.xml')
 
 
 def element_for(root, kanji):

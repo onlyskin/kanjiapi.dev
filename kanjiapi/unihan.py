@@ -16,12 +16,12 @@ def load_unihan_file(filename):
 
 @cache
 def load_unihan_irg_sources():
-    return load_unihan_file('Unihan_IRGSources.txt')
+    return load_unihan_file('data/Unihan_IRGSources.txt')
 
 
 @cache
 def load_unihan_other_mappings():
-    return load_unihan_file('Unihan_OtherMappings.txt')
+    return load_unihan_file('data/Unihan_OtherMappings.txt')
 
 
 @cache

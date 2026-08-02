@@ -274,16 +274,67 @@ Install python libraries using requirements.txt
 
 Install node dependencies using `yarn` or `npm install`.
 
-Save and extract the kanji dictionary file `kanjidic2.xml` from [EDRDG](http://www.edrdg.org/wiki/index.php/KANJIDIC_Project) to the root of the project.
-
-Save and extract the jmdict dictionary file `JMdict` from [EDRDG](http://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project) to the root of the project.
-
-Save and extract the file Unihan_OtherMappings.txt from Unihan.zip from [Unicode](https://www.unicode.org/versions/components-15.0.0.html) to the root of the project.
-
-Save and extract the file Unihan_IRGSources.txt from Unihan.zip from [Unicode](https://www.unicode.org/versions/components-15.0.0.html) to the root of the project.
+Run `make update-dictionaries` to fetch the source dictionaries into `data/`.
+See `Updating the dictionaries` below for what it downloads and from where.
 
 Ensure system has `System/Library/Fonts/ヒラギノ丸ゴ\ ProN\ W4.ttc` font
 available (for favicon generation).
+
+### Updating the dictionaries:
+
+The source dictionaries live in `data/` and are not in the repo. EDRDG rebuilds
+theirs daily and Unicode publishes Unihan with each release, so refresh them
+monthly:
+
+```sh
+make update-dictionaries   # download, verify, archive, install
+make                       # rebuild out/ with the new data
+python -m pytest tests     # some tests assert exact dictionary values
+```
+
+Split into two steps if you want to inspect the download before committing to
+the swap:
+
+```sh
+make download-dictionaries   # fetch to .dictionary_staging/ and verify
+make install-dictionaries    # archive data/ then move staging into place
+```
+
+Neither is wired into `make`, which must never touch the network.
+
+The files fetched are:
+
+| installed as | source |
+| --- | --- |
+| `data/kanjidic2.xml` | http://ftp.edrdg.org/pub/Nihongo/kanjidic2.xml.gz |
+| `data/JMdict_e_NG` | http://ftp.edrdg.org/pub/Nihongo/JMdict_e_NG.gz |
+| `data/JMnedict.xml` | http://ftp.edrdg.org/pub/Nihongo/JMnedict.xml.gz |
+| `data/Unihan_*.txt` | https://www.unicode.org/Public/UCD/latest/ucd/Unihan.zip |
+
+`JMdict_e_NG.gz` is the English-only "New Generation" (rev 1.10) file. EDRDG
+publish several JMdict variants and the files are kept under their published
+names, so it is always clear which one the build reads. The Unihan URL tracks
+whatever Unicode release is current, so an update can move between Unicode
+versions.
+
+`verify_dictionaries.py` compares each download against the file it would
+replace and refuses to install anything that has lost more than 5% of its
+content, so a truncated download cannot silently rebuild the API with data
+missing. The Unihan files are checked by the fields the build actually reads
+(`kJoyoKanji`, `kJinmeiyoKanji`, `kCompatibilityVariant`) rather than by line
+count, because they carry many unrelated fields which come and go between
+Unicode releases.
+
+`install-dictionaries` gzips the files it replaces into `data_archive/` first,
+so the previous release is always recoverable. Each is named for the release
+date it declares about itself rather than the day it was replaced, e.g.
+`kanjidic2.xml.2023-09-08.gz`, since the four sources are on independent release
+cycles and a single date for a batch would be wrong for most of it.
+
+After updating, expect a large `out/` diff and close to a full bucket re-upload
+on the next deploy. Expect the occasional test failure too, where EDRDG has
+revised an entry the tests assert on; check whether the data genuinely changed
+before editing the expectation.
 
 ### Building:
 

@@ -83,7 +83,7 @@ def word_dict(xml_entries):
 
 
 if __name__ == '__main__':
-    root = etree.parse('JMDict')
+    root = etree.parse('data/JMdict_e_NG')
     xml_entries = root.xpath('//entry')
     kanji_to_entries = word_dict(xml_entries)
     print(kanji_to_entries['猫'])

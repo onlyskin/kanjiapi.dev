@@ -1,4 +1,7 @@
 out
+data
+data_archive
+.dictionary_staging
 *kanjidic*
 *JMdict*
 *JMnedict*
