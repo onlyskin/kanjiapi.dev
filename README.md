@@ -399,3 +399,13 @@ create and/or activate a virtual environment based on the `requirements.txt`
 file in that subdirectory, then run `python main.py`. This is useful to
 manually (re)process some log files without deploying or triggering the cloud
 function. (needs credentials)
+
+#### Don't cache /v1/kanji/ at the CDN
+
+Only requests that actually reach the bucket produce a usage log line, so the
+logs page counts exactly what Cloudflare passes through. It proxies but does
+not cache these responses today, because the endpoints have no file extension
+and so miss Cloudflare's default cache rules. Adding a cache rule over
+`/v1/kanji/` would be a silent regression: hit rate rises with popularity, so
+common kanji would be undercounted more than rare ones and the ranking would
+flatten in the one dimension the page exists to show.
