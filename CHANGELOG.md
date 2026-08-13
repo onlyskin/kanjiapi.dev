@@ -101,3 +101,4 @@ are deliberately left out.
       the rest are useful for matching a count a learner arrived at, e.g.
       `/kanji/逢` keeps `stroke_count` 10 and gains `9, 11`
     - the field is an empty list for the 12,583 characters with a single count
+- update live data to use 2026 version of source dictionaries
