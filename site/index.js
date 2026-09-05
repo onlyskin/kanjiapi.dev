@@ -28,7 +28,6 @@ const EDRDG_LICENCE_URL = 'https://www.edrdg.org/edrdg/licence.html'
 const KANJIDIC_URL = 'https://www.edrdg.org/wiki/index.php/KANJIDIC_Project'
 const KANJIAPI_V1_URL = 'https://kanjiapi.dev/v1/'
 const WALLER_JLPT_URL = 'https://www.tanos.co.uk/jlpt/'
-const YOISTUDY_URL = 'https://yoistudy.com/'
 
 const PopularityLogs = {
     log_display_count: 10,
@@ -253,7 +252,7 @@ const projects = [
     {
       href: 'https://yoistudy.com/',
       name: 'YoiStudy',
-      slug: 'A platform for learning Japanese characters, with animations, stroke orders, and meanings'
+      slug: 'a platform for learning Japanese characters, with animations, stroke orders, and meanings'
     },
 ]
 
