@@ -102,3 +102,8 @@ are deliberately left out.
       `/kanji/逢` keeps `stroke_count` 10 and gains `9, 11`
     - the field is an empty list for the 12,583 characters with a single count
 - update live data to use 2026 version of source dictionaries
+- add 勒 to the `/kanji/jinmeiyo` and `/kanji/jinmeiyou` lists and their
+  `-enriched` twins, bringing them to 864 characters
+    - the Ministry of Justice added it to the jinmeiyo kanji on 2026-06-26,
+      and the Unihan release of 2026-07-31 records the addition
+    - `/kanji/勒` changes `grade` from `null` to `9`
